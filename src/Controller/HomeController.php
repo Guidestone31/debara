@@ -2,6 +2,8 @@
 
 namespace App\Controller;
 
+use App\Entity\Annoucement;
+use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -9,20 +11,17 @@ use Symfony\Component\Routing\Annotation\Route;
 
 class HomeController extends AbstractController
 {
-    #[Route('/home/{name}/{firstname}', name: 'app_home')]
-    public function index(Request $request, $name, $firstname): Response
+    #[Route('/', name: 'app_home')]
+    public function index(ManagerRegistry $doctrine): Response
     {
-        dd($request);
-
-        return $this->render('home/index.html.twig', [
-            'controller_name' => ' Home Controller',
-            'nom' => $name,
-            'pseudo' => $firstname,
-        ]);
+        //dd($request);
+        $repository = $doctrine->getRepository(Annoucement::class);
+        $annonce = $repository->findAll();
+        return $this->render('home/index.html.twig', ['annonces' => $annonce, 'controller_name' => 'Debara', 'page_name' => 'Acceuil']);
     }
 
-    #[Route('/pres', name: 'app_pres')]
-    public function pres(): Response
+    //#[Route('/pres', name: 'app_pres')]
+    /* public function pres(): Response
     {
         $rand = rand(0, 10);
 
@@ -34,5 +33,5 @@ class HomeController extends AbstractController
         }
 
         return $this->forward('App\Controller\ HomeController::index');
-    }
+    }*/
 }
