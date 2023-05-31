@@ -15,19 +15,19 @@ class Annoucement
     private ?int $id = null;
 
     #[ORM\Column(length: 50)]
-    private ?string $Product_Name = null;
+    public ?string $Product_Name = null;
 
     #[ORM\Column(length: 50)]
-    private ?string $Product_Category = null;
+    public ?string $Product_Category = null;
 
     #[ORM\Column]
-    private ?float $Product_Price = null;
+    public ?float $Product_Price = null;
 
     #[ORM\Column(length: 255)]
-    private ?string $Product_Description = null;
+    public ?string $Product_Description = null;
 
     #[ORM\Column(type: Types::BLOB)]
-    private $Product_Image = null;
+    public $Product_Image = null;
 
     public function getId(): ?int
     {

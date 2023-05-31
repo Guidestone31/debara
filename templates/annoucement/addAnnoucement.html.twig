@@ -1,0 +1,47 @@
+{% extends 'home/template.html.twig' %}
+
+{% block title %}Hello AnnoucementController!
+{% endblock %}
+
+{% block body %}
+	<style>
+		.example-wrapper {
+			margin: 1em auto;
+			max-width: 800px;
+			width: 95%;
+			font: 18px / 1.5 sans-serif;
+		}
+		.example-wrapper code {
+			background: #F5F5F5;
+			padding: 2px 6px;
+		}
+	</style>
+
+	<div class="example-wrapper">
+		<h1>
+			Ajout d'annonce
+		</h1>
+		<form action="{{ path('app_annoucement')}}" method="post" {{ form(form) }}>
+			<div class="form-group">
+				<label for="inputAddress">{{  product_name }}</label>
+				<input type="text" class="form-control" id="inputAddress" placeholder="1234 Main St">
+			</div>
+			<div class="form-group">
+				<label for="inputAddress2">{{  product_category }}</label>
+				<input type="text" class="form-control" id="inputAddress2" placeholder="Apartment, studio, or floor">
+			</div>
+			<div class="form-group">
+				<label for="inputAddress">{{  product_price }}</label>
+				<input type="number" class="form-control" id="inputAddress" placeholder="1234 Main St">
+			</div>
+			<div class="form-group">
+				<label for="exampleFormControlTextarea1">{{  product_description }}</label>
+				<textarea class="form-control" id="exampleFormControlTextarea1" rows="3"></textarea>
+			</div>
+		</div>
+		<button type="submit" class="btn btn-primary">Sign in</button>
+	</form>
+	<div class="col-3">
+		<div class="card" style="width: 18rem;"></div>
+	</div>
+</div>{% endblock %}
