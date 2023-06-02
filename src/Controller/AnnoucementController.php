@@ -3,13 +3,19 @@
 namespace App\Controller;
 
 use App\Entity\Annoucement;
+//use App\service\FileUploader;
 use App\Form\AddAnnoucementType;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\HttpKernel\DependencyInjection\ServicesResetter;
 use Symfony\Component\Routing\Annotation\Route;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Gedmo\Sluggable\Util\Urlizer;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 class AnnoucementController extends AbstractController
 {
@@ -25,58 +31,66 @@ class AnnoucementController extends AbstractController
         //dd($annoucement);
         //dd($mixRepository);
         return $this->render('annoucement/index.html.twig', ['controlle_name' => 'Nos annonces :', 'annoucements' => $annoucement]);
-        /*$genre = $slug ? u(str_replace('-', ' ', $slug))->title(true) : null;
-        $mixes = $this->mixRepository->findAll();
-        return $this->render('annoucement/index.html.twig', [
-            'controller_name' => 'AnnoucementController', 'annoucement_list' => $result
-        ]);*/
-        /*    public function index(ManagerRegistry $doctrine): Response
-            {
-                // $repository = $entityManager->getRepository(Annoucement::class);
-                // $annoucement = $repository->findAll();
-                $query = $this->getRepository('CoreBundle:Categories')->createQueryBuilder('c')->getQuery();
-                $result = $query->getResult(Query::HYDRATE_ARRAY);
-                return $this->render('annoucement/index.html.twig', [
-                    'controller_name' => 'AnnoucementController', 'annoucement_list' => $result
-                ]);
-            }*/
     }
 
-    #[Route('/formAddAnnoucement', name: 'app_formAddAnnoucement')]
-    public function formAddAnnoucement(Request $request, ManagerRegistry $doctrine): Response
+    #[Route('/formAddAnnoucement', name: 'app_AddAnnoucement')]
+    public function addAnnoucement(Request $request, ManagerRegistry $doctrine, SluggerInterface $slugger): Response
     {
+        $annoucement = new Annoucement();
 
-        $form = $this->createForm(AddAnnoucementType::class, new Annoucement());
+        $form = $this->createForm(AddAnnoucementType::class, $annoucement);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            $this->service->saveData($form, $doctrine);
+            /** @var UploadedFile $file */
+            $file = $form->get('Image')->getData();
+            //dd($form['Product_Image']->getData());
+            //dd($file);
+
+            if ($file) {
+                $file_name = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
+
+                $safeFilename = $slugger->slug($file_name);
+                $newFilename = $safeFilename . '-' . uniqid() . '.' . $file->guessExtension();
+                $this->addFlash('success', "Il y a bien un fichier image! ");
+
+                try {
+
+                    $file->move(
+                        $this->getParameter('upload_directory'),
+                        $newFilename
+                    );
+                    $this->addFlash('success', "L\'annonce a pas bien été ajouté à la liste ! ");
+                } catch (FileException $e) {
+                    // ... handle exception if something happens during file upload
+                }
+                //$annoucement = new Annoucement();
+                $annoucement->setImage($newFilename);
+                /*if ($file_name) { // for example
+                    $directory = $file_uploader->getTargetDirectory();
+                    //$full_path = $directory . '/' . $file_name;
+                    $entityManager = $doctrine->getManager();
+
+                    $entityManager->persist($annoucement);
+                    $entityManager->flush();
+                    return $this->redirectToRoute('app_annoucement');
+                // Do what you want with the full path file...
+                } else {
+                    $this->addFlash('error', "L\'annonce n\'a pas bien été ajouté à la liste ! ");
+                }*/
+            }
+            $entityManager = $doctrine->getManager();
+
+            $entityManager->persist($annoucement);
+            $entityManager->flush();
+            $this->addFlash('success', "L\'annonce a pas bien été ajouté à la liste ! ");
             return $this->redirectToRoute('app_annoucement');
+            //dd($form);
+            //$this->service->saveData($form, $doctrine);
         }
-
-        return $this->render('annoucement/addAnnoucement.html.twig', [
-            'controller_name' => 'Formulaire d\'ajout d\'annonce',
-            'form' => $form,
-        ]);
-        //$builder->add('email', 'email');
-        /*$builder->add('plainPassword', 'repeated', array(
-            'Product_Name'  => 'name',
-            'Product_Category' => 'category',
-            'Product_Price' => 'price',
-            'Product_Description' => 'description',
-        ));*/
-
-        //Ajouter l'operation d'insertion de l'utilisateur avec "persist" si l'id existe il va
-        //automaitiquement mettre à jour si non il ajoute l'utilisateur en bd
-
-        //$entityManager->persist($annoucement);
-
-        //Execute la transaction
-        /*$entityManager->flush();
-        $this->addFlash('success', "L'annonce a bien été ajouté");
-
-        return $this->render('annoucement/addAnnoucement.html.twig', [
-            // 'utilisateur' => $utilisateur,
-        ]);*/
+        return $this->render('annoucement/addFormAnnoucement.html.twig', [
+            'form' => $form->createView(),
+            'controller_name' => 'Formulaire',
+        ]);            // Why not read the content or parse it !!!
     }
 }

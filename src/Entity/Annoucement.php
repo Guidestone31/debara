@@ -26,8 +26,8 @@ class Annoucement
     #[ORM\Column(length: 255)]
     public ?string $Product_Description = null;
 
-    #[ORM\Column(type: Types::BLOB)]
-    public $Product_Image = null;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $Image = null;
 
     public function getId(): ?int
     {
@@ -82,14 +82,14 @@ class Annoucement
         return $this;
     }
 
-    public function getProductImage()
+    public function getImage(): ?string
     {
-        return $this->Product_Image;
+        return $this->Image;
     }
 
-    public function setProductImage($Product_Image): self
+    public function setImage(?string $Image): self
     {
-        $this->Product_Image = $Product_Image;
+        $this->Image = $Image;
 
         return $this;
     }
