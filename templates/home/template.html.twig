@@ -40,7 +40,7 @@
 					<a class="nav-link" href="/formAddAnnoucement">Déposer une Annonce</a>
 				</li>
 				<li class="nav-item">
-					<a class="nav-link" href="#">Contact</a>
+					<a class="nav-link" href="/contact">Contact</a>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="#">Messages</a>
@@ -192,13 +192,13 @@
 											Template Body
 
 										{% endblock %}
-										{{ include('fragments/date_du_jour.html.twig') }}
 									</p>
 								</div>
 							</div>
 							<div style="height: 100vh"></div>
 							<div class="card mb-4">
 								<div class="card-body">When scrolling, the navigation stays at the top of the page. This is the end of the static navigation demo.</div>
+								{{ include('fragments/date_du_jour.html.twig') }}
 							</div>
 						</div>
 					</main>

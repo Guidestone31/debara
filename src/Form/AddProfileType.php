@@ -3,6 +3,7 @@
 namespace App\Form;
 
 use App\Entity\Annoucement;
+use App\Entity\Profile;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -12,16 +13,18 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Validator\Constraints\File;
 
-class AddAnnoucementType extends AbstractType
+class AddProfileType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('Product_Name')
-            ->add('Product_Category')
-            ->add('Product_Price')
-            ->add('Product_Description')
-            ->add('Image', FileType::class, [
+            ->add('FirstName')
+            ->add('LastName')
+            ->add('UserName')
+            ->add('PhoneNumber')
+            ->add('Email')
+            ->add('Adress')
+            ->add('Picture', FileType::class, [
                 'label' => 'Image (PNG et JPG file)',
                 // unmapped means that this field is not associated to any entity property
                 'mapped' => false,
@@ -46,7 +49,7 @@ class AddAnnoucementType extends AbstractType
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
-            'data_class' => Annoucement::class,
+            'data_class' => Profile::class,
         ]);
     }
     /* public function saveData(FormInterface $form)

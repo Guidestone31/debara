@@ -37,7 +37,6 @@ class AnnoucementController extends AbstractController
     public function addAnnoucement(Request $request, ManagerRegistry $doctrine, SluggerInterface $slugger): Response
     {
         $annoucement = new Annoucement();
-
         $form = $this->createForm(AddAnnoucementType::class, $annoucement);
         $form->handleRequest($request);
 
@@ -48,11 +47,10 @@ class AnnoucementController extends AbstractController
             //dd($file);
 
             if ($file) {
-                $file_name = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
 
+                $file_name = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
                 $safeFilename = $slugger->slug($file_name);
                 $newFilename = $safeFilename . '-' . uniqid() . '.' . $file->guessExtension();
-                $this->addFlash('success', "Il y a bien un fichier image! ");
 
                 try {
 
@@ -60,7 +58,6 @@ class AnnoucementController extends AbstractController
                         $this->getParameter('upload_directory'),
                         $newFilename
                     );
-                    $this->addFlash('success', "L\'annonce a pas bien été ajouté à la liste ! ");
                 } catch (FileException $e) {
                     // ... handle exception if something happens during file upload
                 }

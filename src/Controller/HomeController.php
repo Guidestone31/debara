@@ -20,6 +20,16 @@ class HomeController extends AbstractController
         return $this->render('home/index.html.twig', ['annonces' => $annonce, 'controller_name' => 'Debara', 'page_name' => 'Acceuil']);
     }
 
+    #[Route('/contact', name: 'app_contact')]
+    public function contact(): Response
+    {
+        //dd($request);
+        //$repository = $doctrine->getRepository(Annoucement::class);
+        //$annonce = $repository->findAll();
+        return $this->render('home/contact.html.twig', ['controller_name' => 'Contact', 'page_name' => 'Contact']);
+    }
+
+
     //#[Route('/pres', name: 'app_pres')]
     /* public function pres(): Response
     {
