@@ -7,6 +7,7 @@ use App\Form\AddProfileType;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
@@ -25,7 +26,7 @@ class ProfileController extends AbstractController
             'profiles' => $profile
         ]);
     }
-    #[Route('/addProfile', name: 'app_addProfile')]
+    #[Route('/Authentification', name: 'app_addProfile')]
     public function addProfile(Request $request, ManagerRegistry $doctrine, SluggerInterface $slugger): Response
     {
         $profile = new Profile();
@@ -33,6 +34,7 @@ class ProfileController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            /** @var UploadedFile $file */
             $file = $form->get('Picture')->getData();
 
             if ($file) {
@@ -52,7 +54,6 @@ class ProfileController extends AbstractController
                 $profile->setPicture($newFilename);
             }
             $entityManager = $doctrine->getManager();
-
             $entityManager->persist($profile);
             $entityManager->flush();
             $this->addFlash('success', "L\'annonce a pas bien été ajouté à la liste ! ");

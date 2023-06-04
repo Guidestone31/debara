@@ -35,6 +35,12 @@ class Profile
     #[ORM\Column(type: Types::BLOB, nullable: true)]
     private $Picture = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $Password = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $PasswordConfirm = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -120,6 +126,30 @@ class Profile
     public function setPicture($Picture): self
     {
         $this->Picture = $Picture;
+
+        return $this;
+    }
+
+    public function getPassword(): ?string
+    {
+        return $this->Password;
+    }
+
+    public function setPassword(string $Password): self
+    {
+        $this->Password = $Password;
+
+        return $this;
+    }
+
+    public function getPasswordConfirm(): ?string
+    {
+        return $this->PasswordConfirm;
+    }
+
+    public function setPasswordConfirm(string $PasswordConfirm): self
+    {
+        $this->PasswordConfirm = $PasswordConfirm;
 
         return $this;
     }

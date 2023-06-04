@@ -152,3 +152,40 @@ exclude:
 App\service\FileUploader:
 arguments:
 $targetDirectory: '%upload_directory%'
+
+
+
+////////////////////////new.html.twig/////////////////////////
+<div class="example-wrapper">
+	<h1>
+		Création de profile
+	</h1>
+	{#{{ form_start(form) }}
+		{#{{ form_row(form.Picture) }}#}
+	<label class="header">Profile Photo:</label>
+	<input id="image" type="file" name="profile_photo" placeholder="Photo" required="" capture>
+	<img src="..." alt="..." class="img-thumbnail">
+	{#{{ form_label(form.Product_Image) }}
+																																																																											{{ form_widget(form.Product_Image) }}
+																																																																											{{ form_errors(form.Product_Image) }}#}
+	{# your custom code for rendering the form #}
+	{# if you leave default then it should render with bad styles etc. #}
+	{{ form_end(form) }}#}
+	<div class="col-3">
+		<div class="card" style="width: 18rem;"></div>
+	</div>
+</div>
+
+//////////////////////index.html.twig Login///////////////////////////
+
+<button type="submit">login</button>
+<label for="username">Email:</label>
+<input type="text" id="username" name="_username" value="{{ last_username }}">
+
+<label for="password">Password:</label>
+<input type="password" id="password" name="_password">
+
+{# If you want to control the URL the user is redirected to on success
+																																								        <input type="hidden" name="_target_path" value="/account"> #}
+
+<button type="submit">login</button>

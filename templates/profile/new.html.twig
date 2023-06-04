@@ -17,20 +17,44 @@
 		}
 	</style>
 
-	<div class="example-wrapper">
-		<h1>
-			Ajout d'annonce
-		</h1>
-
-		{{ form_start(form) }}
-		{{ form_row(form.Picture) }}
-		{#{{ form_label(form.Product_Image) }}
-																						{{ form_widget(form.Product_Image) }}
-																						{{ form_errors(form.Product_Image) }}#}
-		{# your custom code for rendering the form #}
-		{# if you leave default then it should render with bad styles etc. #}
-		{{ form_end(form) }}
-			<div class="col-3"> <div class="card" style="width: 18rem;"></div>
+	<div
+		class="container-xl px-4 mt-4">
+		<!-- Account page navigation-->
+		<hr class="mt-0 mb-4">
+		<div class="row">
+			<div
+				class="col-xl-4">
+				<!-- Profile picture card-->
+				<div class="card mb-4 mb-xl-0">
+					<div class="card-header">
+						Photo de Profile</div>
+					<div
+						class="card-body text-center">
+						<!-- Profile picture image-->
+						<img
+						class="img-account-profile rounded-circle mb-2" src="http://bootdey.com/img/Content/avatar/avatar1.png" alt="">
+						<!-- Profile picture help block-->
+						<div class="small font-italic text-muted mb-4">JPG or PNG no larger than 5 MB</div>
+						<!-- Profile picture upload button-->
+						<button class="btn btn-primary" type="button"></button>
+					</div>
+				</div>
+			</div>
+			<div
+				class="col-xl-8">
+				<!-- Account details card-->
+				<div class="card mb-4">
+					<div class="card-header">Information de profile</div>
+					<div
+						class="card-body">
+						<!-- Form Group (username)-->
+						{{ form_start(form) }}
+						{{ form_row(form.Picture) }}
+						{{ form_end(form) }}
+					</div>
+				</div>
+			</div>
 		</div>
 	</div>
+
 {% endblock %}

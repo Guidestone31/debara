@@ -8,6 +8,7 @@ use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
+use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
@@ -23,9 +24,11 @@ class AddProfileType extends AbstractType
             ->add('UserName')
             ->add('PhoneNumber')
             ->add('Email')
+            ->add('password', PasswordType::class)
+            ->add('passwordConfirm', PasswordType::class)
             ->add('Adress')
             ->add('Picture', FileType::class, [
-                'label' => 'Image (PNG et JPG file)',
+                'label' => 'Photo de profil',
                 // unmapped means that this field is not associated to any entity property
                 'mapped' => false,
                 // make it optional so you don't have to re-upload the PDF file
