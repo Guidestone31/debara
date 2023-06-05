@@ -10,14 +10,14 @@ use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
 
 class LoginController extends AbstractController
 {
-    #[Route('/loginS', name: 'app_login')]
+    #[Route('/loginS', name: 'app_loginS')]
     public function index(): Response
     {
         return $this->render('login/index.html.twig', [
             'controller_name' => 'LoginController',
         ]);
     }
-    #[Route('/loginAut', name: 'app_login')]
+    #[Route('/loginAut', name: 'app_loginS')]
     public function auth(AuthenticationUtils $authenticationUtils, Request $request): Response
     {
         // get the login error if there is one

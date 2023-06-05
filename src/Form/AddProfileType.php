@@ -21,7 +21,7 @@ class AddProfileType extends AbstractType
         $builder
             ->add('FirstName')
             ->add('LastName')
-            ->add('UserName')
+            ->add('username')
             ->add('PhoneNumber')
             ->add('Email')
             ->add('password', PasswordType::class)

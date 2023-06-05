@@ -189,3 +189,16 @@ $targetDirectory: '%upload_directory%'
 																																								        <input type="hidden" name="_target_path" value="/account"> #}
 
 <button type="submit">login</button>
+
+/////////////////////////////LoginFormAuthentificator.php////////////////////////////
+
+
+/**
+* Used to upgrade (rehash) the user's password automatically over time.
+*/
+/*
+public function getPassword($credentials): ?string
+{
+return $credentials['password'];
+}
+*/
