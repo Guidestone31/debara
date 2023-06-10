@@ -21,11 +21,11 @@ class AddProfileType extends AbstractType
         $builder
             ->add('FirstName')
             ->add('LastName')
-            ->add('username')
             ->add('PhoneNumber')
-            ->add('Email')
-            ->add('password', PasswordType::class)
-            ->add('passwordConfirm', PasswordType::class)
+            //->add('username')
+            //->add('Email')
+            //->add('password', PasswordType::class)
+            //->add('passwordConfirm', PasswordType::class)
             ->add('Adress')
             ->add('Picture', FileType::class, [
                 'label' => 'Photo de profil',

@@ -3,8 +3,10 @@
 namespace App\Controller;
 
 use App\Entity\Profile;
+use App\Entity\User;
 use App\Entity\Users;
 use App\Form\AddProfileType;
+use App\Form\AddUserType;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -17,7 +19,7 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 
 class RegistrationController extends AbstractController
 {
-    #[Route('/AuthentificationWainting', name: 'app_auth')]
+    #[Route('/AuthentificationProfile', name: 'app_auth')]
     public function index(Request $request, ManagerRegistry $doctrine, SluggerInterface $slugger): Response
     {
         // ... e.g. get the user data from a registration form
@@ -27,7 +29,7 @@ class RegistrationController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
             /** @var UploadedFile $file */
-            $file = $form->get('Image')->getData();
+            $file = $form->get('Picture')->getData();
             //dd($form['Product_Image']->getData());
             //dd($file);
 
@@ -56,7 +58,7 @@ class RegistrationController extends AbstractController
             $entityManager->persist($profil);
             $entityManager->flush();
             $this->addFlash('success', "Le profil a pas bien été ajouté à la liste ! ");
-            return $this->redirectToRoute('app_annoucement');            // ...
+            return $this->redirectToRoute('app_authPass');            // ...
         }
         return $this->render('profile/new.html.twig', [
             'form' => $form->createView(),
