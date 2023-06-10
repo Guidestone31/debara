@@ -90,4 +90,20 @@ class AnnoucementController extends AbstractController
             'controller_name' => 'Formulaire',
         ]);            // Why not read the content or parse it !!!
     }
+    #[Route('/formDelAnnoucement', name: 'app_DelAnnoucement')]
+    public function deleteAnnoucement($id, ManagerRegistry $doctrine)
+    {
+        // get EntityManager
+        $entityManager = $doctrine->getManager();
+
+        // Get a reference to the entity ( will not generate a query )
+        $annoucement = $entityManager->getRepository(Annoucement::class)->findOneBy(['id' => $id]);
+
+        // OR you can get the entity itself ( will generate a query )
+        // $user = $em->getRepository('ProjectBundle:User')->find($id);
+
+        // Remove it and flush
+        $entityManager->remove($annoucement);
+        $entityManager->flush();
+    }
 }
