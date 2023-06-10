@@ -29,6 +29,12 @@ class Annoucement
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $Image = null;
 
+    #[ORM\OneToOne(mappedBy: 'Annoucement', cascade: ['persist', 'remove'])]
+    private ?Product $product = null;
+
+    #[ORM\ManyToOne(inversedBy: 'Annoucements')]
+    private ?Profile $Profile = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -90,6 +96,35 @@ class Annoucement
     public function setImage(?string $Image): self
     {
         $this->Image = $Image;
+
+        return $this;
+    }
+
+    public function getProduct(): ?Product
+    {
+        return $this->product;
+    }
+
+    public function setProduct(Product $product): self
+    {
+        // set the owning side of the relation if necessary
+        if ($product->getAnnoucement() !== $this) {
+            $product->setAnnoucement($this);
+        }
+
+        $this->product = $product;
+
+        return $this;
+    }
+
+    public function getProfile(): ?Profile
+    {
+        return $this->Profile;
+    }
+
+    public function setProfile(?Profile $Profile): self
+    {
+        $this->Profile = $Profile;
 
         return $this;
     }

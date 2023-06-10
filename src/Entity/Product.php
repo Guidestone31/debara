@@ -26,8 +26,13 @@ class Product
     #[ORM\Column(length: 255)]
     private ?string $Description = null;
 
-    #[ORM\Column(length: 50)]
-    private ?string $Category = null;
+    #[ORM\OneToOne(inversedBy: 'Product', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Annoucement $Annoucement = null;
+
+    #[ORM\ManyToOne(inversedBy: 'Products')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Category $Category = null;
 
     public function getId(): ?int
     {
@@ -82,12 +87,24 @@ class Product
         return $this;
     }
 
-    public function getCategory(): ?string
+    public function getAnnoucement(): ?Annoucement
+    {
+        return $this->Annoucement;
+    }
+
+    public function setAnnoucement(Annoucement $Annoucement): self
+    {
+        $this->Annoucement = $Annoucement;
+
+        return $this;
+    }
+
+    public function getCategory(): ?Category
     {
         return $this->Category;
     }
 
-    public function setCategory(string $Category): self
+    public function setCategory(?Category $Category): self
     {
         $this->Category = $Category;
 
