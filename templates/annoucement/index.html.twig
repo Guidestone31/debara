@@ -1,0 +1,42 @@
+{% extends 'home/template.html.twig' %}
+
+{% block title %}Hello AnnoucementController!
+{% endblock %}
+
+{% block body %}
+	<style>
+		.example-wrapper {
+			margin: 1em auto;
+			max-width: 800px;
+			width: 95%;
+			font: 18px / 1.5 sans-serif;
+		}
+		.example-wrapper code {
+			background: #F5F5F5;
+			padding: 2px 6px;
+		}
+	</style>
+
+	<div class="example-wrapper">
+		<h1>
+			{{ controlle_name }}</h1>
+		{% for annoucement in annoucements %}
+
+
+			<div class="col-3">
+				<div class="card" style="width: 18rem;">
+					<div class="card-body">
+						<h5 class="card-title">{{  annoucement.Product_Name }}</h5>
+						{{  annoucement.Image }}
+						<h6 class="card-subtitle mb-2 text-muted">
+							{{  annoucement.Product_Category }}
+							{{  annoucement.Product_Description }}</h6>
+						<p class="card-text">{{  annoucement.Product_Price  }}
+							€</p>
+						<a href="{{'/product/'}}" class="card-link">Détail</a>
+					</div>
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+{% endblock %}

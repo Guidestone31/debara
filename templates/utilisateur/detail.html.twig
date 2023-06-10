@@ -1,0 +1,28 @@
+{% extends 'home/template.html.twig' %}
+
+{% block title %}Hello UtilisateurController!
+{% endblock %}
+
+{% block body %}
+
+	<div class="row">
+		{% for utilisateur in utilisateurs %}
+
+			<div class="col-3">
+				<div class="card" style="width: 18rem;">
+					<div class="card-body">
+						<h5 class="card-title">{{  utilisateur.lastname }}</h5>
+						<h6 class="card-subtitle mb-2 text-muted">
+							{{  utilisateur.firstname }}
+							{{  utilisateur.lastname }}</h6>
+						<p class="card-text">{{  utilisateur.Age }}</p>
+						<a href="#" class="card-link">Todo</a>
+					</div>
+				</div>
+			</div>
+		{% endfor %}
+
+	</div>
+
+	<div class="alert alert-success"></div>
+{% endblock %}

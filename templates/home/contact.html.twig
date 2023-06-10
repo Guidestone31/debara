@@ -1,0 +1,65 @@
+{% extends 'home/template.html.twig' %}
+
+{% block title %}Hello AnnoucementController!
+{% endblock %}
+
+{% block body %}
+	<style>
+		.example-wrapper {
+			margin: 1em auto;
+			max-width: 800px;
+			width: 95%;
+			font: 18px / 1.5 sans-serif;
+		}
+		.example-wrapper code {
+			background: #F5F5F5;
+			padding: 2px 6px;
+		}
+	</style>
+	<h1>{{ controller_name }}</h1>
+	<br>
+	<form>
+		<div class="form-group row">
+			<label for="colFormLabelLg" class="col-sm-2 col-form-label col-form-label-lg">Nom</label>
+			<div class="col-sm-10">
+				<input type="email" class="form-control form-control-lg" id="colFormLabelLg" placeholder="Nom">
+			</div>
+		</div>
+		<br>
+		<div class="form-group row">
+			<label for="colFormLabelLg" class="col-sm-2 col-form-label col-form-label-lg">Prénom</label>
+			<div class="col-sm-10">
+				<input type="email" class="form-control form-control-lg" id="colFormLabelLg" placeholder="Prénom">
+			</div>
+		</div>
+		<br>
+		<div class="form-group row">
+			<label for="colFormLabelLg" class="col-sm-2 col-form-label col-form-label-lg">Email</label>
+			<div class="col-sm-10">
+				<input type="email" class="form-control form-control-lg" id="colFormLabelLg" placeholder="Email">
+			</div>
+		</div>
+		<br>
+		<div class="form-group row">
+			<label for="colFormLabelLg" class="col-sm-2 col-form-label col-form-label-lg">Sujets</label>
+			<div class="col-sm-10">
+				<select class="form-control form-control-lg">
+					<option selected>...</option>
+					<option value="1">Problem avec une annonce</option>
+					<option value="2">Un soucis avec votre profile</option>
+					<option value="3">Signalement sur une annonce</option>
+					<option value="4">Probleme avec une page</option>
+					<option value="5">Suggestions</option>
+					<option value="6">Autres...</option>
+				</select>
+			</div>
+		</div>
+		<br>
+		<div class="form-group row">
+			<label for="validationTextarea" class="col-sm-2 col-form-label col-form-label-lg"></label>
+			<textarea class="form-control" id="validationTextarea" placeholder="Dites nous en plus ..." required></textarea>
+		</div>
+		<br>
+		<button class="btn btn-primary" type="submit">Envoyez nous ça!</button>
+	</form>
+{% endblock %}
