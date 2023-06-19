@@ -4,7 +4,9 @@ namespace App\Controller;
 
 use App\Entity\Annoucement;
 //use App\service\FileUploader;
+use App\Entity\Product;
 use App\Form\AddAnnoucementType;
+use App\Form\AddProductType;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
@@ -36,7 +38,14 @@ class AnnoucementController extends AbstractController
     #[Route('/formAddAnnoucement', name: 'app_AddAnnoucement')]
     public function addAnnoucement(Request $request, ManagerRegistry $doctrine, SluggerInterface $slugger): Response
     {
+
+        // dummy code - add some example tags to the task
+        // (otherwise, the template will render an empty list of tags)
         $annoucement = new Annoucement();
+        /*$product = new Product();
+        $product->setName('Product');
+        $annoucement->getProduct()->add($product);*/
+
         $form = $this->createForm(AddAnnoucementType::class, $annoucement);
         $form->handleRequest($request);
 
@@ -87,7 +96,7 @@ class AnnoucementController extends AbstractController
         }
         return $this->render('annoucement/addFormAnnoucement.html.twig', [
             'form' => $form->createView(),
-            'controller_name' => 'Formulaire',
+            'annoucements' => $annoucement,
         ]);            // Why not read the content or parse it !!!
     }
     #[Route('/formDelAnnoucement', name: 'app_DelAnnoucement')]

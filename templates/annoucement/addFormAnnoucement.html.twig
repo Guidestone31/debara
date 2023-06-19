@@ -23,14 +23,39 @@
 		</h1>
 
 		{{ form_start(form) }}
-		{{ form_row(form.Image) }}
-		{#{{ form_label(form.Product_Image) }}
-																				{{ form_widget(form.Product_Image) }}
-																				{{ form_errors(form.Product_Image) }}#}
-		{# your custom code for rendering the form #}
+		{% for annoucement in annoucements %}
+			{{ form_row(form.anoucement.Name) }}
+			{#{{ form_row(annoucement.second) }}
+																																																			{{ form_row(annoucement.thriht) }}
+																																																			{{ form_row(annoucement.fourht) }}#}
+		{% endfor %}
+
+		{#}{{ form_row(form.Image) }}
+		
+																																																																								{{ form_label(form.Product_Image) }}
+																																																																								{{ form_widget(form.Product_Image) }}
+																																																																								{{ form_errors(form.Product_Image) }}
+																																																																								{# your custom code for rendering the form #}
 		{# if you leave default then it should render with bad styles etc. #}
 		{{ form_end(form) }}
-			<div class="col-3"> <div class="card" style="width: 18rem;"></div>
+		<div class="col-3">
+			<div class="card" style="width: 18rem;"></div>
 		</div>
 	</div>
+{% endblock %}
+{% block javascripts %}
+
+	<script>
+		window.onload = () => { // On va chercher la région
+let region = document.querySelector("add_annoucement_region");
+
+region.addEventListener("change", function () {
+
+let form = this.closest("form");
+console.log($form);
+});
+
+
+}
+	</script>
 {% endblock %}

@@ -3,13 +3,23 @@
 namespace App\Form;
 
 use App\Entity\Annoucement;
+use App\Entity\Departement;
+use App\Entity\Product;
+use App\Entity\Region;
+use App\Entity\Regions;
+use App\Form\AddProductType;
 use Doctrine\Persistence\ManagerRegistry;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Validator\Constraints\File;
 
 class AddAnnoucementType extends AbstractType
@@ -17,10 +27,10 @@ class AddAnnoucementType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('Product_Name')
-            ->add('Product_Category')
-            ->add('Product_Price')
-            ->add('Product_Description')
+            ->add('Name')
+            ->add('SubCategoryOne')
+            ->add('Price')
+            ->add('Description')
             ->add('Image', FileType::class, [
                 'label' => 'Image (PNG et JPG file)',
                 // unmapped means that this field is not associated to any entity property
@@ -40,7 +50,37 @@ class AddAnnoucementType extends AbstractType
                     ])
                 ],
             ])
+            ->add('region', EntityType::class, [
+                'mapped' => false,
+                'class' => Region::class,
+                'choice_label' => 'name',
+                'placeholder' => 'Régions',
+                'label' => 'Régions'
+            ])
+            ->add('departement', ChoiceType::class, [
+                'placeholder' => 'Départements (choisir une région)'
+            ])
             ->add('Ajouter', SubmitType::class);
+
+        $formModifier = function (FormInterface $form, Regions $region = null) {
+            $departement = $region === null ? [] : $region->getDepartement();
+
+            $form->add('departements', EntityType::class, [
+                'class' => Departement::class,
+                'choices' => $departement,
+                'choice_label' => 'name',
+                'placeholder' => 'Départements (choisir une région)',
+                'label' => 'Départements'
+
+            ]);
+        };
+        $builder->get('region')->addEventListener(
+            FormEvents::POST_SUBMIT,
+            function (FormEvent $event) use ($formModifier) {
+                $region = $event->getForm()->getData();
+                $formModifier($event->getForm()->getParent(), $region);
+            }
+        );
     }
 
     public function configureOptions(OptionsResolver $resolver): void
