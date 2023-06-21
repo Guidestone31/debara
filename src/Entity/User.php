@@ -2,59 +2,145 @@
 
 namespace App\Entity;
 
+use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
+use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints\Unique;
 
-/**
- * User
- *
- * @ORM\Table(name="user", uniqueConstraints={@ORM\UniqueConstraint(name="UNIQ_8D93D649F85E0677", columns={"username"})})
- * @ORM\Entity
- */
-class User
+#[ORM\Entity(repositoryClass: UserRepository::class)]
+class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
+
+    #[ORM\Column(length: 180, unique: true)]
+    private ?string $username = null;
+
+    #[ORM\Column(type: 'json')]
+    private array $roles = [];
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="username", type="string", length=180, nullable=false)
+     * @var string The hashed password
      */
-    private $username;
+    #[ORM\Column]
+    private ?string $password = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $Email = null;
+
+    #[ORM\OneToOne(mappedBy: 'User', cascade: ['persist', 'remove'])]
+    private ?Profile $Profile = null;
+
+    public function __construct()
+    {
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getUsername(): ?string
+    {
+        return $this->username;
+    }
+
+    public function setUsername(string $username): self
+    {
+        $this->username = $username;
+
+        return $this;
+    }
 
     /**
-     * @var string
+     * A visual identifier that represents this user.
      *
-     * @ORM\Column(name="password", type="string", length=255, nullable=false)
+     * @see UserInterface
      */
-    private $password;
+    public function getUserIdentifier(): string
+    {
+        return (string) $this->username;
+    }
 
     /**
-     * @var array
-     *
-     * @ORM\Column(name="roles", type="json", nullable=false)
+     * @see UserInterface
      */
-    private $roles;
+    public function getRoles(): array
+    {
+        $roles = $this->roles;
+        // guarantee every user at least has ROLE_USER
+        $roles[] = 'ROLE_ADMIN';
+
+        return array_unique($roles);
+    }
+
+    public function setRoles(array $roles): self
+    {
+        $this->roles = $roles;
+
+        return $this;
+    }
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="email", type="string", length=255, nullable=false)
+     * @see PasswordAuthenticatedUserInterface
      */
-    private $email;
+    public function getPassword(): string
+    {
+        return $this->password;
+    }
+
+    public function setPassword(string $password): self
+    {
+        $this->password = $password;
+
+        return $this;
+    }
 
     /**
-     * @var \DateTime|null
-     *
-     * @ORM\Column(name="create_at", type="datetime", nullable=true)
+     * @see UserInterface
      */
-    private $createAt;
+    public function eraseCredentials()
+    {
+        // If you store any temporary, sensitive data on the user, clear it here
+        // $this->plainPassword = null;
+    }
 
+    public function getEmail(): ?string
+    {
+        return $this->Email;
+    }
 
+    public function setEmail(string $Email): self
+    {
+        $this->Email = $Email;
+
+        return $this;
+    }
+
+    public function getProfile(): ?Profile
+    {
+        return $this->Profile;
+    }
+
+    public function setProfile(?Profile $Profile): self
+    {
+        // unset the owning side of the relation if necessary
+        if ($Profile === null && $this->Profile !== null) {
+            $this->Profile->setUser(null);
+        }
+
+        // set the owning side of the relation if necessary
+        if ($Profile !== null && $Profile->getUser() !== $this) {
+            $Profile->setUser($this);
+        }
+
+        $this->Profile = $Profile;
+
+        return $this;
+    }
 }

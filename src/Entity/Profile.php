@@ -2,69 +2,151 @@
 
 namespace App\Entity;
 
+use App\Repository\ProfileRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * Profile
- *
- * @ORM\Table(name="profile", uniqueConstraints={@ORM\UniqueConstraint(name="UNIQ_8157AA0FA76ED395", columns={"user_id"})})
- * @ORM\Entity
- */
+#[ORM\Entity(repositoryClass: ProfileRepository::class)]
 class Profile
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
+
+    #[ORM\Column(length: 50)]
+    private ?string $FirstName = null;
+
+    #[ORM\Column(length: 50)]
+    private ?string $LastName = null;
+
+
+    #[ORM\Column(nullable: true)]
+    private ?int $PhoneNumber = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $Adress = null;
+
+    #[ORM\Column(type: Types::BLOB, nullable: true)]
+    private $Picture = null;
+
+    #[ORM\OneToOne(inversedBy: 'Profile', cascade: ['persist', 'remove'])]
+    private ?User $User = null;
+
+    #[ORM\OneToMany(mappedBy: 'Profile', targetEntity: Annoucement::class)]
+    private Collection $Annoucements;
+
+    public function __construct()
+    {
+        $this->Annoucements = new ArrayCollection();
+    }
+
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+
+    public function getFirstName(): ?string
+    {
+        return $this->FirstName;
+    }
+
+    public function setFirstName(string $FirstName): self
+    {
+        $this->FirstName = $FirstName;
+
+        return $this;
+    }
+
+    public function getLastName(): ?string
+    {
+        return $this->LastName;
+    }
+
+    public function setLastName(string $LastName): self
+    {
+        $this->LastName = $LastName;
+
+        return $this;
+    }
+
+    public function getPhoneNumber(): ?int
+    {
+        return $this->PhoneNumber;
+    }
+
+    public function setPhoneNumber(?int $PhoneNumber): self
+    {
+        $this->PhoneNumber = $PhoneNumber;
+
+        return $this;
+    }
+
+    public function getAdress(): ?string
+    {
+        return $this->Adress;
+    }
+
+    public function setAdress(?string $Adress): self
+    {
+        $this->Adress = $Adress;
+
+        return $this;
+    }
+
+    public function getPicture()
+    {
+        return $this->Picture;
+    }
+
+    public function setPicture($Picture): self
+    {
+        $this->Picture = $Picture;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->User;
+    }
+
+    public function setUser(?User $User): self
+    {
+        $this->User = $User;
+
+        return $this;
+    }
 
     /**
-     * @var string
-     *
-     * @ORM\Column(name="first_name", type="string", length=50, nullable=false)
+     * @return Collection<int, Annoucement>
      */
-    private $firstName;
+    public function getAnnoucements(): Collection
+    {
+        return $this->Annoucements;
+    }
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="last_name", type="string", length=50, nullable=false)
-     */
-    private $lastName;
+    public function addAnnoucement(Annoucement $annoucement): self
+    {
+        if (!$this->Annoucements->contains($annoucement)) {
+            $this->Annoucements->add($annoucement);
+            $annoucement->setProfile($this);
+        }
 
-    /**
-     * @var int|null
-     *
-     * @ORM\Column(name="phone_number", type="integer", nullable=true)
-     */
-    private $phoneNumber;
+        return $this;
+    }
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="adress", type="string", length=255, nullable=true)
-     */
-    private $adress;
+    public function removeAnnoucement(Annoucement $annoucement): self
+    {
+        if ($this->Annoucements->removeElement($annoucement)) {
+            // set the owning side to null (unless already changed)
+            if ($annoucement->getProfile() === $this) {
+                $annoucement->setProfile(null);
+            }
+        }
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="picture", type="blob", length=0, nullable=true)
-     */
-    private $picture;
-
-    /**
-     * @var \User
-     *
-     * @ORM\ManyToOne(targetEntity="User")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="user_id", referencedColumnName="id")
-     * })
-     */
-    private $user;
-
-
+        return $this;
+    }
 }

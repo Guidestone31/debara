@@ -2,72 +2,80 @@
 
 namespace App\Entity;
 
+use App\Repository\AnnoucementRepository;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * Annoucement
- *
- * @ORM\Table(name="annoucement", indexes={@ORM\Index(name="IDX_E23D8BAACCFA12B8", columns={"profile_id"}), @ORM\Index(name="IDX_E23D8BAAEEC97447", columns={"sub_category_one_id"})})
- * @ORM\Entity
- */
+#[ORM\Entity(repositoryClass: AnnoucementRepository::class)]
 class Annoucement
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
+    private ?int $id = null;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="name", type="string", length=255, nullable=true)
-     */
-    private $name;
+    #[ORM\Column]
+    public ?float $Product_Price = null;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="description", type="string", length=500, nullable=true)
-     */
-    private $description;
+    #[ORM\Column(length: 255)]
+    public ?string $Product_Description = null;
 
-    /**
-     * @var float|null
-     *
-     * @ORM\Column(name="price", type="float", precision=10, scale=0, nullable=true)
-     */
-    private $price;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $Image = null;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="image", type="blob", length=0, nullable=true)
-     */
-    private $image;
+    #[ORM\ManyToOne(inversedBy: 'Annoucements')]
+    private ?Profile $Profile = null;
 
-    /**
-     * @var \Profile
-     *
-     * @ORM\ManyToOne(targetEntity="Profile")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="profile_id", referencedColumnName="id")
-     * })
-     */
-    private $profile;
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
 
-    /**
-     * @var \SubCategoryOne
-     *
-     * @ORM\ManyToOne(targetEntity="SubCategoryOne")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="sub_category_one_id", referencedColumnName="id")
-     * })
-     */
-    private $subCategoryOne;
+    public function getProductPrice(): ?float
+    {
+        return $this->Product_Price;
+    }
 
+    public function setProductPrice(float $Product_Price): self
+    {
+        $this->Product_Price = $Product_Price;
 
+        return $this;
+    }
+
+    public function getProductDescription(): ?string
+    {
+        return $this->Product_Description;
+    }
+
+    public function setProductDescription(string $Product_Description): self
+    {
+        $this->Product_Description = $Product_Description;
+
+        return $this;
+    }
+
+    public function getImage(): ?string
+    {
+        return $this->Image;
+    }
+
+    public function setImage(?string $Image): self
+    {
+        $this->Image = $Image;
+
+        return $this;
+    }
+
+    public function getProfile(): ?Profile
+    {
+        return $this->Profile;
+    }
+
+    public function setProfile(?Profile $Profile): self
+    {
+        $this->Profile = $Profile;
+
+        return $this;
+    }
 }

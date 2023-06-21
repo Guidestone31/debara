@@ -3,12 +3,8 @@
 namespace App\Form;
 
 use App\Entity\Annoucement;
-use App\Entity\Departement;
-use App\Entity\Product;
-use App\Entity\Region;
+use App\Entity\Departements;
 use App\Entity\Regions;
-use App\Form\AddProductType;
-use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -27,7 +23,7 @@ class AddAnnoucementType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('Name')
+            ->add('name')
             ->add('SubCategoryOne')
             ->add('Price')
             ->add('Description')
@@ -50,14 +46,14 @@ class AddAnnoucementType extends AbstractType
                     ])
                 ],
             ])
-            ->add('region', EntityType::class, [
+            ->add('regions', EntityType::class, [
                 'mapped' => false,
-                'class' => Region::class,
+                'class' => Regions::class,
                 'choice_label' => 'name',
                 'placeholder' => 'Régions',
                 'label' => 'Régions'
             ])
-            ->add('departement', ChoiceType::class, [
+            ->add('Departements', EntityType::class, [
                 'placeholder' => 'Départements (choisir une région)'
             ])
             ->add('Ajouter', SubmitType::class);
@@ -66,7 +62,7 @@ class AddAnnoucementType extends AbstractType
             $departement = $region === null ? [] : $region->getDepartement();
 
             $form->add('departements', EntityType::class, [
-                'class' => Departement::class,
+                'class' => Departements::class,
                 'choices' => $departement,
                 'choice_label' => 'name',
                 'placeholder' => 'Départements (choisir une région)',
@@ -74,7 +70,7 @@ class AddAnnoucementType extends AbstractType
 
             ]);
         };
-        $builder->get('region')->addEventListener(
+        $builder->get('regions')->addEventListener(
             FormEvents::POST_SUBMIT,
             function (FormEvent $event) use ($formModifier) {
                 $region = $event->getForm()->getData();

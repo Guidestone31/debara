@@ -34,4 +34,6 @@ class DoctrineMigrationVersions
      * @ORM\Column(name="execution_time", type="integer", nullable=true)
      */
     private $executionTime;
+
+
 }

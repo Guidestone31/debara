@@ -2,41 +2,48 @@
 
 namespace App\Entity;
 
+use App\Repository\SubCategoryOneRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * SubCategoryOne
- *
- * @ORM\Table(name="sub_category_one", indexes={@ORM\Index(name="IDX_48FC6C9D12469DE2", columns={"category_id"})})
- * @ORM\Entity
- */
+#[ORM\Entity(repositoryClass: SubCategoryOneRepository::class)]
+#[ORM\Table(name: "sub_category_one")]
 class SubCategoryOne
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="id", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
-    private $id;
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column(type: "integer")]
+    private int $id;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="name", type="string", length=255, nullable=true)
-     */
-    private $name;
+    #[ORM\Column(length: 50)]
+    private ?string $Name = null;
 
-    /**
-     * @var \Category
-     *
-     * @ORM\ManyToOne(targetEntity="Category")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="category_id", referencedColumnName="id")
-     * })
-     */
-    private $category;
+    #[ORM\ManyToOne(inversedBy: 'sub_category_one')]
+    private Category $category;
 
+    public function getId(): ?int
+    {
+        return $this->id;
+    }
+    public function getName(): ?string
+    {
+        return $this->Name;
+    }
 
+    public function setName(string $Name): self
+    {
+        $this->Name = $Name;
+
+        return $this;
+    }
+    public function getProfile(): ?Category
+    {
+        return $this->category;
+    }
+
+    public function setProfile(?Category $category): self
+    {
+        $this->category = $category;
+
+        return $this;
+    }
 }
