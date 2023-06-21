@@ -7,13 +7,13 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use PhpParser\Node\Expr\Cast\String_;
 
-#[ORM\Entity(repositoryClass: VIllesFranceRepository::class)]
+#[ORM\Entity(repositoryClass: VillesFranceRepository::class)]
 class VillesFrance
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private $villeId;
+    private ?int $villeId = null;
 
     #[ORM\Column(length: 255)]
     private ?string $villeSlug = null;
@@ -91,7 +91,8 @@ class VillesFrance
     private ?int $villeZmax = null;
 
     #[ORM\ManyToOne(inversedBy: 'VillesFrance')]
-    private ?Departements $departementCode = null;
+    #[ORM\JoinColumn(name: "departement_code", referencedColumnName: "num_departement")]
+    private ?Departements $departementCode;
 
     public function getVilleId(): ?int
     {

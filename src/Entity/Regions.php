@@ -11,10 +11,10 @@ class Regions
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
-    private $numRegion;
+    private ?int $numRegion = null;
 
     #[ORM\Column(length: 50)]
-    private $nom;
+    private ?string $nom = null;
 
     public function getNumRegion(): ?int
     {

@@ -11,13 +11,14 @@ class Departements
     #[ORM\GeneratedValue]
     #[ORM\Column]
 
-    private $numDepartement;
+    private ?int $numDepartement = null;
 
     #[ORM\Column(length: 50)]
-    private $nom;
+    private ?string $nom = null;
 
     #[ORM\ManyToOne(inversedBy: 'Departements')]
-    private $idRegionDpt;
+    #[ORM\JoinColumn(name: "id_region_dpt", referencedColumnName: "num_region")]
+    private ?Regions $idRegionDpt;
 
     public function getNumDepartement(): ?int
     {
