@@ -22,7 +22,6 @@ class Profile
     #[ORM\Column(length: 50)]
     private ?string $LastName = null;
 
-
     #[ORM\Column(nullable: true)]
     private ?int $PhoneNumber = null;
 

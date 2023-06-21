@@ -2,210 +2,96 @@
 
 namespace App\Entity;
 
+use Cassandra\Smallint;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use PhpParser\Node\Expr\Cast\String_;
 
-/**
- * VillesFrance
- *
- * @ORM\Table(name="Villes_france", uniqueConstraints={@ORM\UniqueConstraint(name="ville_slug", columns={"ville_slug"}), @ORM\UniqueConstraint(name="ville_code_commune_2", columns={"ville_code_commune"})}, indexes={@ORM\Index(name="ville_code_postal", columns={"ville_code_postal"}), @ORM\Index(name="ville_departement", columns={"departement_code"}), @ORM\Index(name="ville_nom", columns={"ville_nom"}), @ORM\Index(name="ville_nom_simple", columns={"ville_nom_simple"}), @ORM\Index(name="ville_nom_reel", columns={"ville_nom_reel"}), @ORM\Index(name="ville_nom_metaphone", columns={"ville_nom_metaphone"}), @ORM\Index(name="ville_nom_soundex", columns={"ville_nom_soundex"}), @ORM\Index(name="ville_population_2010", columns={"ville_population_2010"}), @ORM\Index(name="ville_longitude_latitude_deg", columns={"ville_longitude_deg", "ville_latitude_deg"})})
- * @ORM\Entity
- */
+#[ORM\Entity(repositoryClass: VIllesFranceRepository::class)]
 class VillesFrance
 {
-    /**
-     * @var int
-     *
-     * @ORM\Column(name="ville_id", type="integer", nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
     private $villeId;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="ville_slug", type="string", length=255, nullable=true)
-     */
-    private $villeSlug;
+    #[ORM\Column(length: 255)]
+    private ?string $villeSlug = null;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="ville_nom", type="string", length=45, nullable=true)
-     */
-    private $villeNom;
+    #[ORM\Column(length: 45)]
+    private ?string $villeNom = null;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="ville_nom_simple", type="string", length=45, nullable=true)
-     */
-    private $villeNomSimple;
+    #[ORM\Column(length: 45)]
+    private ?string $villeNomSimple = null;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="ville_nom_reel", type="string", length=45, nullable=true)
-     */
-    private $villeNomReel;
+    #[ORM\Column(length: 45)]
+    private ?string $villeNomReel = null;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="ville_nom_soundex", type="string", length=20, nullable=true)
-     */
-    private $villeNomSoundex;
+    #[ORM\Column(length: 20)]
+    private ?string $villeNomSoundex = null;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="ville_nom_metaphone", type="string", length=22, nullable=true)
-     */
-    private $villeNomMetaphone;
+    #[ORM\Column(length: 22)]
+    private ?string $villeNomMetaphone = null;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="ville_code_postal", type="string", length=255, nullable=true)
-     */
-    private $villeCodePostal;
+    #[ORM\Column(length: 255)]
+    private ?string $villeCodePostal = null;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="ville_commune", type="string", length=3, nullable=true)
-     */
-    private $villeCommune;
+    #[ORM\Column(length: 3)]
+    private ?string $villeCommune = null;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="ville_code_commune", type="string", length=5, nullable=false)
-     */
-    private $villeCodeCommune;
+    #[ORM\Column(length: 5)]
+    private ?string $villeCodeCommune;
 
-    /**
-     * @var int|null
-     *
-     * @ORM\Column(name="ville_arrondissement", type="smallint", nullable=true, options={"unsigned"=true})
-     */
-    private $villeArrondissement;
+    #[ORM\Column(name: "ville_arrondissement", type: "smallint", nullable: true, options: ["unsigned" => true])]
+    private ?int $villeArrondissement = null;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="ville_canton", type="string", length=4, nullable=true)
-     */
-    private $villeCanton;
+    #[ORM\Column(length: 4)]
+    private ?string $villeCanton = null;
 
-    /**
-     * @var int|null
-     *
-     * @ORM\Column(name="ville_amdi", type="smallint", nullable=true, options={"unsigned"=true})
-     */
-    private $villeAmdi;
+    #[ORM\Column(name: "ville_amdi", type: "smallint", nullable: true, options: ["unsigned" => true])]
+    private ?int $villeAmdi = null;
 
-    /**
-     * @var int|null
-     *
-     * @ORM\Column(name="ville_population_2010", type="integer", nullable=true, options={"unsigned"=true})
-     */
-    private $villePopulation2010;
+    #[ORM\Column(name: "ville_population_2010", type: "integer", nullable: true, options: ["unsigned" => true])]
+    private ?int $villePopulation2010 = null;
 
-    /**
-     * @var int|null
-     *
-     * @ORM\Column(name="ville_population_1999", type="integer", nullable=true, options={"unsigned"=true})
-     */
-    private $villePopulation1999;
+    #[ORM\Column(name: "ville_population_1999", type: "integer", nullable: true, options: ["unsigned" => true])]
+    private ?int $villePopulation1999 = null;
 
-    /**
-     * @var int|null
-     *
-     * @ORM\Column(name="ville_population_2012", type="integer", nullable=true, options={"unsigned"=true,"comment"="approximatif"})
-     */
-    private $villePopulation2012;
+    #[ORM\Column(name: "ville_population_2012", type: "integer", nullable: true, options: ["unsigned" => true, "comment" => "approximatif"])]
+    private ?int $villePopulation2012 = null;
 
-    /**
-     * @var int|null
-     *
-     * @ORM\Column(name="ville_densite_2010", type="integer", nullable=true)
-     */
-    private $villeDensite2010;
+    #[ORM\Column(nullable: true)]
+    private ?int $villeDensite2010 = null;
 
-    /**
-     * @var float|null
-     *
-     * @ORM\Column(name="ville_surface", type="float", precision=10, scale=0, nullable=true)
-     */
-    private $villeSurface;
+    #[ORM\Column(name: "ville_surface", type: "float", precision: 10, scale: 0, nullable: true)]
+    private ?float $villeSurface = null;
 
-    /**
-     * @var float|null
-     *
-     * @ORM\Column(name="ville_longitude_deg", type="float", precision=10, scale=0, nullable=true)
-     */
-    private $villeLongitudeDeg;
+    #[ORM\Column(name: "villeLongitudeDeg", type: "float", precision: 10, scale: 0, nullable: true)]
+    private ?float  $villeLongitudeDeg = null;
 
-    /**
-     * @var float|null
-     *
-     * @ORM\Column(name="ville_latitude_deg", type="float", precision=10, scale=0, nullable=true)
-     */
-    private $villeLatitudeDeg;
+    #[ORM\Column(name: "villeLatitudeDeg", type: "float", precision: 10, scale: 0, nullable: true)]
+    private ?float $villeLatitudeDeg = null;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="ville_longitude_grd", type="string", length=9, nullable=true)
-     */
-    private $villeLongitudeGrd;
+    #[ORM\Column(length: 9)]
+    private ?string $villeLongitudeGrd = null;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="ville_latitude_grd", type="string", length=8, nullable=true)
-     */
-    private $villeLatitudeGrd;
+    #[ORM\Column(length: 8)]
+    private ?string $villeLatitudeGrd = null;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="ville_longitude_dms", type="string", length=9, nullable=true)
-     */
-    private $villeLongitudeDms;
+    #[ORM\Column(length: 9)]
+    private ?string $villeLongitudeDms = null;
 
-    /**
-     * @var string|null
-     *
-     * @ORM\Column(name="ville_latitude_dms", type="string", length=8, nullable=true)
-     */
-    private $villeLatitudeDms;
+    #[ORM\Column(length: 8)]
+    private ?string $villeLatitudeDms = null;
 
-    /**
-     * @var int|null
-     *
-     * @ORM\Column(name="ville_zmin", type="integer", nullable=true)
-     */
-    private $villeZmin;
+    #[ORM\Column(nullable: true)]
+    private ?int $villeZmin = null;
 
-    /**
-     * @var int|null
-     *
-     * @ORM\Column(name="ville_zmax", type="integer", nullable=true)
-     */
-    private $villeZmax;
+    #[ORM\Column(nullable: true)]
+    private ?int $villeZmax = null;
 
-    /**
-     * @var \Departements
-     *
-     * @ORM\ManyToOne(targetEntity="Departements")
-     * @ORM\JoinColumns({
-     *   @ORM\JoinColumn(name="departement_code", referencedColumnName="num_departement")
-     * })
-     */
-    private $departementCode;
+    #[ORM\ManyToOne(inversedBy: 'VillesFrance')]
+    private ?Departements $departementCode = null;
 
     public function getVilleId(): ?int
     {
@@ -523,6 +409,4 @@ class VillesFrance
 
         return $this;
     }
-
-
 }

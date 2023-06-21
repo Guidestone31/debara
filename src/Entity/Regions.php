@@ -2,31 +2,33 @@
 
 namespace App\Entity;
 
+use App\Repository\RegionsRepository;
 use Doctrine\ORM\Mapping as ORM;
 
-/**
- * Regions
- *
- * @ORM\Table(name="Regions")
- * @ORM\Entity
- */
+#[ORM\Entity(repositoryClass: RegionsRepository::class)]
 class Regions
 {
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="num_region", type="string", length=2, nullable=false)
-     * @ORM\Id
-     * @ORM\GeneratedValue(strategy="IDENTITY")
-     */
+    #[ORM\Id]
+    #[ORM\GeneratedValue]
+    #[ORM\Column]
     private $numRegion;
 
-    /**
-     * @var string
-     *
-     * @ORM\Column(name="nom", type="string", length=255, nullable=false)
-     */
+    #[ORM\Column(length: 50)]
     private $nom;
 
+    public function getNumRegion(): ?int
+    {
+        return $this->numRegion;
+    }
+    public function getNom(): ?string
+    {
+        return $this->nom;
+    }
 
+    public function setNom(string $nom): self
+    {
+        $this->nom = $nom;
+
+        return $this;
+    }
 }
