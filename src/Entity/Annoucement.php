@@ -15,10 +15,10 @@ class Annoucement
     private ?int $id = null;
 
     #[ORM\Column]
-    public ?float $Product_Price = null;
+    public ?float $Price = null;
 
     #[ORM\Column(length: 255)]
-    public ?string $Product_Description = null;
+    public ?string $Description = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $Image = null;
@@ -31,26 +31,26 @@ class Annoucement
         return $this->id;
     }
 
-    public function getProductPrice(): ?float
+    public function getPrice(): ?float
     {
-        return $this->Product_Price;
+        return $this->Price;
     }
 
-    public function setProductPrice(float $Product_Price): self
+    public function setPrice(float $Price): self
     {
-        $this->Product_Price = $Product_Price;
+        $this->Price = $Price;
 
         return $this;
     }
 
-    public function getProductDescription(): ?string
+    public function getDescription(): ?string
     {
-        return $this->Product_Description;
+        return $this->Description;
     }
 
-    public function setProductDescription(string $Product_Description): self
+    public function setDescription(string $Description): self
     {
-        $this->Product_Description = $Product_Description;
+        $this->Description = $Description;
 
         return $this;
     }

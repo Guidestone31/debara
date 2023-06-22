@@ -23,8 +23,8 @@ class AddAnnoucementType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name')
-            ->add('SubCategoryOne')
+            /* ->add('name')
+            ->add('SubCategoryOne')*/
             ->add('Price')
             ->add('Description')
             ->add('Image', FileType::class, [
@@ -49,22 +49,27 @@ class AddAnnoucementType extends AbstractType
             ->add('regions', EntityType::class, [
                 'mapped' => false,
                 'class' => Regions::class,
-                'choice_label' => 'name',
+                'choice_label' => 'nom',
                 'placeholder' => 'Régions',
                 'label' => 'Régions'
             ])
             ->add('Departements', EntityType::class, [
-                'placeholder' => 'Départements (choisir une région)'
+                'placeholder' => 'Départements (choisir une région)',
+                'mapped' => false,
+                'class' => Departements::class,
+                'choice_label' => 'nom',
+                'label' => 'Départements'
             ])
             ->add('Ajouter', SubmitType::class);
 
         $formModifier = function (FormInterface $form, Regions $region = null) {
-            $departement = $region === null ? [] : $region->getDepartement();
+            $departement = $region === null ? [] : $region->getIdRegionDpt();
 
             $form->add('departements', EntityType::class, [
+                'mapped' => false,
                 'class' => Departements::class,
                 'choices' => $departement,
-                'choice_label' => 'name',
+                'choice_label' => 'nom',
                 'placeholder' => 'Départements (choisir une région)',
                 'label' => 'Départements'
 
