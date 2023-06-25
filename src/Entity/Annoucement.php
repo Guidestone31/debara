@@ -26,6 +26,9 @@ class Annoucement
     #[ORM\ManyToOne(inversedBy: 'Annoucements')]
     private ?Profile $Profile = null;
 
+    #[ORM\ManyToOne(inversedBy: 'Annoucements')]
+    private ?Profile $Departement = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -75,6 +78,17 @@ class Annoucement
     public function setProfile(?Profile $Profile): self
     {
         $this->Profile = $Profile;
+
+        return $this;
+    }
+    public function getDepartements(): ?Departements
+    {
+        return $this->Departement;
+    }
+
+    public function setDepartements(?Departements $departements): self
+    {
+        $this->Departement = $departements;
 
         return $this;
     }
