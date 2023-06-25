@@ -18,7 +18,7 @@ class Regions
     #[ORM\Column(length: 50)]
     private ?string $nom = null;
 
-    #[ORM\OneToMany(mappedBy: 'Regions', targetEntity: Departements::class)]
+    #[ORM\OneToMany(mappedBy: 'Regions', targetEntity: Departements::class, cascade: ['persist', 'remove'])]
     private Collection $departements;
 
     public function __construct()
@@ -45,7 +45,7 @@ class Regions
     {
         return $this->departements;
     }
-
+    /*
     public function adddepartement(Departements $departement): self
     {
         if (!$this->departements->contains($departement)) {
@@ -66,5 +66,5 @@ class Regions
         }
 
         return $this;
-    }
+    }*/
 }

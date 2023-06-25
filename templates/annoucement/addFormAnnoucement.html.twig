@@ -24,10 +24,10 @@
 
 		{{ form_start(form) }}
 		{#{% for annoucement in annoucements %}
-					{{ form_row(form.anoucement.Name) }}
-					{{ form_row(annoucement.second) }}
-														 {{ form_row(annoucement.fourht) }}
-				{% endfor %}#}
+							{{ form_row(form.anoucement.Name) }}
+							{{ form_row(annoucement.second) }}
+																 {{ form_row(annoucement.fourht) }}
+						{% endfor %}#}
 
 		{#{{ form_row(form.Image) }}#}
 		{{ form_end(form) }}
@@ -44,7 +44,17 @@ let region = document.querySelector("#add_annoucement_regions");
 region.addEventListener("change", function () {
 
 let form = this.closest("form");
-console.log($form);
+console.log(form);
+let data = this.name + "=" + this.value;
+console.log(data);
+
+fetch(form.action, {
+	method: form.getAttribute("method"),
+	body: data,
+	headers:{
+		"Content-Type": "application/x-www-form-urlencoded; charset:UTF-8"
+	}
+})
 
 });
 

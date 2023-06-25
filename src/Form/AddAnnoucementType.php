@@ -51,7 +51,8 @@ class AddAnnoucementType extends AbstractType
                 'class' => Regions::class,
                 'choice_label' => 'nom',
                 'placeholder' => 'Régions',
-                'label' => 'Régions'
+                'label' => 'Régions',
+                'required' => false,
             ])
             /*->add('Departements', EntityType::class, [
                 'placeholder' => 'Départements (choisir une région)',
@@ -62,7 +63,8 @@ class AddAnnoucementType extends AbstractType
             ])*/
 
             ->add('departements', ChoiceType::class, [
-                'placeholder' => 'Département (choisir une région)'
+                'placeholder' => 'Département (choisir une région)',
+                'required' => false,
 
             ])->add('Ajouter', SubmitType::class);
 
@@ -71,6 +73,7 @@ class AddAnnoucementType extends AbstractType
 
             $form->add('departements', EntityType::class, [
                 'class' => Departements::class,
+                'required' => false,
                 'choices' => $departement,
                 'choice_label' => 'nom',
                 'placeholder' => 'Départements (choisir une région)',
