@@ -45,7 +45,7 @@ class VillesFrance
     #[ORM\Column(name: "ville_arrondissement", type: "smallint", nullable: true, options: ["unsigned" => true])]
     private ?int $villeArrondissement = null;
 
-    #[ORM\Column(length: 4)]
+    #[ORM\Column(name: "ville_canton", nullable: true, length: 4)]
     private ?string $villeCanton = null;
 
     #[ORM\Column(name: "ville_amdi", type: "smallint", nullable: true, options: ["unsigned" => true])]
@@ -60,28 +60,28 @@ class VillesFrance
     #[ORM\Column(name: "ville_population_2012", type: "integer", nullable: true, options: ["unsigned" => true, "comment" => "approximatif"])]
     private ?int $villePopulation2012 = null;
 
-    #[ORM\Column(nullable: true)]
+    #[ORM\Column(name: "ville_densite_2010", type: "integer", nullable: true)]
     private ?int $villeDensite2010 = null;
 
     #[ORM\Column(name: "ville_surface", type: "float", precision: 10, scale: 0, nullable: true)]
     private ?float $villeSurface = null;
 
-    #[ORM\Column(name: "villeLongitudeDeg", type: "float", precision: 10, scale: 0, nullable: true)]
+    #[ORM\Column(name: "ville_Longitude_Deg", type: "float", precision: 10, scale: 0, nullable: true)]
     private ?float  $villeLongitudeDeg = null;
 
-    #[ORM\Column(name: "villeLatitudeDeg", type: "float", precision: 10, scale: 0, nullable: true)]
+    #[ORM\Column(name: "ville_Latitude_Deg", type: "float", precision: 10, scale: 0, nullable: true)]
     private ?float $villeLatitudeDeg = null;
 
-    #[ORM\Column(length: 9)]
+    #[ORM\Column(name: "ville_Longitude_Grd", type: "string", precision: 10, scale: 0, nullable: true, length: 9)]
     private ?string $villeLongitudeGrd = null;
 
-    #[ORM\Column(length: 8)]
+    #[ORM\Column(name: "ville_Latitude_Grd", type: "string", precision: 10, scale: 0, nullable: true, length: 8)]
     private ?string $villeLatitudeGrd = null;
 
-    #[ORM\Column(length: 9)]
+    #[ORM\Column(name: "ville_Longitude_Dms", type: "string", precision: 10, scale: 0, nullable: true, length: 9)]
     private ?string $villeLongitudeDms = null;
 
-    #[ORM\Column(length: 8)]
+    #[ORM\Column(name: "ville_Latitude_Dms", type: "string", precision: 10, scale: 0, nullable: true, length: 8)]
     private ?string $villeLatitudeDms = null;
 
     #[ORM\Column(nullable: true)]

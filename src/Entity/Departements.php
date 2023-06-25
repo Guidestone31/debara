@@ -12,7 +12,7 @@ class Departements
     #[ORM\GeneratedValue]
     #[ORM\Column]
 
-    private ?int $numDepartement = null;
+    private ?string $numDepartement = null;
 
     #[ORM\Column(length: 50)]
     private ?string $nom = null;
@@ -21,7 +21,7 @@ class Departements
     #[ORM\JoinColumn(name: "id_region_dpt", referencedColumnName: "num_region")]
     private ?Regions $idRegionDpt;
 
-    public function getNumDepartement(): ?int
+    public function getNumDepartement(): ?string
     {
         return $this->numDepartement;
     }
