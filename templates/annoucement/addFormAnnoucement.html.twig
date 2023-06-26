@@ -24,11 +24,10 @@
 
 		{{ form_start(form) }}
 		{#{% for annoucement in annoucements %}
-							{{ form_row(form.anoucement.Name) }}
-							{{ form_row(annoucement.second) }}
-																 {{ form_row(annoucement.fourht) }}
+						{{ form_row(form.anoucement.Name) }}
+						{{ form_row(annoucement.second) }}
+						{{ form_row(annoucement.fourht) }}
 						{% endfor %}#}
-
 		{#{{ form_row(form.Image) }}#}
 		{{ form_end(form) }}
 			<div class="col-3"> <div class="card" style="width: 18rem;"></div>
@@ -46,14 +45,22 @@ region.addEventListener("change", function () {
 let form = this.closest("form");
 console.log(form);
 let data = this.name + "=" + this.value;
-console.log(data);
+console.log(data + " data");
 
 fetch(form.action, {
-	method: form.getAttribute("method"),
-	body: data,
-	headers:{
-		"Content-Type": "application/x-www-form-urlencoded; charset:UTF-8"
-	}
+method: form.getAttribute("method"),
+body: data,
+headers: {
+"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
+}
+}).then(response => response.text()).then((html) => {
+console.log(html + " 1er html")
+let content = document.createElement("html");
+content.innerHTML = html;
+console.log(html + "2eme html")
+let nouveauSelect = content.querySelector("#add_annoucement_departements");
+console.log(nouveauSelect + " Nouveau select");
+document.querySelector("#add_annoucement_departements").replaceWith(nouveauSelect);
 })
 
 });

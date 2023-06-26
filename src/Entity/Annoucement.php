@@ -24,9 +24,11 @@ class Annoucement
     private ?string $Image = null;
 
     #[ORM\ManyToOne(inversedBy: 'Annoucements')]
+    #[ORM\JoinColumn(name: "id", referencedColumnName: "id")]
     private ?Profile $Profile = null;
 
     #[ORM\ManyToOne(inversedBy: 'Annoucements')]
+
     private ?Profile $Departement = null;
 
     public function getId(): ?int

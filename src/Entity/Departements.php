@@ -6,6 +6,7 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\DepartementsRepository;
+use Doctrine\ORM\Cache\Region;
 
 #[ORM\Entity(repositoryClass: DepartementsRepository::class)]
 class Departements
@@ -19,12 +20,14 @@ class Departements
     #[ORM\Column(length: 50)]
     private ?string $nom = null;
 
-    #[ORM\ManyToOne(inversedBy: 'Departements')]
+    #[ORM\ManyToOne(targetEntity: Regions::class, inversedBy: 'Departements')]
     #[ORM\JoinColumn(name: "id_region_dpt", referencedColumnName: "num_region")]
-    private ?Regions $idRegionDpt;
+
+    private ?Regions $Regions;
 
     #[ORM\OneToMany(mappedBy: 'Departements', targetEntity: Annoucement::class, cascade: ['persist', 'remove'])]
     private Collection $annoucement;
+
 
     public function __construct()
     {
@@ -49,12 +52,12 @@ class Departements
     }
     public function getIdRegionDpt(): ?Regions
     {
-        return $this->idRegionDpt;
+        return $this->Regions;
     }
 
     public function setIdRegionDpt(?Regions $idRegionDpt): self
     {
-        $this->idRegionDpt = $idRegionDpt;
+        $this->Regions = $idRegionDpt;
 
         return $this;
     }

@@ -18,7 +18,7 @@ class Regions
     #[ORM\Column(length: 50)]
     private ?string $nom = null;
 
-    #[ORM\OneToMany(mappedBy: 'Regions', targetEntity: Departements::class, cascade: ['persist', 'remove'])]
+    #[ORM\OneToMany(mappedBy: 'Regions', targetEntity: Departements::class)]
     private Collection $departements;
 
     public function __construct()
@@ -41,7 +41,10 @@ class Regions
 
         return $this;
     }
-    public function getdepartements(): Collection
+    /**
+     * @return Collection|Departements[]
+     */
+    public function getDepartements(): Collection
     {
         return $this->departements;
     }
