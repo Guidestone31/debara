@@ -65,14 +65,14 @@ class AddAnnoucementType extends AbstractType
                 'label' => 'Régions',
                 'required' => false
             ]);
-
+        /*
         $builder->get('regions')->addEventListener(
             FormEvents::POST_SUBMIT,
             function (FormEvent $event) {
                 $form = $event->getForm();
                 $this->addDepartementField($form->getParent(), $form->getData());
             }
-        );
+        );*/
         /*
             ->add('departement_id', ChoiceType::class, [
                 'placeholder' => 'Département (choisir une région)',
@@ -88,7 +88,7 @@ class AddAnnoucementType extends AbstractType
             ])*/
         //
         //->add('Ajouter', SubmitType::class);
-
+        /*
         $builder->addEventListener(
             FormEvents::POST_SET_DATA,
             function (FormEvent $event) {
@@ -108,7 +108,7 @@ class AddAnnoucementType extends AbstractType
                     $this->addVilleFrance($form, null);
                 }
             }
-        );
+        );*/
 
         /* $formModifierRegion = function (FormInterface $form, Regions $region = null) {
              $departement = null === $region ? [] : $region->getDepartements();
@@ -176,6 +176,7 @@ class AddAnnoucementType extends AbstractType
          };
          */
     }
+    /*
     private function addDepartementField(FormInterface $form, ?Regions $region)
     {
         $builder = $form->getConfig()->getFormFactory()->createNamedBuilder(
@@ -208,7 +209,7 @@ class AddAnnoucementType extends AbstractType
             'placeholder' => $departement ? 'Sélectionnez votre ville' : 'Sélectionnez votre département',
             'choices'     => $departement ? $departement->getVillesFrance() : []
         ]);
-    }
+    }*/
     /*
                 private function addSubCategoryField(FormInterface $form, ?VillesFrance $villesFrance): void
                 {
