@@ -24,6 +24,15 @@ use Symfony\Component\Form\Extension\Core\Type\EnumType;
 
 class AddAnnoucementType extends AbstractType
 {
+    /**
+     * @var \Doctrine\ORM\EntityManager
+     */
+    protected $em;
+
+    public function __construct(EntityManager $em)
+    {
+        $this->em = $em;
+    }
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
