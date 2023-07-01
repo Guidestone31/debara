@@ -157,23 +157,23 @@ $targetDirectory: '%upload_directory%'
 
 ////////////////////////new.html.twig/////////////////////////
 <div class="example-wrapper">
-	<h1>
-		Création de profile
-	</h1>
-	{#{{ form_start(form) }}
+    <h1>
+        Création de profile
+    </h1>
+    {#{{ form_start(form) }}
 		{#{{ form_row(form.Picture) }}#}
-	<label class="header">Profile Photo:</label>
-	<input id="image" type="file" name="profile_photo" placeholder="Photo" required="" capture>
-	<img src="..." alt="..." class="img-thumbnail">
-	{#{{ form_label(form.Product_Image) }}
+    <label class="header">Profile Photo:</label>
+    <input id="image" type="file" name="profile_photo" placeholder="Photo" required="" capture>
+    <img src="..." alt="..." class="img-thumbnail">
+    {#{{ form_label(form.Product_Image) }}
 																																																																											{{ form_widget(form.Product_Image) }}
 																																																																											{{ form_errors(form.Product_Image) }}#}
-	{# your custom code for rendering the form #}
-	{# if you leave default then it should render with bad styles etc. #}
-	{{ form_end(form) }}#}
-	<div class="col-3">
-		<div class="card" style="width: 18rem;"></div>
-	</div>
+    {# your custom code for rendering the form #}
+    {# if you leave default then it should render with bad styles etc. #}
+    {{ form_end(form) }}#}
+    <div class="col-3">
+        <div class="card" style="width: 18rem;"></div>
+    </div>
 </div>
 
 //////////////////////index.html.twig Login///////////////////////////
@@ -202,3 +202,544 @@ public function getPassword($credentials): ?string
 return $credentials['password'];
 }
 */
+
+
+/////////////////////////////////// ajax region departement /////////////////////////////
+{% endblock %}
+{##}
+{#
+	window.onload = () => { // On va chercher la région
+	let region = document.querySelector("#add_annoucement_regions");
+
+	region.addEventListener("change", function () {
+
+	let form = this.closest("form");
+	console.log(form);
+	let data = this.name + "=" + this.value;
+	console.log(data + " data");
+
+	fetch(form.action, {
+	method: form.getAttribute("method"),
+	body: data,
+	headers: {
+	"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
+	}
+	}).then(response => response.text()).then((html) => {
+	console.log(html + " 1er html")
+	let content = document.createElement("html");
+	content.innerHTML = html;
+	console.log(html + "2eme html")
+	let nouveauSelect = content.querySelector("#add_annoucement_departements");
+	console.log(nouveauSelect + " Nouveau select");
+	document.querySelector("#add_annoucement_departements").replaceWith(nouveauSelect);
+
+	let departement = document.querySelector("#add_annoucement_departements");
+	departement.addEventListener("change", function () {
+
+	let form2 = departement.closest("form");
+	console.log(form2);
+	let data2 = departement.name + "=" + departement.value;
+	console.log(data2 + " data");
+	fetch(form.action, {
+	method: form.getAttribute("method"),
+	body: data,
+	headers: {
+	"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
+	}
+	}).then(response => response.text()).then((html) => {
+	console.log(html + " 1er html")
+	let content2 = document.createElement("html");
+	content.innerHTML = html;
+	console.log(html + "2eme html")
+	let nouveauSelect2 = content2.querySelector("#add_annoucement_villesfrance");
+	console.log(nouveauSelect2 + " Nouveau select");
+	document.querySelector("#add_annoucement_villesfrance").replaceWith(nouveauSelect2);
+
+	});
+
+	})
+
+	});
+
+	});
+	}
+	<script>
+		window.onload = () => { // On va chercher la région
+
+let departement = document.querySelector("#add_annoucement_departements");
+departement.addEventListener("change", function () {
+
+let formV = this.closest("form");
+let dataV = this.name + "=" + this.value;
+
+fetch(formV.action, {
+method: form.getAttribute("method"),
+body: dataV,
+headers: {
+"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
+}
+}).then(response => response.text()).then((html) => {
+let contentV = document.createElement("html");
+contentV.innerHTML = html;
+let nouveauSelectV = contentV.querySelector("#add_annoucement_villesfrance");
+document.querySelector("#add_annoucement_villesfrance").replaceWith(nouveauSelectV);
+});
+});
+}
+	</script>
+	#}
+$formModifier = function (FormInterface $form, Regions $region = null, Departements $dep = null) {
+$departement = null === $region ? [] : $region->getDepartements();
+$form->add('departements', EntityType::class, [
+'class' => Departements::class,
+'choices' => $departement,
+'choice_label' => 'nom',
+'placeholder' => 'Départements (choisir une région)',
+'label' => 'Départements',
+'required' => false
+]);
+$villesfrance = null === $dep ? [] : $dep->getVillesFrance();
+$form->add('villesfrance', EntityType::class, [
+'class' => VillesFrance::class,
+'choices' => $villesfrance,
+'choice_label' => 'villeNom',
+'placeholder' => 'Ville (choisir une région)',
+'label' => 'Ville',
+'required' => false
+]);
+};
+
+$builder->get('regions')->addEventListener(
+FormEvents::POST_SUBMIT,
+function (FormEvent $event) use ($formModifier) {
+$region = $event->getForm()->getData();
+$formModifier($event->getForm()->getParent(), $region);
+}
+);
+$builder->get('departements')->addEventListener(
+FormEvents::POST_SUBMIT,
+function (FormEvent $event) use ($formModifier) {
+$dep = $event->getForm()->getData();
+$formModifier($event->getForm()->getParent(), $dep);
+}
+);
+
+
+///////////////////////// Code Discords ////////////////////////////
+
+
+<> ShareMyCode.io
+    Ajouter un code
+    Connexion
+    Inscription
+    Voici votre URL de partage https://sharemycode.io/c/55b1db1 (Cliquer pour copier)
+    Nom du fichier : ListernerForm exemple
+    <?php
+    /*
+
+namespace App\Form;
+
+use App\Entity\Category;
+use App\Entity\Form;
+use App\Entity\SecondCategory;
+use App\Entity\SubCategory;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\AbstractType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\SubmitType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Form\FormBuilderInterface;
+use Symfony\Component\Form\FormEvent;
+use Symfony\Component\Form\FormEvents;
+use Symfony\Component\Form\FormInterface;
+use Symfony\Component\OptionsResolver\OptionsResolver;
+
+class FormEntityFormType extends AbstractType
+{*/
+    /* @var FieldsFormType
+    */
+    /*
+    private FieldsFormType $fieldsFormType;
+
+    public function __construct(FieldsFormType $fieldsFormType)
+    {
+        $this->fieldsFormType = $fieldsFormType;
+    }
+
+
+
+    public function buildForm(FormBuilderInterface $builder, array $options): void
+    {
+
+        $builder
+            ->add('category', EntityType::class, [
+                'class' => Category::class,
+                'choice_label' => 'name',
+                'required' => true,
+                'placeholder' => 'Select one category',
+            ])
+            ->add('fields', CollectionType::class, [
+                'entry_type' => FieldsFormType::class,
+                'label' => false,
+                'allow_add' => true,
+                'allow_delete' => true,
+                'by_reference' => false
+
+            ])
+        ;
+
+        $builder->get('category')->addEventListener(
+            FormEvents::POST_SUBMIT,
+            function (FormEvent $event) {
+                $form = $event->getForm();
+
+                $this->addSecondCategoryField($form->getParent(), $form->getData());
+            }
+        );
+
+        $builder->addEventListener(
+            FormEvents::POST_SET_DATA,
+            function (FormEvent $event) {
+                /* @var Form $formObject */
+    /*
+    $formObject = $event->getData();
+
+    $form = $event->getForm();
+
+    if ($formObject) {
+        $category = $formObject->getCategory();
+        $secondCategory = $formObject->getSecondCategory();
+        $subCategory = $formObject->getSubCategory();
+
+        $this->addSecondCategoryField($form, $category);
+        $this->addSubCategoryField($form, $secondCategory);
+
+        $form->get('category')->setData($category);
+        $form->get('secondCategory')->setData($secondCategory);
+
+        if ($subCategory !== null) {
+            $form->get('subCategory')->setData($subCategory);
+        }
+
+    } else {
+        $this->addSecondCategoryField($form, null);
+        $this->addSubCategoryField($form, null);
+    }
+                }
+            );
+
+        }
+
+        private function addSecondCategoryField(FormInterface $form, ?Category $category): void
+        {
+            $secondCategory = null === $category ? [] : $category->getSecondCategory();
+
+            $builder = $form->getConfig()->getFormFactory()->createNamedBuilder(
+                'secondCategory',
+                EntityType::class,
+                null,
+                [
+    'class' => SecondCategory::class,
+    'choices' => $secondCategory,
+    'choice_label' => 'name',
+    'auto_initialize' => false,
+    'placeholder' => 'Select one second category',
+    'empty_data' => ''
+                ]
+            );
+
+            $builder->addEventListener(
+                FormEvents::POST_SUBMIT,
+                function (FormEvent $event) {
+    $form = $event->getForm();
+    $this->addSubCategoryField($form->getParent(), $form->getData());
+                }
+            );
+
+            $form->add($builder->getForm());
+        }
+
+        private function addSubCategoryField(FormInterface $form, ?SecondCategory $secondCategory): void
+        {
+            if ($secondCategory !== null) {
+                if ($secondCategory->isHaveSubCategories() === true) {
+    $form->add(
+        'subCategory',
+        EntityType::class,
+        [
+            'class' => SubCategory::class,
+            'choices' => $secondCategory->getSubCategories(),
+            'choice_label' => 'name',
+            'required' => true,
+            'placeholder' => 'Select one sub-category',
+            'empty_data' => ''
+        ]
+    );
+
+                }
+                $form->add(
+    'name',
+    TextType::class,
+    [
+        'required' => true,
+        'empty_data' => ''
+    ]
+                );
+            }
+
+        }
+
+        public function configureOptions(OptionsResolver $resolver): void
+        {
+            $resolver->setDefaults([
+                'data_class' => Form::class,
+            ]);
+        }
+    }*/
+    /*
+    {% block javascripts %}
+
+        <script>
+            // window.onload = () => { // On va chercher la région
+    let region = document.querySelector("#add_annoucement_regions");
+
+    region.addEventListener("change", function handler1() {
+
+    let form = this.closest("form");
+    let data = this.name + "=" + this.value;
+
+    fetch(form.action, {
+    method: form.getAttribute("method"),
+    body: data,
+    headers: {
+    "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
+    }
+    }).then(response => response.text()).then((html) => {
+    let content = document.createElement("html");
+    content.innerHTML = html;
+    let nouveauSelect = content.querySelector("#add_annoucement_departement_id");
+    document.querySelector("#add_annoucement_departement_id").replaceWith(nouveauSelect);
+    })
+
+    });
+
+    let departement = document.querySelector("#add_annoucement_departement_id");
+
+    departement.addEventListener("change", function handler2() {
+
+    let formV = departement.closest("form");
+    let dataV = departement.name + "=" + departement.value;
+
+    fetch(formV.action, {
+    method: form.getAttribute("method"),
+    body: dataV,
+    headers: {
+    "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
+    }
+    }).then(response => response.text()).then((html) => {
+    let contentV = document.createElement("html");
+    contentV.innerHTML = html;
+    let nouveauSelectV = contentV.querySelector("#add_annoucement_villesfrance");
+    document.querySelector("#add_annoucement_villesfrance").replaceWith(nouveauSelectV);
+    console.log(nouveauSelect);
+
+    })
+
+    });
+    // }
+
+
+
+
+    		var $regions = $('#add_annoucement_regions');
+var $departements = $('#add_annoucement_departement_id');
+
+$(document).on("change", "#add_annoucement_regions", function () {
+
+var $form = $(this).closest('form');
+// Simulate form data, but only include the selected sport value.
+var data = {};
+data[$regions.attr('name')] = $regions.val();
+// Submit data via AJAX to the form's action path.
+$.ajax({
+url: $form.attr('action'),
+type: $form.attr('method'),
+data: data,
+success: function (html) { // Replace current position field ...
+$('#add_annoucement_departement_id').replaceWith(
+// ... with the returned one from the AJAX response.
+$(html).find('#add_annoucement_departement_id')
+);
+
+// Position field now displays the appropriate positions.
+}
+});
+
+});
+$(document).on("change", "#add_annoucement_departement_id", function () { // ... retrieve the corresponding form.
+
+var $departement = $('#add_annoucement_departement_id');
+
+var $form = $(this).closest('form');
+// Simulate form data, but only include the selected sport value.
+var data = {};
+
+data[$departement.attr('name')] = $departement.val();
+// Submit data via AJAX to the form's action path.
+$.ajax({
+url: $form.attr('action'),
+type: $form.attr('method'),
+data: data,
+success: function (html) { // Replace current position field ...
+$('#add_annoucement_villesfrance').replaceWith(
+// ... with the returned one from the AJAX response.
+$(html).find('#add_annoucement_villesfrance')
+);
+// Position field now displays the appropriate positions.
+}
+});
+});
+        </script>
+    {% endblock %}
+    ///////////////////////////// Methode FormType //////////////////////////////////
+
+        private FormFactoryInterface $factory;
+    /**
+     *@var array<string, mixed>
+     */
+    /*private $dependencies = [];*//*
+    public function buildForm(FormBuilderInterface $builder, array $options): void
+    {
+            $this->factory = $builder->getFormFactory();
+
+        $builder->add('regions', EnumType::class, [
+            'class' => Regions::class,
+            'choice_label' => fn (Regions $region): string => $region->getNom(),
+            'placeholder' => 'Which regions',
+            //'autocomplete' => true,
+        ]);
+
+        $builder->addEventListener(FormEvents::PRE_SET_DATA, [$this, 'onPreSetData']);
+        $builder->addEventListener(FormEvents::POST_SUBMIT, [$this, 'onPostSubmit']);
+
+        $builder->get('regions')->addEventListener(FormEvents::POST_SUBMIT, [$this, 'storeDependencies']);
+        $builder->get('regions')->addEventListener(FormEvents::POST_SUBMIT, [$this, 'onPostSubmitMeal']);
+    public function addDepartement(FormInterface $form, ?Regions $regions): void
+    }
+    {
+        $Mainregions = $this->factory
+        ->createNamedBuilder('departements', EnumType::class, $regions, [
+            'class' => Departements::class,
+            'placeholder' => null === $regions ? 'Select a regions first' : sprintf('What\'s for %s?', $regions->getNom()),
+            'choices' => $regions->getNom(),
+            'choice_label' => fn (Departements $departements): string => $departements->getNom(),
+            'disabled' => null === $regions,
+
+            'invalid_message' => false,
+            'autocomplete' => true,
+            'auto_initialize' => false,
+            ])
+            ->addEventListener(FormEvents::POST_SUBMIT, [$this, 'storeDependencies'])
+            ->addEventListener(FormEvents::POST_SUBMIT, [$this, 'onPostSubmitVille']);
+
+            $form->add($Mainregions->getForm());
+        }
+
+        public function addVilleNom(FormInterface $form, ?Departements $departements): void
+        {
+            if ($departements === null) {
+                return;
+            }
+
+            $form->add('villesfrance', EnumType::class, [
+                'class' => VillesFrance::class,
+                'placeholder' => 'What city ?',
+                'choice_label' => fn (VillesFrance $villesfrance): string => $villesfrance->getVilleNom(),
+                'required' => true,
+                'autocomplete' => true,
+            ]);
+        }
+
+        public function onPreSetData(FormEvent $event): void
+        {
+            $data = $event->getData();
+            $this->addDepartement($event->getForm(), $data?->getAnnoucement());
+            $this->addVilleNom($event->getForm(), $data?->getVilleNom());
+        }
+        public function onPostSubmitVille(FormEvent $event): void
+        {
+            $this->addVilleNom(
+                $event->getForm()->getParent(),
+                $this->dependencies['departement'],
+            );
+        }
+
+        public function onPostSubmitRegions(FormEvent $event): void
+        {
+            $this->addDepartement(
+                $event->getForm()->getParent(),
+                $this->dependencies['departements'],
+            );
+        }
+        public function onPostSubmit(FormEvent $event): void
+        {
+            $this->dependencies = [];
+        }
+
+        public function storeDependencies(FormEvent $event): void
+        {
+            $this->dependencies[$event->getForm()->getName()] = $event->getForm()->getData();
+        }
+        */
+        {% block javascripts %}
+        <script>
+            window.onload = () => { // On va chercher la région
+    let region = document.querySelector("#add_annoucement_regions");
+    let departement = document.querySelector("#add_annoucement_departement_id");
+
+    region.addEventListener("change", function () {
+
+    let form = this.closest("form");
+    let data = this.name + "=" + this.value;
+
+    fetch(form.action, {
+    method: form.getAttribute("method"),
+    body: data,
+    headers: {
+    "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
+    }
+    }).then(response => response.text()).then((html) => {
+    let content = document.createElement("html");
+    content.innerHTML = html;
+    let nouveauSelect = content.querySelector("#add_annoucement_departement_id");
+    document.querySelector("#add_annoucement_departement_id").replaceWith(nouveauSelect);
+    })
+
+    });
+
+    console.log(departement);
+
+    region.addEventListener("change", function () {
+
+    let form = this.closest("form");
+    let data = this.name + "=" + this.value;
+
+    fetch(form.action, {
+    method: form.getAttribute("method"),
+    body: data,
+    headers: {
+    "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
+    }
+    }).then(response => response.text()).then((html) => {
+    let content = document.createElement("html");
+    content.innerHTML = html;
+    let nouveauSelect = content.querySelector("#add_annoucement_villesfrance");
+    document.querySelector("#add_annoucement_villesfrance").replaceWith(nouveauSelect);
+    })
+
+    });
+
+
+    }
+        </script>
+    {% endblock %}

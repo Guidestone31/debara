@@ -59,9 +59,9 @@ class ProfileController extends AbstractController
             $this->addFlash('success', "L\'annonce a pas bien été ajouté à la liste ! ");
             return $this->redirectToRoute('app_profile');
         }
-        return $this->render('profile/new.html.twig', [
+        return $this->render('profile/addNewProfiler.html.twig', [
             'form' => $form->createView(),
-            'controller_name' => 'Formulaire',
+            'profiles' => $profile,
         ]);
     }
 }

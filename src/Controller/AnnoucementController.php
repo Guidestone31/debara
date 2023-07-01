@@ -99,6 +99,8 @@ class AnnoucementController extends AbstractController
             'annoucements' => $annoucement,
         ]);            // Why not read the content or parse it !!!
     }
+
+
     #[Route('/formDelAnnoucement', name: 'app_DelAnnoucement')]
     public function deleteAnnoucement($id, ManagerRegistry $doctrine)
     {

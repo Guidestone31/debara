@@ -6,7 +6,6 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use App\Repository\DepartementsRepository;
-use Doctrine\ORM\Cache\Region;
 
 #[ORM\Entity(repositoryClass: DepartementsRepository::class)]
 class Departements
@@ -15,7 +14,7 @@ class Departements
     #[ORM\GeneratedValue]
     #[ORM\Column]
 
-    private ?string $numDepartement = null;
+    private ?string $numDepartement;
 
     #[ORM\Column(length: 50)]
     private ?string $nom = null;
@@ -25,13 +24,16 @@ class Departements
 
     private ?Regions $Regions;
 
-    #[ORM\OneToMany(mappedBy: 'Departements', targetEntity: Annoucement::class, cascade: ['persist', 'remove'])]
+    #[ORM\OneToMany(mappedBy: 'departement_id', targetEntity: Annoucement::class, cascade: ['persist', 'remove'])]
     private Collection $annoucement;
 
+    #[ORM\OneToMany(mappedBy: 'Departements', targetEntity: VillesFrance::class, cascade: ['persist', 'remove'])]
+    private Collection $villesfrance;
 
     public function __construct()
     {
         $this->annoucement = new ArrayCollection();
+        $this->villesfrance = new ArrayCollection();
     }
 
     public function getNumDepartement(): ?string
@@ -62,7 +64,7 @@ class Departements
         return $this;
     }
     /**
-     * @return Collection|annoucement[]
+     * @return Collection<int, Annoucement>
      */
     public function getAnnoucement(): Collection
     {
@@ -90,4 +92,12 @@ class Departements
 
         return $this;
     }*/
+    /**
+     * @return Collection|VillesFrance[]
+     */
+
+    public function getVillesFrance(): Collection
+    {
+        return $this->villesfrance;
+    }
 }

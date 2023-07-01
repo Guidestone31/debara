@@ -23,13 +23,17 @@ class Annoucement
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $Image = null;
 
-    #[ORM\ManyToOne(inversedBy: 'Annoucements')]
+    #[ORM\ManyToOne(inversedBy: 'annoucements')]
     #[ORM\JoinColumn(name: "id", referencedColumnName: "id")]
     private ?Profile $Profile = null;
 
-    #[ORM\ManyToOne(inversedBy: 'Annoucements')]
+    #[ORM\ManyToOne(inversedBy: 'annoucement', targetEntity: Departements::class)]
+    #[ORM\JoinColumn(name: "departement_id", referencedColumnName: "num_departement")]
+    private ?Departements $departement_id = null;
 
-    private ?Profile $Departement = null;
+    #[ORM\ManyToOne(inversedBy: 'annoucements', targetEntity: VillesFrance::class)]
+    #[ORM\JoinColumn(name: "villesfrance_id", referencedColumnName: "ville_id", nullable: false, onDelete: "CASCADE")]
+    private ?VillesFrance $villesfrance_id;
 
     public function getId(): ?int
     {
@@ -83,6 +87,19 @@ class Annoucement
 
         return $this;
     }
+    /*
+    public function getVillesFrance(): ?VillesFrance
+    {
+        return $this->villesfrance;
+    }
+
+    public function setVillesFrance(?VillesFrance $villesfrances): self
+    {
+        $this->villesfrance = $villesfrances;
+
+        return $this;
+    }*/
+    /*
     public function getDepartements(): ?Departements
     {
         return $this->Departement;
@@ -91,6 +108,30 @@ class Annoucement
     public function setDepartements(?Departements $departements): self
     {
         $this->Departement = $departements;
+
+        return $this;
+    }*/
+
+    public function getDepartementId(): ?Departements
+    {
+        return $this->departement_id;
+    }
+
+    public function setDepartementId(?Departements $departement_id): self
+    {
+        $this->departement_id = $departement_id;
+
+        return $this;
+    }
+
+    public function getVillesfranceId(): ?VillesFrance
+    {
+        return $this->villesfrance_id;
+    }
+
+    public function setVillesfranceId(?VillesFrance $villesfrance_id): self
+    {
+        $this->villesfrance_id = $villesfrance_id;
 
         return $this;
     }

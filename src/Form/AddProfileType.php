@@ -16,6 +16,20 @@ use Symfony\Component\Validator\Constraints\File;
 
 class AddProfileType extends AbstractType
 {
+    // FormType
+    /*
+    public function __construct(private readonly MySweetService $mySweetService)
+    {
+
+        $builder->addEventSubscriber(
+            subscriber: new TotoSubscriber(
+                mySweetService: $mySweetService
+            )
+        );
+    }*/
+
+    // Subscriber
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
