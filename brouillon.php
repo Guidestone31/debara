@@ -690,56 +690,58 @@ $(html).find('#add_annoucement_villesfrance')
         {
             $this->dependencies[$event->getForm()->getName()] = $event->getForm()->getData();
         }
-        */
         {% block javascripts %}
         <script>
-            window.onload = () => { // On va chercher la région
-    let region = document.querySelector("#add_annoucement_regions");
-    let departement = document.querySelector("#add_annoucement_departement_id");
+        window.onload = () => { // On va chercher la région
+            let region = document.querySelector("#add_annoucement_regions");
+            let departement = document.querySelector("#add_annoucement_departement_id");
 
-    region.addEventListener("change", function () {
+            region.addEventListener("change", function () {
 
-    let form = this.closest("form");
-    let data = this.name + "=" + this.value;
+                let form = this.closest("form");
+                let data = this.name + "=" + this.value;
 
-    fetch(form.action, {
-    method: form.getAttribute("method"),
-    body: data,
-    headers: {
-    "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
-    }
-    }).then(response => response.text()).then((html) => {
-    let content = document.createElement("html");
-    content.innerHTML = html;
-    let nouveauSelect = content.querySelector("#add_annoucement_departement_id");
-    document.querySelector("#add_annoucement_departement_id").replaceWith(nouveauSelect);
-    })
+                fetch(form.action, {
+                    method: form.getAttribute("method"),
+                    body: data,
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
+                    }
+                }).then(response => response.text()).then((html) => {
+                    let content = document.createElement("html");
+                    content.innerHTML = html;
+                    let nouveauSelect = content.querySelector("#add_annoucement_departement_id");
+                    document.querySelector("#add_annoucement_departement_id").replaceWith(nouveauSelect);
+                })
 
-    });
+            });
 
-    console.log(departement);
+            console.log(departement);
 
-    region.addEventListener("change", function () {
+            region.addEventListener("change", function () {
 
-    let form = this.closest("form");
-    let data = this.name + "=" + this.value;
+                let form = this.closest("form");
+                let data = this.name + "=" + this.value;
 
-    fetch(form.action, {
-    method: form.getAttribute("method"),
-    body: data,
-    headers: {
-    "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
-    }
-    }).then(response => response.text()).then((html) => {
-    let content = document.createElement("html");
-    content.innerHTML = html;
-    let nouveauSelect = content.querySelector("#add_annoucement_villesfrance");
-    document.querySelector("#add_annoucement_villesfrance").replaceWith(nouveauSelect);
-    })
+                fetch(form.action, {
+                    method: form.getAttribute("method"),
+                    body: data,
+                    headers: {
+                        "Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
+                    }
+                }).then(response => response.text()).then((html) => {
+                    let content = document.createElement("html");
+                    content.innerHTML = html;
+                    let nouveauSelect = content.querySelector("#add_annoucement_villesfrance");
+                    document.querySelector("#add_annoucement_villesfrance").replaceWith(nouveauSelect);
+                })
 
-    });
+            });
 
 
-    }
+        }
         </script>
-    {% endblock %}
+        {% endblock %}
+
+
+        */

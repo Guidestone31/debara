@@ -33,8 +33,7 @@ class Annoucement
 
     #[ORM\ManyToOne(inversedBy: 'annoucements', targetEntity: VillesFrance::class)]
     #[ORM\JoinColumn(name: "villesfrance_id", referencedColumnName: "ville_id", nullable: false, onDelete: "CASCADE")]
-    private ?VillesFrance $villesfrance_id;
-
+    private ?VillesFrance $villesfrance_id = null;
     public function getId(): ?int
     {
         return $this->id;
@@ -128,7 +127,6 @@ class Annoucement
     {
         return $this->villesfrance_id;
     }
-
     public function setVillesfranceId(?VillesFrance $villesfrance_id): self
     {
         $this->villesfrance_id = $villesfrance_id;
