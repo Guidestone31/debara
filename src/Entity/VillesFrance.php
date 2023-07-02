@@ -38,7 +38,7 @@ class VillesFrance
 */
     public function __construct()
     {
-        $this->annoucements = new ArrayCollection();
+        //$this->annoucements = new ArrayCollection();
         //$this->villesfrance = new ArrayCollection();
         $this->annoucements = new ArrayCollection();
     }
@@ -113,7 +113,7 @@ class VillesFrance
     {
         return $this->annoucements;
     }
-
+    /*
     public function addAnnoucement(Annoucement $annoucement): static
     {
         if (!$this->annoucements->contains($annoucement)) {
@@ -134,7 +134,7 @@ class VillesFrance
         }
 
         return $this;
-    }
+    }*/
     public function __toString()
     {
         return (string) $this->villeNom;

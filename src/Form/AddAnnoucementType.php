@@ -51,11 +51,11 @@ class AddAnnoucementType extends AbstractType
                 ],
             ])
             ->add('regions', EntityType::class, [
-                'mapped' => false,
                 'class' => Regions::class,
                 'choice_label' => 'nom',
                 'placeholder' => 'Régions',
                 'label' => 'Régions',
+                'mapped' => false,
                 'required' => false
             ]);
         //->add('Ajouter', SubmitType::class);

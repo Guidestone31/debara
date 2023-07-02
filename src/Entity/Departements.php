@@ -25,14 +25,14 @@ class Departements
     private ?Regions $Regions;
 
     #[ORM\OneToMany(mappedBy: 'departement_id', targetEntity: Annoucement::class, cascade: ['persist', 'remove'])]
-    private Collection $annoucement;
+    private Collection $annoucements;
 
-    #[ORM\OneToMany(mappedBy: 'Departements', targetEntity: VillesFrance::class, cascade: ['persist', 'remove'])]
+    #[ORM\OneToMany(mappedBy: 'departements', targetEntity: VillesFrance::class, cascade: ['persist', 'remove'])]
     private Collection $villesfrance;
 
     public function __construct()
     {
-        $this->annoucement = new ArrayCollection();
+        $this->annoucements = new ArrayCollection();
         $this->villesfrance = new ArrayCollection();
     }
 
@@ -68,7 +68,7 @@ class Departements
      */
     public function getAnnoucement(): Collection
     {
-        return $this->annoucement;
+        return $this->annoucements;
     }
     /*
     public function addAnnoucement(annoucement $annoucements): self

@@ -29,13 +29,16 @@ class Annoucement
     private ?Profile $Profile = null;
 
     #[ORM\ManyToOne(inversedBy: 'annoucement', targetEntity: Departements::class)]
-    #[ORM\JoinColumn(name: "departement_id", referencedColumnName: "num_departement")]
+    #[ORM\JoinColumn(name: "departement_id", referencedColumnName: "num_departement", nullable: false, onDelete: "CASCADE")]
     private ?Departements $departement_id = null;
 
-    #[ORM\ManyToOne(inversedBy: 'annoucements', targetEntity: VillesFrance::class)]
+    #[ORM\ManyToOne(inversedBy: 'annoucement', targetEntity: VillesFrance::class)]
     #[ORM\JoinColumn(name: "villesfrance_id", referencedColumnName: "ville_id", nullable: false, onDelete: "CASCADE")]
     #[Assert\NotBlank]
     private ?VillesFrance $villesfrance_id = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $Nom = null;
     public function getId(): ?int
     {
         return $this->id;
@@ -132,6 +135,18 @@ class Annoucement
     public function setVillesfranceId(?VillesFrance $villesfrance_id): self
     {
         $this->villesfrance_id = $villesfrance_id;
+
+        return $this;
+    }
+
+    public function getNom(): ?string
+    {
+        return $this->Nom;
+    }
+
+    public function setNom(?string $Nom): static
+    {
+        $this->Nom = $Nom;
 
         return $this;
     }
