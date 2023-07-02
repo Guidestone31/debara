@@ -745,3 +745,43 @@ $(html).find('#add_annoucement_villesfrance')
 
 
         */
+    /* public function saveData(FormInterface $form)
+    {
+        $now = new \DateTime('now');
+        $annoucement = new Annoucement();
+
+        $task = $form->getData();
+        $task->setCreatedAt($now);
+        $task->setUpdatedAt($now);
+
+        /*$entityManager = $doctrine->getManager();
+        $entityManager->persist($annoucement);
+        $entityManager->flush();
+    }*/
+    /*        $formModifier2 = function (FormInterface $form2, Departements $dep = null) {
+        $villesfrance = null === $dep ? [] : $dep->getVillesFrance();
+        $form2->add('villesfrance', EntityType::class, [
+            'class' => VillesFrance::class,
+            'choices' => $villesfrance,
+            'choice_label' => 'villeNom',
+            'placeholder' => 'Ville (choisir une région)',
+            'label' => 'Ville',
+            'required' => false
+        ]);
+    };
+    $builder->get('departements')->addEventListener(
+        FormEvents::POST_SUBMIT,
+        function (FormEvent $event) use ($formModifier2) {
+            $dep = $event->getForm()->getData();
+            $formModifier2($event->getForm()->getParent(), $dep);
+        }
+    );*/
+
+    /*
+    /*->add('Departements', EntityType::class, [
+                     'placeholder' => 'Départements (choisir une région)',
+                     'mapped' => false,
+                     'class' => Departements::class,
+                     'choice_label' => 'nom',
+                     'label' => 'Départements'
+                    ])*/

@@ -28,15 +28,8 @@ class AddAnnoucementType extends AbstractType
     {
         $builder
             ->add('Price')
-            /*->add('villesfrance', EntityType::class, [
-                'mapped' => false,
-                'class' => VillesFrance::class,
-                'choice_label' => 'villeNom',
-                'placeholder' => 'Villes',
-                'label' => 'Villes',
-                'required' => false
-
-            ])*/
+            // ->add('villesfrance_id')
+            // ->add('departement_id')
             ->add('Description')
             ->add('Image', FileType::class, [
                 'label' => 'Image (PNG et JPG file)',
@@ -65,30 +58,15 @@ class AddAnnoucementType extends AbstractType
                 'label' => 'Régions',
                 'required' => false
             ]);
-        /*
+        //->add('Ajouter', SubmitType::class);
+
         $builder->get('regions')->addEventListener(
             FormEvents::POST_SUBMIT,
             function (FormEvent $event) {
                 $form = $event->getForm();
                 $this->addDepartementField($form->getParent(), $form->getData());
             }
-        );*/
-        /*
-            ->add('departement_id', ChoiceType::class, [
-                'placeholder' => 'Département (choisir une région)',
-                //'mapped' => false,
-                'required' => false
-
-            ])
-            ->add('villesfrance_id', ChoiceType::class, [
-                'placeholder' => 'Ville (choisir un département)',
-                'mapped' => false,
-                'required' => false
-
-            ])*/
-        //
-        //->add('Ajouter', SubmitType::class);
-        /*
+        );
         $builder->addEventListener(
             FormEvents::POST_SET_DATA,
             function (FormEvent $event) {
@@ -108,75 +86,9 @@ class AddAnnoucementType extends AbstractType
                     $this->addVilleFrance($form, null);
                 }
             }
-        );*/
-
-        /* $formModifierRegion = function (FormInterface $form, Regions $region = null) {
-             $departement = null === $region ? [] : $region->getDepartements();
-
-
-             $form->add('departement_id', EntityType::class, [
-                 'class' => Departements::class,
-                 'choices' => $departement,
-                 'choice_label' => 'nom',
-                 'placeholder' => 'Départements (choisir une région)',
-                 'label' => 'Départements',
-                 'required' => false
-             ]);
-         };
-         $builder->get('regions')->addEventListener(
-             FormEvents::POST_SUBMIT,
-             function (FormEvent $event) use ($formModifierRegion) {
-                 $region = $event->getForm()->getData();
-
-                 $builder = $region->getParent()->getConfig()->getFormFactory()->createNamedBuilder(
-                     'departement_id',
-                     EntityType::class,
-                     null,
-                     $formModifierRegion($event->getForm()->getParent(), $region)
-                 );
-             },
-         );*/
-
-        /* $formModifierDepartement = function (FormInterface $form, Departements $departement = null) {
-             $villesfrance = null === $departement ? [] : $departement->getVillesFrance();
-
-             $form->add('villesfrance_id', EntityType::class, [
-                 'class' => VillesFrance::class,
-                 'choices' => $villesfrance,
-                 'choice_label' => 'villeNom',
-                 'placeholder' => 'Villes (choisir un département)',
-                 'label' => 'Ville',
-                 'required' => false
-             ]);
-         };*/
-        /*
-
-         $formModifier = function (FormInterface $form, Regions $region = null) {
-             $departement = null === $region ? [] : $region->getDepartements();
-             $form->add('departement_id', EntityType::class, [
-                 'class' => Departements::class,
-                 'choices' => $departement,
-                 'choice_label' => 'nom',
-                 'placeholder' => 'Départements (choisir une région)',
-                 'label' => 'Départements',
-                 'required' => false
-             ]);
-         };
-
-         $formModifierV = function (FormInterface $form, Departements $dep = null) {
-             $villesfrance = null === $dep ? [] : $dep->getVillesFrance();
-             $form->add('villesfrance', EntityType::class, [
-                 'class' => VillesFrance::class,
-                 'choices' => $villesfrance,
-                 'choice_label' => 'villeNom',
-                 'placeholder' => 'Villes (choisir un département)',
-                 'label' => 'Ville',
-                 'required' => false
-             ]);
-         };
-         */
+        );
     }
-    /*
+
     private function addDepartementField(FormInterface $form, ?Regions $region)
     {
         $builder = $form->getConfig()->getFormFactory()->createNamedBuilder(
@@ -209,35 +121,8 @@ class AddAnnoucementType extends AbstractType
             'placeholder' => $departement ? 'Sélectionnez votre ville' : 'Sélectionnez votre département',
             'choices'     => $departement ? $departement->getVillesFrance() : []
         ]);
-    }*/
-    /*
-                private function addSubCategoryField(FormInterface $form, ?VillesFrance $villesFrance): void
-                {
-                    if ($villesFrance !== null) {
-                        if ($villesFrance === true) {
-                            $form->add(
-                                'subCategory',
-                                EntityType::class,
-                                [
-                                    'class' => VillesFrance::class,
-                                    'choices' => $villesFrance->getVilleNom(),
-                                    'choice_label' => 'villeNom',
-                                    'required' => true,
-                                    'placeholder' => 'Select one sub-category',
-                                    'empty_data' => ''
-                                ]
-                            );
-                        }
-                        $form->add(
-                            'villeNom',
-                            TextType::class,
-                            [
-                                'required' => true,
-                                'empty_data' => ''
-                            ]
-                        );
-                    }
-                }*/
+    }
+
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
@@ -245,43 +130,3 @@ class AddAnnoucementType extends AbstractType
         ]);
     }
 }
-/* public function saveData(FormInterface $form)
-{
-    $now = new \DateTime('now');
-    $annoucement = new Annoucement();
-
-    $task = $form->getData();
-    $task->setCreatedAt($now);
-    $task->setUpdatedAt($now);
-
-    /*$entityManager = $doctrine->getManager();
-    $entityManager->persist($annoucement);
-    $entityManager->flush();
-}*/
-/*        $formModifier2 = function (FormInterface $form2, Departements $dep = null) {
-    $villesfrance = null === $dep ? [] : $dep->getVillesFrance();
-    $form2->add('villesfrance', EntityType::class, [
-        'class' => VillesFrance::class,
-        'choices' => $villesfrance,
-        'choice_label' => 'villeNom',
-        'placeholder' => 'Ville (choisir une région)',
-        'label' => 'Ville',
-        'required' => false
-    ]);
-};
-$builder->get('departements')->addEventListener(
-    FormEvents::POST_SUBMIT,
-    function (FormEvent $event) use ($formModifier2) {
-        $dep = $event->getForm()->getData();
-        $formModifier2($event->getForm()->getParent(), $dep);
-    }
-);*/
-
-/*
-/*->add('Departements', EntityType::class, [
-                 'placeholder' => 'Départements (choisir une région)',
-                 'mapped' => false,
-                 'class' => Departements::class,
-                 'choice_label' => 'nom',
-                 'label' => 'Départements'
-                ])*/

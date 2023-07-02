@@ -100,4 +100,8 @@ class Departements
     {
         return $this->villesfrance;
     }
+    public function __toString()
+    {
+        return (string) $this->nom;
+    }
 }

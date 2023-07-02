@@ -5,6 +5,7 @@ namespace App\Entity;
 use App\Repository\AnnoucementRepository;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: AnnoucementRepository::class)]
 class Annoucement
@@ -33,6 +34,7 @@ class Annoucement
 
     #[ORM\ManyToOne(inversedBy: 'annoucements', targetEntity: VillesFrance::class)]
     #[ORM\JoinColumn(name: "villesfrance_id", referencedColumnName: "ville_id", nullable: false, onDelete: "CASCADE")]
+    #[Assert\NotBlank]
     private ?VillesFrance $villesfrance_id = null;
     public function getId(): ?int
     {

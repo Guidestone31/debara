@@ -25,18 +25,67 @@
 		{{ form_start(form) }}
 		{{ form_widget(form) }}
 		{#{% endfor %}#}
-		{#{% for annoucement in annoucements %}
-																																																																																																																																																																																																																																																																																																																																																				{{ form_row(annoucement.fourht) }}
-																					{#{{ form_row(form.Image) }}#}
+		{#{% for annoucement in annoucements %}																																																																																																																																																																																																																																	{{ form_row(annoucement.fourht) }}
+																																																			{#{{ form_row(form.Image) }}#}
 		<input type="submit" value="Create"/> {{ form_end(form) }}
 		<div class="col-3">
 			<div class="card" style="width: 18rem;"></div>
 		</div>
 	</div>
+
+	<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
 {% endblock %}
 {% block javascripts %}
 	<script>
-		// window.onload = () => { // On va chercher la région
+		/*
+						// window.onload = () => { // On va chercher la région
+				window.onload = () => { // On va chercher la région
+				let region = document.querySelector("#add_annoucement_regions");
+
+				region.addEventListener("change", function () {
+
+				let form = this.closest("form");
+				let data = this.name + "=" + this.value;
+
+				fetch(form.action, {
+				method: form.getAttribute("method"),
+				body: data,
+				headers: {
+				"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
+				}
+				}).then(response => response.text()).then((html) => {
+				let content = document.createElement("html");
+				content.innerHTML = html;
+				let nouveauSelect = content.querySelector("#add_annoucement_departement_id");
+				document.querySelector("#add_annoucement_departement_id").replaceWith(nouveauSelect);
+				})
+
+				});
+
+				let departement = document.querySelector("#add_annoucement_departement_id");
+
+				departement.addEventListener("change", function () {
+
+				let formV = departement.closest("form");
+				let dataV = departement.name + "=" + departement.value;
+
+				fetch(formV.action, {
+				method: formV.getAttribute("method"),
+				body: dataV,
+				headers: {
+				"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
+				}
+				}).then(response => response.text()).then((html) => {
+				let contentV = document.createElement("html");
+				contentV.innerHTML = html;
+				let nouveauSelectV = content.querySelector("#add_annoucement_villesfrance_id");
+				document.querySelector("#add_annoucement_villesfrance_id").replaceWith(nouveauSelectV);
+				})
+
+				});
+
+
+				}*/
 
 $(document).on('change', '#add_annoucement_regions, #add_annoucement_departement_id', function () {
 let $field = $(this)
@@ -58,5 +107,4 @@ $(target).replaceWith($input)
 // }
 
 	</script>
-	<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
 {% endblock %}

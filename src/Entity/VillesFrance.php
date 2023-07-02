@@ -9,7 +9,7 @@ use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use PhpParser\Node\Expr\Cast\String_;
 
-#[ORM\Entity(repositoryClass: VillesFranceRepository::class)]
+#[ORM\Entity(repositoryClass: "App\Repository\VillesFranceRepository")]
 class VillesFrance
 {
     #[ORM\Id]
