@@ -33,13 +33,13 @@ class Profile
 
     #[ORM\OneToOne(inversedBy: 'Profile', cascade: ['persist', 'remove'])]
     private ?User $User = null;
-
+    /*
     #[ORM\OneToMany(mappedBy: 'Profile', targetEntity: Annoucement::class)]
-    private Collection $Annoucements;
+    private Collection $Annoucements;*/
 
     public function __construct()
     {
-        $this->Annoucements = new ArrayCollection();
+        //$this->Annoucements = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -122,6 +122,7 @@ class Profile
     /**
      * @return Collection<int, Annoucement>
      */
+    /*
     public function getAnnoucements(): Collection
     {
         return $this->Annoucements;
@@ -147,5 +148,5 @@ class Profile
         }
 
         return $this;
-    }
+    }*/
 }

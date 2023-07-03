@@ -27,9 +27,8 @@ class AddAnnoucementType extends AbstractType
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
+            ->add('Nom')
             ->add('Price')
-            // ->add('villesfrance_id')
-            // ->add('departement_id')
             ->add('Description')
             ->add('Image', FileType::class, [
                 'label' => 'Image (PNG et JPG file)',
@@ -58,7 +57,6 @@ class AddAnnoucementType extends AbstractType
                 'mapped' => false,
                 'required' => false
             ]);
-        //->add('Ajouter', SubmitType::class);
 
         $builder->get('regions')->addEventListener(
             FormEvents::POST_SUBMIT,
@@ -86,7 +84,8 @@ class AddAnnoucementType extends AbstractType
                     $this->addVilleFrance($form, null);
                 }
             }
-        );
+        )
+            ->add('Ajouter', SubmitType::class);
     }
 
     private function addDepartementField(FormInterface $form, ?Regions $region)

@@ -19,20 +19,21 @@ class Departements
     #[ORM\Column(length: 50)]
     private ?string $nom = null;
 
-    #[ORM\ManyToOne(targetEntity: Regions::class, inversedBy: 'Departements')]
+    #[ORM\ManyToOne(targetEntity: Regions::class, inversedBy: 'departements')]
     #[ORM\JoinColumn(name: "id_region_dpt", referencedColumnName: "num_region")]
 
     private ?Regions $Regions;
-
+    /*
     #[ORM\OneToMany(mappedBy: 'departement_id', targetEntity: Annoucement::class, cascade: ['persist', 'remove'])]
     private Collection $annoucements;
+    */
 
     #[ORM\OneToMany(mappedBy: 'departements', targetEntity: VillesFrance::class, cascade: ['persist', 'remove'])]
     private Collection $villesfrance;
 
     public function __construct()
     {
-        $this->annoucements = new ArrayCollection();
+        //$this->annoucements = new ArrayCollection();
         $this->villesfrance = new ArrayCollection();
     }
 
@@ -63,13 +64,11 @@ class Departements
 
         return $this;
     }
-    /**
-     * @return Collection<int, Annoucement>
-     */
+    /*
     public function getAnnoucement(): Collection
     {
         return $this->annoucements;
-    }
+    }*/
     /*
     public function addAnnoucement(annoucement $annoucements): self
     {

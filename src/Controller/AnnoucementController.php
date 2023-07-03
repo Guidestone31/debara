@@ -42,10 +42,6 @@ class AnnoucementController extends AbstractController
         // dummy code - add some example tags to the task
         // (otherwise, the template will render an empty list of tags)
         $annoucement = new Annoucement();
-        /*$product = new Product();
-        $product->setName('Product');
-        $annoucement->getProduct()->add($product);*/
-
         $form = $this->createForm(AddAnnoucementType::class, $annoucement);
         $form->handleRequest($request);
 
@@ -90,7 +86,7 @@ class AnnoucementController extends AbstractController
             $entityManager->persist($annoucement);
             $entityManager->flush();
             $this->addFlash('success', "L\'annonce a pas bien été ajouté à la liste ! ");
-            return $this->redirectToRoute('app_annoucement');
+            return $this->redirectToRoute('app_annoucement', array('id' => $annoucement->getId()));
             //dd($form);
             //$this->service->saveData($form, $doctrine);
         }

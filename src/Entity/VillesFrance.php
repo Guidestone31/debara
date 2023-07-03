@@ -23,7 +23,7 @@ class VillesFrance
     #[ORM\Column(length: 255)]
     private ?string $villeCodePostal = null;
 
-    #[ORM\ManyToOne(targetEntity: Departements::class, inversedBy: 'VillesFrance')]
+    #[ORM\ManyToOne(targetEntity: Departements::class, inversedBy: 'villesfrance')]
     #[ORM\JoinColumn(name: "departement_code", referencedColumnName: "num_departement")]
     private ?Departements $departements;
 

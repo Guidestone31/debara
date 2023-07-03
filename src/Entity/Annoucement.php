@@ -23,22 +23,24 @@ class Annoucement
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $Image = null;
-
-    #[ORM\ManyToOne(inversedBy: 'annoucements')]
+    /*
+    #[ORM\ManyToOne(inversedBy: 'Annoucements')]
     #[ORM\JoinColumn(name: "id", referencedColumnName: "id")]
-    private ?Profile $Profile = null;
+    private ?Profile $Profile = null;*/
+    /*
+        #[ORM\ManyToOne(inversedBy: 'annoucements', targetEntity: Departements::class)]
+        #[ORM\JoinColumn(name: "departement_id", referencedColumnName: "num_departement", nullable: false, onDelete: "CASCADE")]
+        private ?Departements $departement_id;*/
 
-    #[ORM\ManyToOne(inversedBy: 'annoucement', targetEntity: Departements::class)]
-    #[ORM\JoinColumn(name: "departement_id", referencedColumnName: "num_departement", nullable: false, onDelete: "CASCADE")]
-    private ?Departements $departement_id = null;
-
-    #[ORM\ManyToOne(inversedBy: 'annoucement', targetEntity: VillesFrance::class)]
+    #[ORM\ManyToOne(inversedBy: 'annoucements', targetEntity: VillesFrance::class)]
     #[ORM\JoinColumn(name: "villesfrance_id", referencedColumnName: "ville_id", nullable: false, onDelete: "CASCADE")]
-    #[Assert\NotBlank]
     private ?VillesFrance $villesfrance_id = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $Nom = null;
+
+    #[ORM\ManyToOne(inversedBy: 'annoucements')]
+    private ?SubCategoryOne $SubCategoryO = null;
     public function getId(): ?int
     {
         return $this->id;
@@ -79,7 +81,7 @@ class Annoucement
 
         return $this;
     }
-
+    /*
     public function getProfile(): ?Profile
     {
         return $this->Profile;
@@ -90,7 +92,7 @@ class Annoucement
         $this->Profile = $Profile;
 
         return $this;
-    }
+    }*/
     /*
     public function getVillesFrance(): ?VillesFrance
     {
@@ -115,7 +117,7 @@ class Annoucement
 
         return $this;
     }*/
-
+    /*
     public function getDepartementId(): ?Departements
     {
         return $this->departement_id;
@@ -126,7 +128,7 @@ class Annoucement
         $this->departement_id = $departement_id;
 
         return $this;
-    }
+    }*/
 
     public function getVillesfranceId(): ?VillesFrance
     {
@@ -147,6 +149,18 @@ class Annoucement
     public function setNom(?string $Nom): static
     {
         $this->Nom = $Nom;
+
+        return $this;
+    }
+
+    public function getSubCategoryO(): ?SubCategoryOne
+    {
+        return $this->SubCategoryO;
+    }
+
+    public function setSubCategoryO(?SubCategoryOne $SubCategoryO): static
+    {
+        $this->SubCategoryO = $SubCategoryO;
 
         return $this;
     }
