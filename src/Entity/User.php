@@ -33,9 +33,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $Email = null;
 
-    #[ORM\OneToOne(targetEntity: Profile::class, cascade: ['persist', 'remove'])]
-    private ?Profile $Profile;
-
     public function __construct()
     {
     }
@@ -120,10 +117,5 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->Email = $Email;
 
         return $this;
-    }
-
-    public function getProfile(): ?Profile
-    {
-        return $this->Profile;
     }
 }

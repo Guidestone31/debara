@@ -8,6 +8,8 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 
+use function PHPSTORM_META\map;
+
 #[ORM\Entity(repositoryClass: ProfileRepository::class)]
 class Profile
 {
@@ -30,15 +32,11 @@ class Profile
 
     #[ORM\Column(type: Types::BLOB, nullable: true)]
     private $Picture = null;
-    /*
-        #[ORM\OneToOne(inversedBy: 'Profile', cascade: ['persist', 'remove'])]
-        private ?User $User = null;*/
 
     #[ORM\OneToMany(mappedBy: 'profileId', targetEntity: Annoucement::class)]
     private Collection $annoucements;
 
-    #[ORM\OneToOne(targetEntity: User::class, cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(name: "user_id", referencedColumnName: "id", nullable: true, onDelete: "CASCADE")]
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
     private ?User $user = null;
 
     public function __construct()
@@ -154,12 +152,12 @@ class Profile
         return $this;
     }
 
-    public function getUserId(): ?User
+    public function getUser(): ?User
     {
         return $this->user;
     }
 
-    public function setUserId(?User $user): static
+    public function setUser(?User $user): static
     {
         $this->user = $user;
 

@@ -65,7 +65,7 @@ class AddProfileType extends AbstractType
                     ])
                 ],
             ]);
-        $builder->add('userId', UserType::class);
+        $builder->add('user', UserType::class);
         /*
         ->add('UserId', EntityType::class, [
             'class' => User::class,
