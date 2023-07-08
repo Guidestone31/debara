@@ -3,8 +3,10 @@
 namespace App\Form;
 
 use App\Entity\Annoucement;
+use App\Entity\Category;
 use App\Entity\Departements;
 use App\Entity\Regions;
+use App\Entity\SubCategoryOne;
 use App\Entity\VillesFrance;
 use App\Entity\VillesFranceRepository;
 use Doctrine\ORM\EntityManager;
@@ -49,6 +51,20 @@ class AddAnnoucementType extends AbstractType
                     ])
                 ],
             ])
+            ->add('category', EntityType::class, [
+                'mapped' => false,
+                'class' => Category::class,
+                'choice_label' => 'Name',
+                'placeholder' => 'Catégorie',
+                'label' => 'Catégorie',
+                'required' => false
+            ])
+            ->add('SubCategoryO', ChoiceType::class, [
+                'placeholder' => 'Subcatégorie (choisir une catégorie)',
+                'label' => 'Sous-catégorie',
+                'required' => false
+
+            ])
             ->add('regions', EntityType::class, [
                 'class' => Regions::class,
                 'choice_label' => 'nom',
@@ -57,6 +73,26 @@ class AddAnnoucementType extends AbstractType
                 'mapped' => false,
                 'required' => false
             ]);
+        $formModifier = function (FormInterface $form, Category $category = null) {
+            $subcategory = null === $category ? [] : $category->getSubCategoryOne();
+
+            $form->add('SubCategoryO', EntityType::class, [
+                'class' => SubCategoryOne::class,
+                'choices' => $subcategory,
+                'choice_label' => 'Name',
+                'placeholder' => 'Sous catégorie (choisir une région)',
+                'label' => 'Sous catégories',
+                'required' => false
+
+            ]);
+        };
+        $builder->get('category')->addEventListener(
+            FormEvents::POST_SUBMIT,
+            function (FormEvent $event) use ($formModifier) {
+                $category = $event->getForm()->getData();
+                $formModifier($event->getForm()->getParent(), $category);
+            }
+        );
 
         $builder->get('regions')->addEventListener(
             FormEvents::POST_SUBMIT,
@@ -84,8 +120,8 @@ class AddAnnoucementType extends AbstractType
                     $this->addVilleFrance($form, null);
                 }
             }
-        )
-            ->add('Ajouter', SubmitType::class);
+        );
+        //->add('Ajouter', SubmitType::class);
     }
 
     private function addDepartementField(FormInterface $form, ?Regions $region)
@@ -97,6 +133,7 @@ class AddAnnoucementType extends AbstractType
             [
                 'class'           => Departements::class,
                 'placeholder'     => $region ? 'Sélectionnez votre département' : 'Sélectionnez votre région',
+                'label'           => 'Départements',
                 'mapped'          => false,
                 'required'        => false,
                 'auto_initialize' => false,
@@ -115,10 +152,11 @@ class AddAnnoucementType extends AbstractType
     private function addVilleFrance(FormInterface $form, ?Departements $departement)
     {
         $form->add('villesfrance_id', EntityType::class, [
-            'class'       => VillesFrance::class,
+            'class'           => VillesFrance::class,
             'auto_initialize' => false,
-            'placeholder' => $departement ? 'Sélectionnez votre ville' : 'Sélectionnez votre département',
-            'choices'     => $departement ? $departement->getVillesFrance() : []
+            'label'           => 'Villes',
+            'placeholder'     => $departement ? 'Sélectionnez votre ville' : 'Sélectionnez votre département',
+            'choices'         => $departement ? $departement->getVillesFrance() : []
         ]);
     }
 

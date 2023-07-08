@@ -24,12 +24,13 @@
 
 		{{ form_start(form) }}
 		{{ form_widget(form) }}
+		{#{{ form_widget(form.user.username) }}#}
 		{#{% endfor %}#}
 		{#{% for annoucement in annoucements %}																																																																																																																																																																																																																																	{{ form_row(annoucement.fourht) }}
-																																																																																					{#{{ form_row(form.Image) }}#}
-		{#<input type="submit" value="Create"/>#}
-		{{ form_end(form) }}
-			<div class="col-3"> <div class="card" style="width: 18rem;"></div>
+																																																																																																															{#{{ form_row(form.Image) }}#}
+		<input type="submit" value="Create" class="btn btn-primary btn-lg active"/> {{ form_end(form) }}
+		<div class="col-3">
+			<div class="card" style="width: 18rem;"></div>
 		</div>
 	</div>
 
@@ -107,5 +108,32 @@ $(target).replaceWith($input)
 // }
 // }
 
+	</script>
+	<script>
+		// window.onload = () => { // On va chercher la région
+let region = document.querySelector("#add_annoucement_category");
+
+region.addEventListener("change", function () {
+
+let form = this.closest("form");
+let data = this.name + "=" + this.value;
+
+fetch(form.action, {
+method: form.getAttribute("method"),
+body: data,
+headers: {
+"Content-Type": "application/x-www-form-urlencoded; charset=UTF-8"
+}
+}).then(response => response.text()).then((html) => {
+let content = document.createElement("html");
+content.innerHTML = html;
+let nouveauSelect = content.querySelector("#add_annoucement_SubCategoryO");
+document.querySelector("#add_annoucement_SubCategoryO").replaceWith(nouveauSelect);
+})
+
+});
+
+
+// }
 	</script>
 {% endblock %}

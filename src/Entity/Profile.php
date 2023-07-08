@@ -30,16 +30,21 @@ class Profile
 
     #[ORM\Column(type: Types::BLOB, nullable: true)]
     private $Picture = null;
-
-    #[ORM\OneToOne(inversedBy: 'Profile', cascade: ['persist', 'remove'])]
-    private ?User $User = null;
     /*
-    #[ORM\OneToMany(mappedBy: 'Profile', targetEntity: Annoucement::class)]
-    private Collection $Annoucements;*/
+        #[ORM\OneToOne(inversedBy: 'Profile', cascade: ['persist', 'remove'])]
+        private ?User $User = null;*/
+
+    #[ORM\OneToMany(mappedBy: 'profileId', targetEntity: Annoucement::class)]
+    private Collection $annoucements;
+
+    #[ORM\OneToOne(targetEntity: User::class, cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(name: "user_id", referencedColumnName: "id", nullable: true, onDelete: "CASCADE")]
+    private ?User $user = null;
 
     public function __construct()
     {
         //$this->Annoucements = new ArrayCollection();
+        $this->annoucements = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -106,7 +111,7 @@ class Profile
 
         return $this;
     }
-
+    /*
     public function getUser(): ?User
     {
         return $this->User;
@@ -118,35 +123,46 @@ class Profile
 
         return $this;
     }
-
+*/
     /**
      * @return Collection<int, Annoucement>
      */
-    /*
     public function getAnnoucements(): Collection
     {
-        return $this->Annoucements;
+        return $this->annoucements;
     }
 
-    public function addAnnoucement(Annoucement $annoucement): self
+    public function addAnnoucement(Annoucement $annoucement): static
     {
-        if (!$this->Annoucements->contains($annoucement)) {
-            $this->Annoucements->add($annoucement);
-            $annoucement->setProfile($this);
+        if (!$this->annoucements->contains($annoucement)) {
+            $this->annoucements->add($annoucement);
+            $annoucement->setProfileId($this);
         }
 
         return $this;
     }
 
-    public function removeAnnoucement(Annoucement $annoucement): self
+    public function removeAnnoucement(Annoucement $annoucement): static
     {
-        if ($this->Annoucements->removeElement($annoucement)) {
+        if ($this->annoucements->removeElement($annoucement)) {
             // set the owning side to null (unless already changed)
-            if ($annoucement->getProfile() === $this) {
-                $annoucement->setProfile(null);
+            if ($annoucement->getProfileId() === $this) {
+                $annoucement->setProfileId(null);
             }
         }
 
         return $this;
-    }*/
+    }
+
+    public function getUserId(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUserId(?User $user): static
+    {
+        $this->user = $user;
+
+        return $this;
+    }
 }

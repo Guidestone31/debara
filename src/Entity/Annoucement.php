@@ -23,14 +23,6 @@ class Annoucement
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $Image = null;
-    /*
-    #[ORM\ManyToOne(inversedBy: 'Annoucements')]
-    #[ORM\JoinColumn(name: "id", referencedColumnName: "id")]
-    private ?Profile $Profile = null;*/
-    /*
-        #[ORM\ManyToOne(inversedBy: 'annoucements', targetEntity: Departements::class)]
-        #[ORM\JoinColumn(name: "departement_id", referencedColumnName: "num_departement", nullable: false, onDelete: "CASCADE")]
-        private ?Departements $departement_id;*/
 
     #[ORM\ManyToOne(inversedBy: 'annoucements', targetEntity: VillesFrance::class)]
     #[ORM\JoinColumn(name: "villesfrance_id", referencedColumnName: "ville_id", nullable: false, onDelete: "CASCADE")]
@@ -39,8 +31,13 @@ class Annoucement
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $Nom = null;
 
-    #[ORM\ManyToOne(inversedBy: 'annoucements')]
+    #[ORM\ManyToOne(inversedBy: 'annoucements', targetEntity: SubCategoryOne::class)]
+    #[ORM\JoinColumn(name: "sub_category_o_id", referencedColumnName: "id", nullable: false, onDelete: "CASCADE")]
     private ?SubCategoryOne $SubCategoryO = null;
+
+    #[ORM\ManyToOne(inversedBy: 'annoucements', targetEntity: Profile::class)]
+    #[ORM\JoinColumn(name: "profile_id", referencedColumnName: "id", nullable: true, onDelete: "CASCADE")]
+    private ?Profile $profileId = null;
     public function getId(): ?int
     {
         return $this->id;
@@ -81,54 +78,6 @@ class Annoucement
 
         return $this;
     }
-    /*
-    public function getProfile(): ?Profile
-    {
-        return $this->Profile;
-    }
-
-    public function setProfile(?Profile $Profile): self
-    {
-        $this->Profile = $Profile;
-
-        return $this;
-    }*/
-    /*
-    public function getVillesFrance(): ?VillesFrance
-    {
-        return $this->villesfrance;
-    }
-
-    public function setVillesFrance(?VillesFrance $villesfrances): self
-    {
-        $this->villesfrance = $villesfrances;
-
-        return $this;
-    }*/
-    /*
-    public function getDepartements(): ?Departements
-    {
-        return $this->Departement;
-    }
-
-    public function setDepartements(?Departements $departements): self
-    {
-        $this->Departement = $departements;
-
-        return $this;
-    }*/
-    /*
-    public function getDepartementId(): ?Departements
-    {
-        return $this->departement_id;
-    }
-
-    public function setDepartementId(?Departements $departement_id): self
-    {
-        $this->departement_id = $departement_id;
-
-        return $this;
-    }*/
 
     public function getVillesfranceId(): ?VillesFrance
     {
@@ -161,6 +110,18 @@ class Annoucement
     public function setSubCategoryO(?SubCategoryOne $SubCategoryO): static
     {
         $this->SubCategoryO = $SubCategoryO;
+
+        return $this;
+    }
+
+    public function getProfileId(): ?Profile
+    {
+        return $this->profileId;
+    }
+
+    public function setProfileId(?Profile $profileId): static
+    {
+        $this->profileId = $profileId;
 
         return $this;
     }
