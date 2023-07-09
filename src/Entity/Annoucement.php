@@ -35,9 +35,6 @@ class Annoucement
     #[ORM\JoinColumn(name: "sub_category_o_id", referencedColumnName: "id", nullable: false, onDelete: "CASCADE")]
     private ?SubCategoryOne $SubCategoryO = null;
 
-    #[ORM\ManyToOne(inversedBy: 'annoucements', targetEntity: Profile::class)]
-    #[ORM\JoinColumn(name: "profile_id", referencedColumnName: "id", nullable: true, onDelete: "CASCADE")]
-    private ?Profile $profileId = null;
     public function getId(): ?int
     {
         return $this->id;
@@ -110,18 +107,6 @@ class Annoucement
     public function setSubCategoryO(?SubCategoryOne $SubCategoryO): static
     {
         $this->SubCategoryO = $SubCategoryO;
-
-        return $this;
-    }
-
-    public function getProfileId(): ?Profile
-    {
-        return $this->profileId;
-    }
-
-    public function setProfileId(?Profile $profileId): static
-    {
-        $this->profileId = $profileId;
 
         return $this;
     }

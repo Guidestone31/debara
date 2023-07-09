@@ -20,17 +20,28 @@
 	<div class="example-wrapper">
 		<h1>
 			{{ controlle_name }}</h1>
-		{% for profile in profiles %}
+		{% for user in users %}
 
 
 			<div class="col-3">
 				<div class="card" style="width: 18rem;">
 					<div class="card-body">
-						{{  profile.Picture }}
+						{{  user.Picture }}
 						<h6 class="card-subtitle mb-2 text-muted">
-							{{  profile.Firstname }}</h6>
-						<p class="card-text">{{  profile.adress  }}
+							{{  user.Name }}</h6>
+						{% for role in user.roles%}
+							{% if role == "ROLE_USER"%}
+								Utilisateurs
+							{% elseif role == "ROLE_ADMIN" %}
+								Administrateur
+							{% endif %}
+						{% endfor %}
+						<h6 class="card-subtitle mb-2 text-muted">
+							{{  user.LastName }}</h6>
+						<p class="card-text">{{  user.adresse  }}
 							€</p>
+						<a href="{{'/product/'}}" class="card-link">Modifier</a>
+						<a href="{{'/product/'}}" class="card-link">Suprimer</a>
 						<a href="{{'/product/'}}" class="card-link">Détail</a>
 					</div>
 				</div>

@@ -19,7 +19,9 @@ class SubCategoryOne
     #[ORM\Column(length: 50)]
     private ?string $Name = null;
 
-    #[ORM\ManyToOne(inversedBy: 'sub_category_one')]
+    //#[ORM\ManyToOne(inversedBy: 'sub_category_one')]
+    #[ORM\ManyToOne(targetEntity: Category::class, inversedBy: 'subcategory')]
+    //#[ORM\JoinColumn(name: "id_region_dpt", referencedColumnName: "num_region")]    private Collection $annoucements;
     private Category $category;
 
     #[ORM\OneToMany(mappedBy: 'SubCategoryO', targetEntity: Annoucement::class)]

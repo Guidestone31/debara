@@ -18,6 +18,7 @@ use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Validator\Constraints\File;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class AddProfileType extends AbstractType
 {
@@ -66,6 +67,7 @@ class AddProfileType extends AbstractType
                 ],
             ]);
         $builder->add('user', UserType::class);
+
         /*
         ->add('UserId', EntityType::class, [
             'class' => User::class,
@@ -89,7 +91,7 @@ class AddProfileType extends AbstractType
                     'required' => false
                     ])
                     */
-        //->add('Ajouter', SubmitType::class);
+        // ->add('Ajouter', SubmitType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
