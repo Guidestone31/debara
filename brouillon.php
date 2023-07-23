@@ -785,3 +785,37 @@ $(html).find('#add_annoucement_villesfrance')
                      'choice_label' => 'nom',
                      'label' => 'Départements'
                     ])*/
+    // ...
+    /*
+    $form = $this->createForm(UserPasswordType::class);
+
+    $form->handleRequest($request);
+
+    $user = new User();
+
+    if ($form->isSubmitted() && $form->isValid()) {
+        if ($password->isPasswordValid($user, $form->get('plainPassword')->getData())) {
+            $user->setPassword(
+                $password->hashPassword(
+                    $user,
+                    $form->get('Password')->getData()
+                )
+            );
+            $manager->persist($user);
+            $manager->flush();
+
+            $this->addFlash('success', "Le mot de passe a pas bien été modifié ! ");
+            return $this->redirectToRoute('app_home');
+        } else {
+            $this->addFlash('error', "Le mot de passe n'a pas été modifié! ");
+            return $this->redirectToRoute('edit_userPassword');
+        }
+    }
+
+    return $this->render(
+        'profile/edit_userPassword.html.twig',
+        ['form' => $form->createView()]
+    );
+    /**
+     * @return Collection<int, Picture>
+     */

@@ -1,0 +1,48 @@
+{% extends 'home/template.html.twig' %}
+{% block title %}Mes annonces!
+{% endblock %}
+
+{% block body %}
+	<style>
+		.example-wrapper {
+			margin: 1em auto;
+			max-width: 800px;
+			width: 95%;
+			font: 18px / 1.5 sans-serif;
+		}
+		.example-wrapper code {
+			background: #F5F5F5;
+			padding: 2px 6px;
+		}
+	</style>
+
+	<div class="example-wrapper">
+		<h1>
+			{{ controlle_name }}
+		</h1>
+		{% for annoucement in app.user.annoucements %}
+
+
+			<div class="col-3">
+				<div class="card" style="width: 18rem;">
+					<div class="card-body">
+
+						{% for picture in annoucement.pictures %}
+
+							<img src="{{ asset('assets/uploads/annonces/mini/300x300-' ~ annoucement.pictures[0].name ) }}" alt="{{ annoucement.nom }}" class="img-thumbnail">
+
+						{% endfor %}
+						<h6 class="card-subtitle mb-2 text-muted">
+							{{  annoucement.Description }}</h6>
+						<p class="card-text">{{  annoucement.Price  }}
+							€</p>
+						<a href="{{'/product/'}}" class="card-link">Détail</a>
+						<a href="{{ path('app_DelAnnoucement', {id: annoucement.id}) }}" class="card-link">
+							Suprimer
+						</a>
+					</div>
+				</div>
+			</div>
+		{% endfor %}
+	</div>
+{% endblock %}

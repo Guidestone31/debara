@@ -1,6 +1,5 @@
 {% extends 'home/template.html.twig' %}
-
-{% block title %}Hello profileController!
+{% block title %}Mes annonces!
 {% endblock %}
 
 {% block body %}
@@ -19,24 +18,25 @@
 
 	<div class="example-wrapper">
 		<h1>
-			{{ controlle_name }}</h1>
-		{% for user in users %}
+			{{ controlle_name }}
+		</h1>
+		{% for user in app.user%}
 
 
 			<div class="col-3">
 				<div class="card" style="width: 18rem;">
 					<div class="card-body">
-						{{  user.Picture }}
+						{{  <user class="username"></user> }}
 						<h6 class="card-subtitle mb-2 text-muted">
-							{{  user.username }}</h6>
-						{% for role in user.roles%}
-							{% if role == "ROLE_USER" or role == "ROLE_ADMIN" %}
-								<a href="{{ path('app_DelProfile', {id: user.id}) }}" class="card-link">Suprimer</a>
-								<a href="{{'/profile/'}}" class="card-link">Détail</a>
-							{% endif %}
-						{% endfor %}
+							{{  user.lastname }}</h6>
 						<h6 class="card-subtitle mb-2 text-muted">
-							{{  user.LastName }}</h6>
+							{{  user.Roles }}</h6>
+						<h6 class="card-subtitle mb-2 text-muted">
+							{{  user.email }}</h6>
+						<h6 class="card-subtitle mb-2 text-muted">
+							{{  user.adresse }}</h6>
+						<h6 class="card-subtitle mb-2 text-muted">
+							{{  user.phone }}</h6>
 					</div>
 				</div>
 			</div>

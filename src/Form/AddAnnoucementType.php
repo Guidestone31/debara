@@ -8,6 +8,7 @@ use App\Entity\Departements;
 use App\Entity\Regions;
 use App\Entity\SubCategoryOne;
 use App\Entity\VillesFrance;
+use App\Entity\Picture;
 use App\Entity\VillesFranceRepository;
 use Doctrine\ORM\EntityManager;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -22,7 +23,11 @@ use Symfony\Component\Form\FormEvents;
 use Symfony\Component\Form\FormFactoryInterface;
 use Symfony\Component\Form\FormInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Validator\Constraints\All;
 use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Form\Extension\Core\Type\MoneyType;
+use Symfony\Component\Validator\Constraints\Image;
+use Symfony\Component\Validator\Constraints\Positive;
 
 class AddAnnoucementType extends AbstractType
 {
@@ -30,12 +35,22 @@ class AddAnnoucementType extends AbstractType
     {
         $builder
             ->add('Nom')
-            ->add('Price')
+            ->add('price', MoneyType::class, options: [
+                'label' => 'Prix',
+                'divisor' => 100,
+                'constraints' => [
+                    new Positive(
+                        message: 'Le prix ne peut être négatif'
+                    )
+                ]
+            ])
             ->add('Description')
-            ->add('Image', FileType::class, [
-                'label' => 'Image (PNG et JPG file)',
+            /*->add('Image', FileType::class, [
+
+                'label' => false,
                 // unmapped means that this field is not associated to any entity property
                 'mapped' => false,
+                'multiple' => true,
                 // make it optional so you don't have to re-upload the PDF file
                 // every time you edit the Product details
                 'required' => false,
@@ -49,7 +64,21 @@ class AddAnnoucementType extends AbstractType
                         ],
                         'mimeTypesMessage' => 'Veuillez utiliser un format valide !',
                     ])
-                ],
+                ]
+            ])*/
+            ->add('Image', FileType::class, [
+                'label' => false,
+                'multiple' => true,
+                'mapped' => false,
+                'required' => false,
+                'constraints' => [
+                    new All(
+                        new Image([
+                            'maxWidth' => 1280,
+                            'maxWidthMessage' => 'L\'image doit faire {{ max_width }} pixels de large au maximum'
+                        ])
+                    )
+                ]
             ])
             ->add('category', EntityType::class, [
                 'mapped' => false,

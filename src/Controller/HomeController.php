@@ -12,12 +12,19 @@ use Symfony\Component\Routing\Annotation\Route;
 class HomeController extends AbstractController
 {
     #[Route('/', name: 'app_home')]
-    public function index(ManagerRegistry $doctrine): Response
+    public function index(ManagerRegistry $entityManager): Response
     {
         //dd($request);
-        $repository = $doctrine->getRepository(Annoucement::class);
-        $annonce = $repository->findAll();
-        return $this->render('home/index.html.twig', ['annonces' => $annonce, 'controller_name' => 'Debara', 'page_name' => 'Acceuil']);
+        /* $repository = $doctrine->getRepository(Annoucement::class);
+         $annonce = $repository->findAll();
+         return $this->render('home/index.html.twig', ['annonces' => $annonce, 'controller_name' => 'Debara', 'page_name' => 'Acceuil']);*/
+
+        $mixRepository = $entityManager->getRepository(Annoucement::class);
+        $annoucements = $mixRepository->findAll();
+        //dd($annoucements);
+        //dd($mixRepository);
+        //return $this->render('annoucement/index.html.twig', ['controlle_name' => 'Nos annonces :', 'annoucements' => $annoucements]);
+        return $this->render('home/index.html.twig', ['annoucements' => $annoucements, 'controller_name' => 'Debara', 'page_name' => 'Acceuil']);
     }
 
     #[Route('/contact', name: 'app_contact')]
