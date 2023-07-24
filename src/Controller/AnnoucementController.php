@@ -18,6 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\EventDispatcher\EventDispatcherInterface;
 use Symfony\Component\String\Slugger\SluggerInterface;
 
+//#[Route('/annoucement', name: 'annoucement_')]
 class AnnoucementController extends AbstractController
 {
     public function __construct(
@@ -27,6 +28,7 @@ class AnnoucementController extends AbstractController
         private EventDispatcherInterface $dispatcher
     ) {
     }
+
     #[Route('/annoucement', name: 'app_annoucement')]
 
     public function findAllAnnoucement(ManagerRegistry $entityManager): Response
@@ -144,102 +146,6 @@ class AnnoucementController extends AbstractController
             'annoucements' => $annoucement,
         ]);
     }
-    // ['productForm' => $productForm]
-    /* public function addAnnoucement(Request $request, $id, ManagerRegistry $doctrine, SluggerInterface $slugger, FileUploader $picture): Response
-        {
-
-            // dummy code - add some example tags to the task
-            // (otherwise, the template will render an empty list of tags)
-            $repository = $doctrine->getRepository(User::class);
-            $user = $repository->find($id);
-
-            if (!$this->getUser()) {
-                return $this->redirectToRoute('app_login');
-            }
-            if ($this->getUser() !== $user) {
-                return $this->redirectToRoute('app_home');
-            }
-
-            $annoucement = new Annoucement();
-            $form = $this->createForm(AddAnnoucementType::class, $annoucement);
-            $form->handleRequest($request);
-
-
-            $this->denyAccessUnlessGranted('ROLE_USER');
-            $new = false;
-
-            //$this->getDoctrine() : Version Sf <= 5
-            if (!$annoucement) {
-                $new = true;
-                $annoucement = new Annoucement();
-            }
-
-            if ($form->isSubmitted() && $form->isValid()) {
-                /** @var UploadedFile $file */
-    // $files = $form->get('Image')->getData();
-    //dd($form['Product_Image']->getData());
-    //dd($file);
-    /* foreach ($files as $file) {
-                    $folder = 'annonces';
-                    $fichier = $picture->add($file, $folder, 300, 300);
-                    /* if ($file) {
-
-                        $file_name = pathinfo($file->getClientOriginalName(), PATHINFO_FILENAME);
-                        $safeFilename = $slugger->slug($file_name);
-                        $newFilename = $safeFilename . '-' . uniqid() . '.' . $file->guessExtension();
-
-                        try {
-
-                            $file->move(
-                                $this->getParameter('upload_directory'),
-                                $newFilename
-                            );
-                        } catch (FileException $e) {
-                            // ... handle exception if something happens during file upload
-                        }
-                        //$annoucement = new Annoucement();
-                        $annoucement->setPictures($newFilename);
-                        /*if ($file_name) { // for example
-                            $directory = $file_uploader->getTargetDirectory();
-                            //$full_path = $directory . '/' . $file_name;
-                            $entityManager = $doctrine->getManager();
-
-                            $entityManager->persist($annoucement);
-                            $entityManager->flush();
-                            return $this->redirectToRoute('app_annoucement');
-                            // Do what you want with the full path file...
-                        } else {
-                            $this->addFlash('error', "L\'annonce n\'a pas bien été ajouté à la liste ! ");
-                        }*/
-    /*}
-                        if ($new) {
-                            $message = " a été mis à jour avec succès";
-                        } else {
-                            $message = " a été ajouté avec succès";
-                            $annoucement->setCreatedBy($this->getUser());
-                        }
-                        $entityManager = $doctrine->getManager();
-
-                        $entityManager->persist($annoucement);
-                        $entityManager->flush();
-                        if ($new) {
-                            // On a créer notre evenenement
-                            $addAnnoucementEvent = new AddAnnoucementEvent($annoucement);
-                            // On va maintenant dispatcher cet événement
-                            $this->dispatcher->dispatch($addAnnoucementEvent, AddAnnoucementEvent::ADD_ANNOUCEMENT_EVENT);
-                        }
-
-                        $this->addFlash('success', "L\'annonce a pas bien été ajouté à la liste ! $message");
-                        return $this->redirectToRoute('app_annoucement', array('id' => $annoucement->getId()));
-                    }
-                    //dd($form);
-                    //$this->service->saveData($form, $doctrine);
-                    return $this->render('annoucement/addFormAnnoucement.html.twig', [
-                        'form' => $form->createView(),
-                        'annoucements' => $annoucement,
-                    ]);            // Why not read the content or parse it !!!
-                }*/
-
 
     #[Route('/formDelAnnoucement/{id}', name: 'app_DelAnnoucement')]
     public function deleteAnnoucement($id, ManagerRegistry $doctrine)

@@ -20,29 +20,27 @@
 		<h1>
 			{{ controlle_name }}
 		</h1>
-		{% for annoucement in app.user.annoucements %}
-
-
+		{% for annoucement in annoucements %}
 			<div class="col-3">
 				<div class="card" style="width: 18rem;">
 					<div class="card-body">
+						<h6>{{ annoucement.id }}</h6>
+						{#{% for picture in annoucement.pictures %}#}
+						<img
+						src="{{ asset('assets/uploads/annonces/mini/300x300-' ~ annoucement.pictures[0].name ) }}" alt="{{ annoucement.nom }} " class="img-thumbnail">
 
-						{% for picture in annoucement.pictures %}
-
-							<img src="{{ asset('assets/uploads/annonces/mini/300x300-' ~ annoucement.pictures[0].name ) }}" alt="{{ annoucement.nom }}" class="img-thumbnail">
-
-						{% endfor %}
-						<h6 class="card-subtitle mb-2 text-muted">
-							{{  annoucement.Description }}</h6>
-						<p class="card-text">{{  annoucement.Price  }}
-							€</p>
-						<a href="{{'/product/'}}" class="card-link">Détail</a>
-						<a href="{{ path('app_DelAnnoucement', {id: annoucement.id}) }}" class="card-link">
-							Suprimer
-						</a>
+						{#{% endfor %}#}
+						<div class="card-body">
+							<h5 class="card-title">{{  annoucement.Nom  }}</h5>
+							<p class="card-text">{{  annoucement.Price  }}€</p>
+							<p class="card-text">{{  annoucement.Description }}</p>
+							<a href="{{ path('app_DelAnnoucement', {id: annoucement.id}) }}" class="btn btn-primary">Suprimer</a>
+							<a href="{{ path('app_details', {"slug": annoucement.slug }) }}" class="btn btn-primary">Voir détails</a>
+						</div>
 					</div>
 				</div>
 			</div>
 		{% endfor %}
+
 	</div>
 {% endblock %}
