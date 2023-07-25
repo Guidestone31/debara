@@ -3,6 +3,8 @@
 namespace App\Controller;
 
 use App\Entity\Paiement;
+use App\Entity\Annoucement;
+use Doctrine\Persistence\ManagerRegistry;
 use Omnipay\Omnipay;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -28,15 +30,20 @@ class PaiementController extends AbstractController
     }
 
     //Page d'accueil
-    #[Route('/cart', name: 'app_cart')]
-    public function cart(): Response
+    #[Route('/cart/{id}', name: 'app_cart')]
+    public function cart($id, ManagerRegistry $doctrine): Response
     {
-        return $this->render('operation/cart.html.twig');
+        $mixRepository = $doctrine->getRepository(Annoucement::class);
+        $annoucements = $mixRepository->findOneBy(['id' => $id]);
+        return $this->render('operation/cart.html.twig', ['annoucements' => $annoucements]);
     }
     //Page d'accueil
-    #[Route('/paiement', name: 'app_paiement')]
-    public function payment(Request $request): Response
+    #[Route('/paiement/{id}', name: 'app_paiement')]
+    public function payment($id, ManagerRegistry $doctrine, Request $request): Response
     {
+        $mixRepository = $doctrine->getRepository(Annoucement::class);
+        $annoucements = $mixRepository->find($id);
+
         $token = $request->request->get('token');
 
         if (!$this->isCsrfTokenValid('myform', $token)) {
@@ -66,9 +73,7 @@ class PaiementController extends AbstractController
 
             return $th->getMessage();
         }
-
-
-        return $this->render('operation/index.html.twig');
+        return $this->render('operation/index.html.twig', ['annoucements' => $annoucements]);
     }
 
 
@@ -76,6 +81,9 @@ class PaiementController extends AbstractController
     #[Route('/success', name: 'app_success')]
     public function success(Request $request): Response
     {
+        /*$mixRepository = $doctrine->getRepository(Annoucement::class);
+        $annoucements = $mixRepository->find($id);*/
+
         if ($request->query->get('paymentId') && $request->query->get('PayerID')) {
             $operation = $this->passerelle->completePurchase(array(
                 'payer_id' => $request->query->get('PayerID'),
@@ -87,19 +95,20 @@ class PaiementController extends AbstractController
             if ($response->isSuccessful()) {
                 $data = $response->getData();
 
+                dd($data);
+                $paiement = new Paiement();
 
-                $payment = new Paiement();
-
-                $payment->setPaiementId($data['id'])
+                $paiement->setPaiementId($data['id'])
                     ->setPayerId($data['payer']['payer_info']['payer_id'])
                     ->setPayerEmail($data['payer']['payer_info']['email'])
                     ->setAmont($data['transactions'][0]['amount']['total'])
                     ->setCurrency($_ENV['PAYPAL_CURRENCY'])
                     ->setPurchasedAt(new \DateTime())
-                    ->setPaiementStatus($data['state']);
+                    ->setPaiementStatus($data['state'])
+                    ->setAnnoucement($data['annoucement_id']);
 
-
-                $this->manager->persist($payment);
+                dd($data);
+                $this->manager->persist($paiement);
 
                 $this->manager->flush();
 

@@ -52,9 +52,6 @@ class Annoucement
     #[ORM\OneToMany(mappedBy: 'annoucements', targetEntity: Picture::class, orphanRemoval: true, cascade: ['persist', 'remove'])]
     private Collection $pictures;
 
-    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
-    private ?Paiement $PaimentId = null;
-
     public function __construct()
     {
         $this->pictures = new ArrayCollection();
@@ -162,18 +159,6 @@ class Annoucement
                 $picture->setAnnoucement(null);
             }
         }
-
-        return $this;
-    }
-
-    public function getPaimentId(): ?Paiement
-    {
-        return $this->PaimentId;
-    }
-
-    public function setPaimentId(?Paiement $PaimentId): static
-    {
-        $this->PaimentId = $PaimentId;
 
         return $this;
     }

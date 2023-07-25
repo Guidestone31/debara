@@ -22,12 +22,12 @@
 			Modification Annonce
 		</div>
 		<div class="card-body">
-			<form action="{{path('app_paiement')}}" method="post">
+			<form action="{{path('app_paiement', {id: annoucements.id}) }}" method="post">
 				<h5 class="card-title">Offre exeptionnelle !</h5>
 				<p class="card-text">Cette offre vous permet de modifier votre annonce !!</p>
 				<p class="card-text">2 €</p>
 				<input type="hidden" name="token" value="{{csrf_token('myform')}}">
-				<input type="hidden" name="amount" value="2">
+				<input type="hidden" name="amount" value="1">
 				<button class="btn">
 					<span class="btn btn-primary">Pay with paypal</span>
 				</button>

@@ -7,6 +7,7 @@ use App\Entity\Annoucement;
 use App\Entity\User;
 use App\Entity\Picture;
 use App\Form\AddAnnoucementType;
+use App\Form\EditAnnoucementType;
 use App\service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
@@ -50,6 +51,7 @@ class AnnoucementController extends AbstractController
 
     public function findAnnoucementById($id, ManagerRegistry $doctrine, ManagerRegistry $entityManager): Response
     {
+
         $repository = $doctrine->getRepository(User::class);
         $user = $repository->find($id);
 
@@ -59,6 +61,7 @@ class AnnoucementController extends AbstractController
         if ($this->getUser() !== $user) {
             return $this->redirectToRoute('app_home');
         }
+
         $mixRepository = $entityManager->getRepository(Annoucement::class);
         $annoucement = $mixRepository->findAll();
 
@@ -189,5 +192,75 @@ class AnnoucementController extends AbstractController
                     // Remove it and flush
                     $entityManager->remove($annoucement);
                     $entityManager->flush();*/
+    }
+    #[Route('/modife/annoucement/{id}', name: 'editAnnoucement', methods: ['GET', 'POST'])]
+
+    public function editAnnoucement($id, Request $request, ManagerRegistry $doctrine, EntityManagerInterface $manager, SluggerInterface $slugger, FileUploader $pictureService): Response
+    {
+        /*$repository = $manager->getRepository(User::class);
+        $user = $repository->find($id);*/
+        //$User->setRoles(['ROLE_USER']);
+        //$this->denyAccessUnlessGranted("ROLE_USER");
+        $repository = $doctrine->getRepository(Annoucement::class);
+        //$annoucement = $repository->find($slug);
+        $annoucements = $repository->find($id);
+
+        //$repository = $doctrine->getRepository(User::class);
+        //$user = $repository->find($id);
+
+        $form = $this->createForm(EditAnnoucementType::class, $annoucements);
+        $form->handleRequest($request);
+
+        $new = false;
+
+        //$this->getDoctrine() : Version Sf <= 5
+        if (!$annoucements) {
+            $new = true;
+            $annoucements = new Annoucement();
+        }
+        //$username = $form->get('username')->getData();
+
+        if ($form->isSubmitted() && $form->isValid()) {
+            // On récupère les images
+            $image = $form->get('Image')->getData();
+
+
+            foreach ($image as $images) {
+                // On définit le dossier de destination
+                $folder = 'annonces';
+
+                // On appelle le service d'ajout
+                $fichier = $pictureService->add($images, $folder, 300, 300);
+
+                $img = new Picture();
+                $img->setName($fichier);
+                $annoucements->addPicture($img);
+            }
+
+            // On génère le slug
+            $slug = $slugger->slug($annoucements->getNom());
+            $annoucements->setSlug($slug);
+
+
+            if ($new) {
+                $message = " a été mis à jour avec succès";
+            } else {
+                $message = " a été ajouté avec succès";
+                $annoucements->setCreatedBy($this->getUser());
+            }
+            //$annoucements = $form->getData();
+            $manager->persist($annoucements);
+            $manager->flush();
+
+            $this->addFlash('success', "L\'annonce a pas bien été modifié à la liste ! $message ");
+            return $this->redirectToRoute('app_home');
+            // } else {
+            //$this->addFlash('error', "L\'annonce n'est pas bien complété! ");
+            //return $this->redirectToRoute('editProfile');
+            // }
+        }
+        return $this->render('annoucement/editAnnoucementByUser.html.twig', [
+            'form' => $form->createView(),
+        ]);
     }
 }

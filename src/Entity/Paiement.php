@@ -35,6 +35,9 @@ class Paiement
     #[ORM\Column(length: 255)]
     private ?string $paiementStatus = null;
 
+    #[ORM\OneToOne(cascade: ['persist', 'remove'])]
+    private ?Annoucement $Annoucement = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -120,6 +123,18 @@ class Paiement
     public function setPaiementStatus(string $paiementStatus): static
     {
         $this->paiementStatus = $paiementStatus;
+
+        return $this;
+    }
+
+    public function getAnnoucement(): ?Annoucement
+    {
+        return $this->Annoucement;
+    }
+
+    public function setAnnoucement(?Annoucement $Annoucement): static
+    {
+        $this->Annoucement = $Annoucement;
 
         return $this;
     }

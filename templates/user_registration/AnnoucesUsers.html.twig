@@ -35,7 +35,7 @@
 							<p class="card-text">{{  annoucement.Price  }}€</p>
 							<p class="card-text">{{  annoucement.Description }}</p>
 							<a href="{{ path('app_DelAnnoucement', {id: annoucement.id}) }}" class="btn btn-primary">Suprimer</a>
-							<a href="{{ path('app_details', {"slug": annoucement.slug }) }}" class="btn btn-primary">Voir détails</a>
+							<a href="{{ path('detailsAnnoucements_app_details', {"slug": annoucement.slug }) }}" class="btn btn-primary">Voir détails</a>
 						</div>
 					</div>
 				</div>
