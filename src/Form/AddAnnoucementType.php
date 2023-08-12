@@ -66,6 +66,22 @@ class AddAnnoucementType extends AbstractType
                     ])
                 ]
             ])*/
+            /* ->add('lat', EntityType::class, [
+                'mapped' => false,
+                'class' => VillesFrance::class,
+                'choice_label' => 'lat',
+                'placeholder' => 'Longitude',
+                'label' => 'Longitude',
+                'required' => false
+            ])
+            ->add('lng', EntityType::class, [
+                'mapped' => false,
+                'class' => VillesFrance::class,
+                'choice_label' => 'lng',
+                'placeholder' => 'Longitude',
+                'label' => 'Longitude',
+                'required' => false
+            ])*/
             ->add('Image', FileType::class, [
                 'label' => false,
                 'multiple' => true,

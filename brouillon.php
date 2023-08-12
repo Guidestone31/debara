@@ -921,28 +921,40 @@ $(html).find('#add_annoucement_villesfrance')
 
 
 
-                		/*
-				{% for annoucement in app.user.annoucements %}
+    /*
+                {% for annoucement in app.user.annoucements %}
 
 
                 <div class="col-3">
                     <div class="card" style="width: 18rem;">
-                        <div class="card-body">
+    <div class="card-body">
 
-                            {% for picture in annoucement.pictures %}
+        {% for picture in annoucement.pictures %}
 
-                                <img src="{{ asset('assets/uploads/annonces/mini/300x300-' ~ annoucement.pictures[0].name ) }}" alt="{{ annoucement.nom }}" class="img-thumbnail">
+            <img src="{{ asset('assets/uploads/annonces/mini/300x300-' ~ annoucement.pictures[0].name ) }}" alt="{{ annoucement.nom }}" class="img-thumbnail">
 
-                            {% endfor %}
-                            <h6 class="card-subtitle mb-2 text-muted">
-                                {{  annoucement.Description }}</h6>
-                            <p class="card-text">{{  annoucement.Price  }}
-                                €</p>
-                            <a href="{{'/product/'}}" class="card-link">Détail</a>
-                            <a href="{{ path('app_DelAnnoucement', {id: annoucement.id}) }}" class="card-link">
-                                Suprimer
-                            </a>
-                        </div>
+        {% endfor %}
+        <h6 class="card-subtitle mb-2 text-muted">
+            {{  annoucement.Description }}</h6>
+        <p class="card-text">{{  annoucement.Price  }}
+            €</p>
+        <a href="{{'/product/'}}" class="card-link">Détail</a>
+        <a href="{{ path('app_DelAnnoucement', {id: annoucement.id}) }}" class="card-link">
+            Suprimer
+        </a>
+    </div>
                     </div>
                 </div>
             {% endfor %}#}
+/*var x = document.getElementById("location");
+fonction getPreciseLocation() {
+if (navigator.geolocation) {
+navigator.geolocation.getCurrentPosition(showExactPosition)
+}
+autre {
+x.innerHTML = "La géolocalisation n'est pas prise en charge"
+}
+}
+fonction showExactPosition(position) {
+x.innerHTML = "Latitude : " + position.coords.latitude + " br Longitude : " + position.coords.longitude;
+}*/

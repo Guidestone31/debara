@@ -33,6 +33,8 @@ class HomeController extends AbstractController
         //dd($request);
         //$repository = $doctrine->getRepository(Annoucement::class);
         //$annonce = $repository->findAll();
+        $this->addFlash('success', "Votre demande à bien été transmise à nos services!");
+        //return $this->redirectToRoute('app_home');
         return $this->render('home/contact.html.twig', ['controller_name' => 'Contact', 'page_name' => 'Contact']);
     }
 

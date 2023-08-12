@@ -36,6 +36,11 @@ class VillesFrance
         #[ORM\OneToMany(mappedBy: 'villesfrance', targetEntity: Annoucement::class, cascade: ['persist', 'remove'])]
         private Collection $villesfrance;
 */
+    #[ORM\Column(type: "float", scale: 4, precision: 6)]
+    private ?float $lat = null;
+
+    #[ORM\Column(type: "float", scale: 4, precision: 7)]
+    private ?float $lng = null;
     public function __construct()
     {
         //$this->annoucements = new ArrayCollection();
@@ -138,5 +143,28 @@ class VillesFrance
     public function __toString()
     {
         return (string) $this->villeNom;
+    }
+    public function getLat(): ?float
+    {
+        return $this->lat;
+    }
+
+    public function setLat(float $lat): static
+    {
+        $this->lat = $lat;
+
+        return $this;
+    }
+
+    public function getLng(): ?float
+    {
+        return $this->lng;
+    }
+
+    public function setLng(float $lng): static
+    {
+        $this->lng = $lng;
+
+        return $this;
     }
 }

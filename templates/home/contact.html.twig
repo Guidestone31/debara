@@ -16,27 +16,27 @@
 			padding: 2px 6px;
 		}
 	</style>
-	<h1>{{ controller_name }}</h1>
-	<br>
 	<form>
+		<h1>{{ controller_name }}</h1>
+		<br>
 		<div class="form-group row">
 			<label for="colFormLabelLg" class="col-sm-2 col-form-label col-form-label-lg">Nom</label>
 			<div class="col-sm-10">
-				<input type="email" class="form-control form-control-lg" id="colFormLabelLg" placeholder="Nom">
+				<input type="name" name="nom" class="form-control form-control-lg" id="colFormLabelLg" placeholder="Nom">
 			</div>
 		</div>
 		<br>
 		<div class="form-group row">
 			<label for="colFormLabelLg" class="col-sm-2 col-form-label col-form-label-lg">Prénom</label>
 			<div class="col-sm-10">
-				<input type="email" class="form-control form-control-lg" id="colFormLabelLg" placeholder="Prénom">
+				<input type="name" name="prenom" class="form-control form-control-lg" id="colFormLabelLg" placeholder="Prénom">
 			</div>
 		</div>
 		<br>
 		<div class="form-group row">
 			<label for="colFormLabelLg" class="col-sm-2 col-form-label col-form-label-lg">Email</label>
 			<div class="col-sm-10">
-				<input type="email" class="form-control form-control-lg" id="colFormLabelLg" placeholder="Email">
+				<input type="email" class="form-control form-control-lg" id="colFormLabelLg" name="email" placeholder="Email">
 			</div>
 		</div>
 		<br>
@@ -57,7 +57,7 @@
 		<br>
 		<div class="form-group row">
 			<label for="validationTextarea" class="col-sm-2 col-form-label col-form-label-lg"></label>
-			<textarea class="form-control" id="validationTextarea" placeholder="Dites nous en plus ..." required></textarea>
+			<textarea class="form-control" id="validationTextarea" name="message" placeholder="Dites nous en plus ..." required></textarea>
 		</div>
 		<br>
 		<button class="btn btn-primary" type="submit">Envoyez nous ça!</button>

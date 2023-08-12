@@ -8,7 +8,10 @@ use App\Entity\User;
 use App\Entity\Picture;
 use App\Form\AddAnnoucementType;
 use App\Form\EditAnnoucementType;
-use App\service\FileUploader;
+use App\Model\SearchData;
+use App\Form\SearchType;
+use App\Repository\AnnoucementRepository;
+use App\Service\FileUploader;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
 use Psr\Log\LoggerInterface;
@@ -30,19 +33,42 @@ class AnnoucementController extends AbstractController
     ) {
     }
 
-    #[Route('/annoucement', name: 'app_annoucement')]
+    #[Route('/annoucement/{page?1}/{nbre?5}', name: 'app_annoucement')]
 
-    public function findAllAnnoucement(ManagerRegistry $entityManager): Response
+    public function findAllAnnoucement(ManagerRegistry $entityManager, AnnoucementRepository $annoucementRepository, Request $request, $page, $nbre): Response
     {
+        /*
+        $searchData = new SearchData();
+        $form = $this->createForm(SearchType::class, $searchData);
+
+        $form->handleRequest($request);
+        if ($form->isSubmitted() && $form->isValid()) {
+            $searchData->page = $request->query->getInt('page', 1);
+            $annoucementst = $annoucementRepository->findBySearch($searchData);
+
+            return $this->render('pages/post/index.html.twig', [
+                'form' => $form->createView(),
+                'annoucements' => $annoucementst
+            ]);
+        }*/
+
         $mixRepository = $entityManager->getRepository(Picture::class);
         $pictures = $mixRepository->findAll();
         $mixRepository = $entityManager->getRepository(Annoucement::class);
-        $annoucements = $mixRepository->findAll();
+        $nbreAnnoucement = $mixRepository->count([]);
+        $nbrPage = ceil($nbreAnnoucement / $nbre);
+
+        $annoucements = $mixRepository->findBY([], [], $nbre, ($page - 1) * $nbre);
         //dd($annoucements);
         //dd($mixRepository);
         return $this->render(
             'annoucement/index.html.twig',
-            ['controlle_name' => 'Nos annonces :', 'annoucements' => $annoucements, 'pictures' => $pictures]
+            [
+                'controlle_name' => 'Nos annonces :', 'annoucements' => $annoucements, 'pictures' => $pictures,  'isPaginated' => true,
+                'nbrePage' => $nbrPage,
+                'page' => $page,
+                'nbre' => $nbre
+            ]
         );
         //return $this->render('annoucement/index.html.twig', compact('annoucements'));
     }

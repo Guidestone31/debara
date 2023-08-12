@@ -3,19 +3,20 @@
 namespace App\Controller;
 
 use App\Entity\User;
-use App\Form\EditUserType;
-use App\Form\UserPasswordType;
 use App\Form\UserType;
+use App\Form\EditUserType;
+use App\Service\MailerService;
+use App\Form\UserPasswordType;
 use Doctrine\ORM\EntityManagerInterface;
 use Doctrine\Persistence\ManagerRegistry;
-use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
-use Symfony\Component\HttpFoundation\File\Exception\FileException;
-use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
-use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\String\Slugger\SluggerInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 //#[Route('user')]
 
@@ -83,7 +84,7 @@ class ProfileController extends AbstractController
     }
 
     #[Route('/Authentification', name: 'app_addProfile')]
-    public function addProfile(UserPasswordHasherInterface $passwordHasher, Request $request, ManagerRegistry $doctrine, SluggerInterface $slugger): Response
+    public function addProfile(UserPasswordHasherInterface $passwordHasher, Request $request, ManagerRegistry $doctrine, SluggerInterface $slugger, MailerService $mailer): Response
     {
         $user = new User();
         $form = $this->createForm(UserType::class, $user);
@@ -98,6 +99,14 @@ class ProfileController extends AbstractController
         if ($this->getUser() == $user) {
             return $this->redirectToRoute('app_home');
         }
+
+        $new = false;
+        //$this->getDoctrine() : Version Sf <= 5
+        if (!$user) {
+            $new = true;
+            $user = new User();
+        }
+
         if ($form->isSubmitted() && $form->isValid()) {
             /*$user->setRoles(['ROLE_USER']);
 
@@ -138,14 +147,19 @@ class ProfileController extends AbstractController
             $entityManager = $doctrine->getManager();
             $entityManager->persist($user);
             $entityManager->flush();
+
+            $Nouveau = $user->getEmail();
+            $contenu = "Bienvenue sur le site Débara vous pourrez vous connectez et vous séparer du matériel laissé à l'abandon !";
             /*$entityManager = $doctrine->getManager();
             $entityManager->persist($profile);
             $entityManager->flush();*/
+            $mailer->sendEmail(to: $Nouveau, content: $contenu, subject: "Welcome chez Débara!");
             $this->addFlash('success', "L\'annonce a pas bien été ajouté à la liste ! ");
             return $this->redirectToRoute('app_home');
         }
         return $this->render('profile/addNewProfiler.html.twig', [
             'form' => $form->createView(),
+            'page_name' => 'Hello',
             //'formA' => $formA->createView(),
             //'profiles' => $profile,
             'users' => $user,

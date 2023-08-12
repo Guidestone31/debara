@@ -1,6 +1,7 @@
 {% extends 'home/template.html.twig' %}
 
 {% block title %}Hello AnnoucementController!
+	{{ page_name }}
 {% endblock %}
 
 {% block body %}
@@ -16,7 +17,7 @@
 			padding: 2px 6px;
 		}
 	</style>
-
+	<h1>Inscription</h1>
 	<div
 		class="container-xl px-4 mt-4">
 		<!-- Account page navigation-->
@@ -52,7 +53,7 @@
 						{{ form_row(form.Picture) }}
 						{{ form_end(form) }}
 						{#{{ form_start(formA) }}
-						{{ form_end(formA) }}#}
+																								{{ form_end(formA) }}#}
 
 					</div>
 				</div>
