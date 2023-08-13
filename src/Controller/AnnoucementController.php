@@ -108,6 +108,11 @@ class AnnoucementController extends AbstractController
     public function addAnnoucement(Request $request, EntityManagerInterface $em, SluggerInterface $slugger, FileUploader $pictureService): Response
     {
 
+        //$User->setRoles(['ROLE_USER']);
+        $this->denyAccessUnlessGranted("ROLE_USER");
+        /*if (!$this->denyAccessUnlessGranted('ROLE_USER')) {
+            return $this->redirectToRoute('app_login');
+        }*/
         //On crée un "nouveau produit"
         $annoucement = new Annoucement();
 
@@ -117,7 +122,6 @@ class AnnoucementController extends AbstractController
         // On traite la requête du formulaire
         $announceForm->handleRequest($request);
 
-        //$this->denyAccessUnlessGranted('ROLE_USER');
         $new = false;
 
         //$this->getDoctrine() : Version Sf <= 5

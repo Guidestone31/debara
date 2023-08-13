@@ -154,7 +154,7 @@ class ProfileController extends AbstractController
             $entityManager->persist($profile);
             $entityManager->flush();*/
             $mailer->sendEmail(to: $Nouveau, content: $contenu, subject: "Welcome chez Débara!");
-            $this->addFlash('success', "L\'annonce a pas bien été ajouté à la liste ! ");
+            $this->addFlash('success', "Le profil a pas bien été ajouté");
             return $this->redirectToRoute('app_home');
         }
         return $this->render('profile/addNewProfiler.html.twig', [

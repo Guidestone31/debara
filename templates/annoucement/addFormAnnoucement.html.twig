@@ -1,9 +1,10 @@
-{% extends 'home/template.html.twig' %}
+{#{% extends 'home/template.html.twig' %}#}
 
 {% block title %}Hello AnnoucementController!
 {% endblock %}
 
 {% block body %}
+	<h1>Ajout</h1>
 	<style>
 		.example-wrapper {
 			margin: 1em auto;
@@ -22,21 +23,18 @@
 	</style>
 
 	<div class="example-wrapper">
-		<h1>
-			Ajout d'annonce
-		</h1>
 
 		{{ form_start(form) }}
 		{{ form_row(form.regions, {id: 'add_annoucement_regions'}) }}
 		{{ form_row(form.departement_id, {id: 'add_annoucement_departement_id'}) }}
 		{{ form_row(form.villesfrance_id, {id: 'add_annoucement_villesfrance_id'}) }}
 		{#{{ form_row(form.lat, {id: 'add_annoucement_villesfrance_id'}) }}
-																																																																				{{ form_row(form.lng, {id: 'add_annoucement_villesfrance_id'}) }}#}
+																																																																										{{ form_row(form.lng, {id: 'add_annoucement_villesfrance_id'}) }}#}
 		{{ form_widget(form) }}
 		{#{{ form_widget(form.user.username) }}#}
 		{#{% endfor %}#}
 		{#{% for annoucement in annoucements %}																																																																																																																																																																																																																																	{{ form_row(annoucement.fourht) }}
-																																																																																																																																																																																																																																																																																																																													{#{{ form_row(form.Image) }}#}
+																																																																																																																																																																																																																																																																																																																																			{#{{ form_row(form.Image) }}#}
 		<input type="submit" value="Create" class="btn btn-primary btn-lg active"/> {{ form_end(form) }}
 		<div class="col-3">
 			<div class="card" style="width: 18rem;"></div>
@@ -47,9 +45,9 @@
 	<input
 	type="text" placeholder="Longitude" id="long">
 	{#<bouton onclick="getPreciseLocation()">
-																																																						Emplacement précis
-																																																					</bouton>
-																																																					<p id="emplacement"></p>#}
+																																																									Emplacement précis
+																																																								</bouton>
+																																																								<p id="emplacement"></p>#}
 	<div id="map">
 		<input type="text" id="location">
 		<input type="text" placeholder="Latitude" id="lat">

@@ -27,7 +27,7 @@ class AdminController extends AbstractController
         $user = $mixRepository->findAll();
 
         return $this->render('profile/index.html.twig', [
-            'controlle_name' => 'Profiles utilisateur',
+            'controlle_name' => 'Liste des utilisateurs',
             'users' => $user
         ]);
     }
