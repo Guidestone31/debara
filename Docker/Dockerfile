@@ -20,4 +20,6 @@ RUN set -eux
 
 WORKDIR /var/www/
 
+ENTRYPOINT ["bash", "./Docker/Docker.sh"]
+
 EXPOSE 80

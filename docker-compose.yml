@@ -8,11 +8,13 @@ services:
       context: .php/
       dockerfile: Dockerfile
     container_name: debara
-    image: sha256:45cd4e8d3b7100e3dc34c95632088ad3bcc382e647d3e0a9ca992ff983ad7f04
+    image: docker.io/guidestone83/debaras-dev-prod
     environment:
       MYSQL_DATABASE: debara
       MYSQL_USER: root
-      MYSQL_PASSWORD:
+      MYSQL_PASSWORD: root
+      DATABASE_URL: mysql://root:root@database:3305/debara
+      #DATABASE_URL: mysql://root:@127.0.0.1:3306/debara?serverVersion=10.4.28-MariaDB&charset=utf8mb4
     volumes:
       - ./.data/db:/var/lib/mysql
       # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
@@ -25,3 +27,4 @@ volumes:
   ###> doctrine/doctrine-bundle ###
   database_data:
 ###< doctrine/doctrine-bundle ###
+

@@ -1,10 +1,10 @@
-{#{% extends 'home/template.html.twig' %}#}
+{% extends 'home/template.html.twig' %}
 
 {% block title %}Log in!
 {% endblock %}
 
-<h1>Login</h1>
 {% block body %}
+	<h1>Login</h1>
 	<form method="post">
 		{% if error %}
 			<div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
