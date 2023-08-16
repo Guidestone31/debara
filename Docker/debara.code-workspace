@@ -1,0 +1,11 @@
+{
+	"folders": [
+		{
+			"name": "debara",
+			"path": "/Applications/XAMPP/xamppfiles/htdocs/debara"
+		}
+	],
+	"settings": {
+		"intelephense.diagnostics.undefinedMethods": false
+	}
+}

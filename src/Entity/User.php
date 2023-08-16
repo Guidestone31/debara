@@ -5,12 +5,14 @@ namespace App\Entity;
 use App\Repository\UserRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
+use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
 use Symfony\Component\Validator\Constraints\Unique;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
+#[ORM\EntityListeners(['App\EntityListener\UserListener'])]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -23,21 +25,38 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
 
     #[ORM\Column(type: 'json')]
     private array $roles = [];
+    private ?string $plainPassword = null;
 
     /**
      * @var string The hashed password
      */
-    #[ORM\Column]
-    private ?string $password = null;
+    #[ORM\Column(nullable: true)]
+    private ?string $password;
 
     #[ORM\Column(length: 255)]
     private ?string $Email = null;
 
-    #[ORM\OneToOne(mappedBy: 'User', cascade: ['persist', 'remove'])]
-    private ?Profile $Profile = null;
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $Name = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $Adresse = null;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $LastName = null;
+
+    #[ORM\Column(nullable: true)]
+    private ?int $Phone = null;
+
+    #[ORM\Column(type: Types::BLOB, nullable: true)]
+    private $Picture = null;
+
+    #[ORM\OneToMany(mappedBy: 'createdBy', targetEntity: Annoucement::class)]
+    private Collection $annoucements;
 
     public function __construct()
     {
+        $this->annoucements = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -74,7 +93,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $roles = $this->roles;
         // guarantee every user at least has ROLE_USER
-        $roles[] = 'ROLE_ADMIN';
+        $roles[] = 'ROLE_USER';
 
         return array_unique($roles);
     }
@@ -83,6 +102,23 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         $this->roles = $roles;
 
+        return $this;
+    }
+    /**
+     * @return
+     */
+    public function getPlainPassword(): ?string
+    {
+        return $this->plainPassword;
+    }
+
+    /**
+     * @param  $plainPassword
+     * @return self
+     */
+    public function setPlainPassword(?string $plainPassword): self
+    {
+        $this->plainPassword = $plainPassword;
         return $this;
     }
 
@@ -122,24 +158,92 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this;
     }
 
-    public function getProfile(): ?Profile
+    public function getName(): ?string
     {
-        return $this->Profile;
+        return $this->Name;
     }
 
-    public function setProfile(?Profile $Profile): self
+    public function setName(?string $Name): static
     {
-        // unset the owning side of the relation if necessary
-        if ($Profile === null && $this->Profile !== null) {
-            $this->Profile->setUser(null);
+        $this->Name = $Name;
+
+        return $this;
+    }
+
+    public function getAdresse(): ?string
+    {
+        return $this->Adresse;
+    }
+
+    public function setAdresse(?string $Adresse): static
+    {
+        $this->Adresse = $Adresse;
+
+        return $this;
+    }
+
+    public function getLastName(): ?string
+    {
+        return $this->LastName;
+    }
+
+    public function setLastName(?string $LastName): static
+    {
+        $this->LastName = $LastName;
+
+        return $this;
+    }
+
+    public function getPhone(): ?int
+    {
+        return $this->Phone;
+    }
+
+    public function setPhone(?int $Phone): static
+    {
+        $this->Phone = $Phone;
+
+        return $this;
+    }
+
+    public function getPicture()
+    {
+        return $this->Picture;
+    }
+
+    public function setPicture($Picture): static
+    {
+        $this->Picture = $Picture;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Annoucement>
+     */
+    public function getAnnoucements(): Collection
+    {
+        return $this->annoucements;
+    }
+
+    public function addAnnoucement(Annoucement $annoucement): static
+    {
+        if (!$this->annoucements->contains($annoucement)) {
+            $this->annoucements->add($annoucement);
+            $annoucement->setCreatedBy($this);
         }
 
-        // set the owning side of the relation if necessary
-        if ($Profile !== null && $Profile->getUser() !== $this) {
-            $Profile->setUser($this);
-        }
+        return $this;
+    }
 
-        $this->Profile = $Profile;
+    public function removeAnnoucement(Annoucement $annoucement): static
+    {
+        if ($this->annoucements->removeElement($annoucement)) {
+            // set the owning side to null (unless already changed)
+            if ($annoucement->getCreatedBy() === $this) {
+                $annoucement->setCreatedBy(null);
+            }
+        }
 
         return $this;
     }

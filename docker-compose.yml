@@ -1,21 +1,30 @@
-version: '3'
+version: "3"
 
 services:
-###> doctrine/doctrine-bundle ###
+  ###> doctrine/doctrine-bundle ###
+
   database:
-    image: postgres:${POSTGRES_VERSION:-15}-alpine
+    build:
+      context: .php/
+      dockerfile: Dockerfile
+    container_name: debara
+    image: docker.io/guidestone83/debaras-dev-prod
     environment:
-      POSTGRES_DB: ${POSTGRES_DB:-app}
-      # You should definitely change the password in production
-      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD:-!ChangeMe!}
-      POSTGRES_USER: ${POSTGRES_USER:-app}
+      MYSQL_DATABASE: debara
+      MYSQL_USER: root
+      MYSQL_PASSWORD: root
+      DATABASE_URL: mysql://root:root@database:3305/debara
+      #DATABASE_URL: mysql://root:@127.0.0.1:3306/debara?serverVersion=10.4.28-MariaDB&charset=utf8mb4
     volumes:
-      - database_data:/var/lib/postgresql/data:rw
+      - ./.data/db:/var/lib/mysql
       # You may use a bind-mounted host directory instead, so that it is harder to accidentally remove the volume and lose all your data!
       # - ./docker/db/data:/var/lib/postgresql/data:rw
-###< doctrine/doctrine-bundle ###
+    ###< doctrine/doctrine-bundle ###
+    ports:
+      - 3305:3305
 
 volumes:
-###> doctrine/doctrine-bundle ###
+  ###> doctrine/doctrine-bundle ###
   database_data:
 ###< doctrine/doctrine-bundle ###
+

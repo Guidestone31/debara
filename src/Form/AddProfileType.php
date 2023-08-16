@@ -4,6 +4,10 @@ namespace App\Form;
 
 use App\Entity\Annoucement;
 use App\Entity\Profile;
+use App\Form\UserType;
+use App\Entity\User;
+use Doctrine\ORM\EntityRepository;
+use Doctrine\ORM\QueryBuilder;
 use Doctrine\Persistence\ManagerRegistry;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
@@ -13,9 +17,25 @@ use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\SubmitType;
 use Symfony\Component\Form\Extension\Core\Type\FileType;
 use Symfony\Component\Validator\Constraints\File;
+use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 
 class AddProfileType extends AbstractType
 {
+    // FormType
+    /*
+    public function __construct(private readonly MySweetService $mySweetService)
+    {
+
+        $builder->addEventSubscriber(
+            subscriber: new TotoSubscriber(
+                mySweetService: $mySweetService
+            )
+        );
+    }*/
+
+    // Subscriber
+
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
@@ -45,14 +65,40 @@ class AddProfileType extends AbstractType
                         'mimeTypesMessage' => 'Veuillez utiliser un format valide !',
                     ])
                 ],
+            ]);
+        $builder->add('user', UserType::class);
+
+        /*
+        ->add('UserId', EntityType::class, [
+            'class' => User::class,
+            'label' => 'Pseudo',
             ])
-            ->add('Ajouter', SubmitType::class);
+            ->add('password', EntityType::class, [
+                'mapped' => false,
+                'class' => User::class,
+                'choice_label' => 'password',
+                'placeholder' => 'Mot de pass',
+                'label' => 'Mot de passe',
+                'required' => false
+                ])
+
+                ->add('Email', EntityType::class, [
+                    'mapped' => false,
+                    'class' => User::class,
+                    'choice_label' => 'Email',
+                    'placeholder' => 'Email',
+                    'label' => 'Email',
+                    'required' => false
+                    ])
+                    */
+        // ->add('Ajouter', SubmitType::class);
     }
 
     public function configureOptions(OptionsResolver $resolver): void
     {
         $resolver->setDefaults([
             'data_class' => Profile::class,
+            'cascade_validation' => true,
         ]);
     }
     /* public function saveData(FormInterface $form)
