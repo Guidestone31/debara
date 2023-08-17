@@ -2,6 +2,10 @@
 "https://www.{default}/":
     type: upstream
     upstream: "app:http"
+    ssi:
+        enabled: true
+    cache:
+        enabled: false
 
 "https://{default}/":
     type: redirect
