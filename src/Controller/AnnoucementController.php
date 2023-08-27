@@ -98,7 +98,7 @@ class AnnoucementController extends AbstractController
         return $this->render(
             'user_registration/AnnoucesUsers.html.twig',
             [
-                'controlle_name' => 'Nos annonces :',
+                'controlle_name' => 'Mes annonces :',
                 'pictures' => $pictures,
                 'isPaginated' => true,
                 'annoucements' => $annoucement,
