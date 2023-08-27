@@ -160,6 +160,7 @@ class AddAnnoucementType extends AbstractType
         $form->add('villesfrance_id', EntityType::class, [
             'class'           => VillesFrance::class,
             'auto_initialize' => false,
+            'required'        => false,
             'label'           => 'Villes du lieu de récupération',
             'placeholder'     => $departement ? 'Sélectionnez votre ville' : 'Sélectionnez votre département',
             'choices'         => $departement ? $departement->getVillesFrance() : []
