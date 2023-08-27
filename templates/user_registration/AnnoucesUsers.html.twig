@@ -16,15 +16,15 @@
 		}
 	</style>
 
-	<div class="example-wrapper">
-		<h1>
-			{{ controlle_name }}
-		</h1>
-		{% for annoucement in annoucements %}
+	<h1>
+		{{ controlle_name }}
+	</h1>
+	<div class="row">
+		{% for annoucement in app.user.annoucements %}
 			<div class="col-3">
 				<div class="card" style="width: 18rem;">
-					<div class="card-body">
-						<h6>{{ annoucement.id }}</h6>
+					<div
+						class="card-body">
 						{#{% for picture in annoucement.pictures %}#}
 						<img
 						src="{{ asset('assets/uploads/annonces/mini/300x300-' ~ annoucement.pictures[0].name ) }}" alt="{{ annoucement.nom }} " class="img-thumbnail">
@@ -32,15 +32,47 @@
 						{#{% endfor %}#}
 						<div class="card-body">
 							<h5 class="card-title">{{  annoucement.Nom  }}</h5>
+							<h6 class="card-subtitle mb-2 text-muted">{{ annoucement.id }}</h6>
 							<p class="card-text">{{  annoucement.Price  }}€</p>
-							<p class="card-text">{{  annoucement.Description }}</p>
-							<a href="{{ path('app_DelAnnoucement', {id: annoucement.id}) }}" class="btn btn-primary">Suprimer</a>
-							<a href="{{ path('detailsAnnoucements_app_details', {"slug": annoucement.slug }) }}" class="btn btn-primary">Voir détails</a>
+							<a href="{{ path('app_DelAnnoucement', {id: annoucement.id}) }}" class="card-link">
+								<i class="fas fa-user-times"></i>
+							</a>
+							<a href="{{ path('app_cart', {id: annoucement.id}) }}" class="card-link">
+								<i class="fas fa-user-edit"></i>
+							</a>
+							<a href="{{ path('detailsAnnoucements_app_details', {"slug": annoucement.slug }) }}" class="card-link">
+								<i class="fas fa-info-circle"></i>
+							</a>
 						</div>
 					</div>
 				</div>
 			</div>
 		{% endfor %}
-
-	</div>
+		{% if isPaginated is defined and isPaginated %}
+			<div class="row mt-2">
+				<nav aria-label="col Page navigation example">
+					<ul class="pagination">
+						{% if page != 1 %}
+							<li class="page-item">
+								<a class="page-link" href="{{ path('app_annoucement', {page: page - 1, nbre: nbre}) }}">
+									Previous
+								</a>
+							</li>
+						{% endif %}
+						{% for i in range(1, nbrePage) %}
+							<li class="page-item">
+								<a class="page-link" href="{{ path('app_annoucement', {page: i, nbre: nbre}) }}">{{ i }}
+								</a>
+							</li>
+						{% endfor %}
+						{% if page != nbrePage %}
+							<li class="page-item">
+								<a class="page-link" href="{{ path('app_annoucement', {page: page + 1, nbre: nbre}) }}">Next</a>
+							</li>
+						{% endif %}
+					</ul>
+				</nav>
+			</div>
+		</div>
+	{% endif %}
 {% endblock %}

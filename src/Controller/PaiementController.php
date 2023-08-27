@@ -95,7 +95,7 @@ class PaiementController extends AbstractController
             if ($response->isSuccessful()) {
                 $data = $response->getData();
 
-                dd($data);
+                //dd($data);
                 $paiement = new Paiement();
 
                 $paiement->setPaiementId($data['id'])
@@ -104,10 +104,10 @@ class PaiementController extends AbstractController
                     ->setAmont($data['transactions'][0]['amount']['total'])
                     ->setCurrency($_ENV['PAYPAL_CURRENCY'])
                     ->setPurchasedAt(new \DateTime())
-                    ->setPaiementStatus($data['state'])
-                    ->setAnnoucement($data['annoucement_id']);
+                    ->setPaiementStatus($data['state']);
+                //->setAnnoucement($data['annoucement_id']);
 
-                dd($data);
+                //dd($data);
                 $this->manager->persist($paiement);
 
                 $this->manager->flush();

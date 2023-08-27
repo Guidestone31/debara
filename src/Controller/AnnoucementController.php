@@ -70,10 +70,15 @@ class AnnoucementController extends AbstractController
         //return $this->render('annoucement/index.html.twig', compact('annoucements'));
     }
 
-    #[Route('/annoucement/{id}', name: 'app_userAnnoucements')]
+    #[Route('/annoucementUser/{id}/{page?1}/{nbre?8}', name: 'app_userAnnoucements')]
 
-    public function findAnnoucementById($id, ManagerRegistry $doctrine, ManagerRegistry $entityManager): Response
+    public function findAnnoucementById($id, ManagerRegistry $doctrine, ManagerRegistry $entityManager, $page, $nbre): Response
     {
+        $mixRepository = $entityManager->getRepository(Picture::class);
+        $pictures = $mixRepository->findAll();
+        $mixRepository = $entityManager->getRepository(Annoucement::class);
+        $nbreAnnoucement = $mixRepository->count([]);
+        $nbrPage = ceil($nbreAnnoucement / $nbre);
 
         $repository = $doctrine->getRepository(User::class);
         $user = $repository->find($id);
@@ -94,7 +99,12 @@ class AnnoucementController extends AbstractController
             'user_registration/AnnoucesUsers.html.twig',
             [
                 'controlle_name' => 'Nos annonces :',
+                'pictures' => $pictures,
+                'isPaginated' => true,
                 'annoucements' => $annoucement,
+                'nbrePage' => $nbrPage,
+                'page' => $page,
+                'nbre' => $nbre,
                 'users' => $user,
                 'id' => $id
             ]

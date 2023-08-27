@@ -5,9 +5,6 @@
 
 {% block body %}
 
-
-	<span class="message">{{message}}</span>
-
 	<style>
 		.message {
 			position: absolute;
@@ -18,5 +15,38 @@
 			background: cornsilk
 		}
 	</style>
+
+	<span class="alert alert-success">{{message}}</span><br><br>
+	<h1>Une modification par paiement</h1>
+	<div class="row">
+		{% for annoucement in app.user.annoucements %}
+			<div class="col-3">
+				<div class="card" style="width: 18rem;">
+					<div
+						class="card-body">
+						{#{% for picture in annoucement.pictures %}#}
+						<img
+						src="{{ asset('assets/uploads/annonces/mini/300x300-' ~ annoucement.pictures[0].name ) }}" alt="{{ annoucement.nom }} " class="img-thumbnail">
+
+						{#{% endfor %}#}
+						<div class="card-body">
+							<h5 class="card-title">{{  annoucement.Nom  }}</h5>
+							<h6 class="card-subtitle mb-2 text-muted">{{ annoucement.id }}</h6>
+							<p class="card-text">{{  annoucement.Price  }}€</p>
+							<a href="{{ path('app_DelAnnoucement', {id: annoucement.id}) }}" class="card-link">
+								<i class="fas fa-user-times"></i>
+							</a>
+							<a href="{{ path('editAnnoucement', {id: annoucement.id}) }}" class="card-link">
+								<i class="fas fa-user-edit"></i>
+							</a>
+							<a href="{{ path('detailsAnnoucements_app_details', {"slug": annoucement.slug }) }}" class="card-link">
+								<i class="fas fa-info-circle"></i>
+							</a>
+						</div>
+					</div>
+				</div>
+			</div>
+		{% endfor %}
+	</div>
 
 {% endblock %}

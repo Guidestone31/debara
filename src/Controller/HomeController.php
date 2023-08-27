@@ -24,7 +24,7 @@ class HomeController extends AbstractController
         //dd($annoucements);
         //dd($mixRepository);
         //return $this->render('annoucement/index.html.twig', ['controlle_name' => 'Nos annonces :', 'annoucements' => $annoucements]);
-        return $this->render('home/index.html.twig', ['annoucements' => $annoucements, 'controller_name' => 'Debara', 'page_name' => 'Acceuil']);
+        return $this->render('home/index.html.twig', ['annoucements' => $annoucements, 'controller_name' => 'Debara', 'page_name' => 'Accueil']);
     }
 
     #[Route('/contact', name: 'app_contact')]
