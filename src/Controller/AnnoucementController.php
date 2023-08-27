@@ -33,7 +33,7 @@ class AnnoucementController extends AbstractController
     ) {
     }
 
-    #[Route('/annoucement/{page?1}/{nbre?5}', name: 'app_annoucement')]
+    #[Route('/annoucement/{page?1}/{nbre?8}', name: 'app_annoucement')]
 
     public function findAllAnnoucement(ManagerRegistry $entityManager, AnnoucementRepository $annoucementRepository, Request $request, $page, $nbre): Response
     {

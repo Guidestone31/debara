@@ -27,17 +27,6 @@ SET time_zone = "+00:00";
 -- Structure de la table `annoucement`
 --
 
-CREATE TABLE `annoucement` (
-  `id` int(11) NOT NULL,
-  `price` double NOT NULL,
-  `description` varchar(255) NOT NULL,
-  `villesfrance_id` int(11) NOT NULL,
-  `nom` varchar(255) DEFAULT NULL,
-  `sub_category_o_id` int(11) NOT NULL,
-  `created_by_id` int(11) DEFAULT NULL,
-  `slug` varchar(255) NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
-
 --
 -- Déchargement des données de la table `annoucement`
 --

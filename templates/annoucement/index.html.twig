@@ -16,35 +16,56 @@
 			padding: 2px 6px;
 		}
 	</style>
+	<style>
+		/* Add your custom styles here */
+		.card {
+			margin-bottom: 20px;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<h1 class="text-center mt-3">Liste des annonces</h1>
+		<div
+			class="row">
+			{#{{form(form)}}#}
+			{% for annoucement in annoucements %}
 
-	<div class="example-wrapper">
-		<h1></h1>
-		{% for annoucement in annoucements %}
-			<div class="col-3">
-				<div class="card" style="width: 18rem;">
-					<div class="card-body">
-						<h6>{{ annoucement.id }}</h6>
-						{#{% for picture in annoucement.pictures %}#}
-						<img
-						src="{{ asset('assets/uploads/annonces/mini/300x300-' ~ annoucement.pictures[0].name ) }}" alt="{{ annoucement.nom }} " class="img-thumbnail">
-
-						{#{% endfor %}#}
+				<div
+					class="col-md-3 col-sm-6">
+					<!-- Adjust column sizes for responsiveness -->
+					<div class="card">
+						<img src="{{ asset('assets/uploads/annonces/mini/300x300-' ~ annoucement.pictures[0].name ) }}" alt="{{ annoucement.nom }}" class="card-img-top">
 						<div class="card-body">
-							<h5 class="card-title">{{  annoucement.Nom  }}</h5>
-							<p class="card-text">{{  annoucement.Price  }}€</p>
-							<p class="card-text">{{  annoucement.Description }}</p>
-							<a href="{{ path('app_DelAnnoucement', {id: annoucement.id}) }}" class="btn btn-primary">Suprimer</a>
-							<a href="{{ path('editAnnoucement', {id: annoucement.id}) }}" class="btn btn-primary">Modifier</a>
-							<a href="{{ path('detailsAnnoucements_app_details', {"slug": annoucement.slug }) }}" class="btn btn-primary">Voir détails</a>
+							<h5 class="card-title">{{ annoucement.Nom }}</h5>
+							<h6 class="card-subtitle mb-2 text-muted">{{ annoucement.id }}</h6>
+							<p class="card-text">{{ annoucement.Price }}€</p>
+							{% if is_granted('ROLE_ADMIN') %}
+								<div class="d-flex justify-content-between">
+
+									<a href="{{ path('app_DelAnnoucement', {id: annoucement.id}) }}" class="btn btn-danger">
+										<i class="fas fa-user-times"></i>
+										Delete
+									</a>
+									<a href="{{ path('editAnnoucement', {id: annoucement.id}) }}" class="btn btn-primary">
+										<i class="fas fa-user-edit"></i>
+										Edit
+									</a>
+								</div>
+							{% endif %}
+							<a href="{{ path('detailsAnnoucements_app_details', {"slug": annoucement.slug }) }}" class="btn btn-info mt-2">
+								<i class="fas fa-info-circle"></i>
+								Details
+							</a>
 						</div>
 					</div>
 				</div>
-			</div>
-		{% endfor %}
+			{% endfor %}
+		</div>
 		{% if isPaginated is defined and isPaginated %}
 			<div class="row mt-2">
-				<nav aria-label="col Page navigation example">
-					<ul class="pagination">
+				<nav aria-label="Page navigation example">
+					<ul class="pagination justify-content-center">
 						{% if page != 1 %}
 							<li class="page-item">
 								<a class="page-link" href="{{ path('app_annoucement', {page: page - 1, nbre: nbre}) }}">
@@ -67,4 +88,5 @@
 				</nav>
 			</div>
 		{% endif %}
-	{% endblock %}
+	</div>
+</body></body></html>{% endblock %}

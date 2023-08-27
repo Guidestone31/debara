@@ -1,10 +1,10 @@
-{#{% extends 'home/template.html.twig' %}#}
+{% extends 'home/template.html.twig' %}
 
-{% block title %}Hello AnnoucementController!
+{% block title %}Annonce
 {% endblock %}
 
 {% block body %}
-	<h1>Ajout</h1>
+	<h1>Dépot d'une annonce :</h1><br><br>
 	<style>
 		.example-wrapper {
 			margin: 1em auto;
@@ -29,82 +29,36 @@
 		{{ form_row(form.departement_id, {id: 'add_annoucement_departement_id'}) }}
 		{{ form_row(form.villesfrance_id, {id: 'add_annoucement_villesfrance_id'}) }}
 		{#{{ form_row(form.lat, {id: 'add_annoucement_villesfrance_id'}) }}
-																																																																										{{ form_row(form.lng, {id: 'add_annoucement_villesfrance_id'}) }}#}
+																																																																																																				{{ form_row(form.lng, {id: 'add_annoucement_villesfrance_id'}) }}#}
 		{{ form_widget(form) }}
 		{#{{ form_widget(form.user.username) }}#}
 		{#{% endfor %}#}
 		{#{% for annoucement in annoucements %}																																																																																																																																																																																																																																	{{ form_row(annoucement.fourht) }}
-																																																																																																																																																																																																																																																																																																																																			{#{{ form_row(form.Image) }}#}
-		<input type="submit" value="Create" class="btn btn-primary btn-lg active"/> {{ form_end(form) }}
+																																																																																																																																																																																																																																																																																																																																																													{#{{ form_row(form.Image) }}#}
+		<input type="submit" value="Déposer" class="btn btn-primary btn-lg active"/> {{ form_end(form) }}
 		<div class="col-3">
 			<div class="card" style="width: 18rem;"></div>
 		</div>
 	</div>
-	<input type="text" id="location">
-	<input type="text" placeholder="Latitude" id="lat">
+	<input type="HIDDEN" id="location">
+	<input type="HIDDEN" placeholder="Latitude" id="latC">
 	<input
-	type="text" placeholder="Longitude" id="long">
+	type="HIDDEN" placeholder="Longitude" id="longC">
 	{#<bouton onclick="getPreciseLocation()">
-																																																									Emplacement précis
-																																																								</bouton>
-																																																								<p id="emplacement"></p>#}
+																																																																						Emplacement précis
+																																																																					</bouton>
+																																																																					<p id="emplacement"></p>#}
 	<div id="map">
-		<input type="text" id="location">
-		<input type="text" placeholder="Latitude" id="lat">
-		<input type="text" placeholder="Longitude" id="long"></div>
+		<input type="HIDDEN" id="location">
+		<input type="HIDDEN" placeholder="Latitude" id="lat">
+		<input type="HIDDEN" placeholder="Longitude" id="long"></div>
 	{#<script type="module" src="{{ asset('/assets/js/app.js') }}"></script>#}
 	{#<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?key=AIzaSyB453QXMsY2IZQoRrQqYxhHU4fSi1OH8WQ&librairies=places"></script>}#}
 	<script src="https://code.jquery.com/jquery-3.2.1.min.js" integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4=" crossorigin="anonymous"></script>
 
 {% endblock %}
 {% block javascripts %}
-	<script async type="text/javascript">
-
-
-		/*async function initMap() { // @ts-ignore
-const {Map} = await google.maps.importLibrary("maps");
-
-map = new Map(document.getElementById("map"), {
-center: {
-lat: -34.397,
-lng: 150.644
-},
-zoom: 8
-});
-}
-
-initMap();*/
-// On initialise la latitude et la longitude de Paris (centre de la carte)
-var lat = 48.852969;
-var lon = 2.349903;
-var map = null;
-// Fonction d'initialisation de la carte
-function initMap() { // Créer l'objet "map" et l'insèrer dans l'élément HTML qui a l'ID "map"
-map = new google.maps.Map(document.getElementById("map"), {
-// Nous plaçons le centre de la carte avec les coordonnées ci-dessus
-center: new google.maps.LatLng(lat, lon),
-// Nous définissons le zoom par défaut
-zoom: 11,
-// Nous définissons le type de carte (ici carte routière)
-mapTypeId: google.maps.MapTypeId.ROADMAP,
-// Nous activons les options de contrôle de la carte (plan, satellite...)
-mapTypeControl: true,
-// Nous désactivons la roulette de souris
-scrollwheel: false,
-mapTypeControlOptions: { // Cette option sert à définir comment les options se placent
-style: google.maps.MapTypeControlStyle.HORIZONTAL_BAR
-},
-// Activation des options de navigation dans la carte (zoom...)
-navigationControl: true,
-navigationControlOptions: { // Comment ces options doivent-elles s'afficher
-style: google.maps.NavigationControlStyle.ZOOM_PAN
-}
-});
-}
-window.onload = function () { // Fonction d'initialisation qui s'exécute lorsque le DOM est chargé
-initMap();
-};
-	</script>
+	<script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp&sensor=false"></script>
 	<script>
 		$(document).ready(function () {
 var autocomplete;
@@ -113,32 +67,62 @@ var id = "location";
 autocomplete = new google.maps.places.Autocomplete((document.getElementById(id)), {types: ['geocode']})
 google.maps.event.addListener(autocomplete, 'place_changed', function () {
 var place = autocomplete.getPlace();
-jQuery("#lat").val(place.geometry.location.lat());
-jQuery("#long").val(place.geometry.location.lng());
+jQuery("#latC").val(place.geometry.location.lat());
+jQuery("#longC").val(place.geometry.location.lng());
+
 })
 });
 	</script>
-	<script>/*
-		var carte = L.map('maCarte').setView([
-48.852969, 2.349903
-], 13);
-L.tileLayer('https://{s}.tile.openstreetmap.fr/osmfr/{z}/{x}/{y}.png', { // Il est toujours bien de laisser le lien vers la source des données
-attribution: 'données © <a href="//osm.org/copyright">OpenStreetMap</a>/ODbL - rendu <a href="//openstreetmap.fr">OSM France</a>',
-minZoom: 1,
-maxZoom: 20
-}).addTo(carte);
+	<script type="text/javascript">
+		function Geo(position) {
 
-var circle = L.circle([
-43.6044622, 1.4442469
-], {
-color: 'red',
-fillColor: '#f03',
-fillOpacity: 0.5,
-radius: 5000
-}).addTo(carte);*/</script>
-<script>
+var latC = position.coords.latitude;
+var longC = position.coords.longitude;
+document.getElementById("latC").innerHTML = latC;
+document.getElementById("longC").innerHTML = longC;
+google.maps.event.addDomListener('window', 'load', loadMap(latC, longC))
+}
 
-	$(document).on('change', '#add_annoucement_regions, #add_annoucement_departement_id', function () {
+function loadMap(latC, longC) {
+
+var options = {
+
+zoom: 8,
+center: new google.maps.LatLng(latC, longC),
+mapTypeId: google.maps.MapTypeId.ROADEMAP
+
+};
+
+map = new google.maps.Map(document.getElementById("map"), options);
+
+var marker = new google.maps.Marker({
+map: map,
+title: "Je t'ai trouvé",
+position: new google.maps.LatLng(latC, longC)
+
+});
+}
+function erreurGeo(erreur) {
+var msg;
+switch (erreur.code) {
+case error.TIMEOUT: msg = "Le temps de la requete à expiré !";
+break;
+case error.UNKNOWN_ERROR: msg = "Erreur inconnue !";
+break;
+case error.POSITION_UNVAILABLE: msg = "Position non valide !";
+break;
+case error.PERMISSION_DENIED: msg = "Vous avez refuser la géolocalisation !";
+break;
+}
+alert(msg);
+}
+if (navigator.geolocation) {
+navigator.geolocation.getCurrentPosition(Geo, erreurGeo, {maximumAge: 120000});
+} else {}
+	</script>
+	<script>
+
+		$(document).on('change', '#add_annoucement_regions, #add_annoucement_departement_id', function () {
 let $field = $(this)
 let $regionField = $('#add_annoucement_regions')
 let $form = $field.closest('form')
@@ -157,9 +141,9 @@ $(target).replaceWith($input)
 })
 // }
 // }
-</script>
-<script>
-	// window.onload = () => { // On va chercher la région
+	</script>
+	<script>
+		// window.onload = () => { // On va chercher la région
 let region = document.querySelector("#add_annoucement_category");
 
 region.addEventListener("change", function () {
@@ -184,4 +168,5 @@ document.querySelector("#add_annoucement_SubCategoryO").replaceWith(nouveauSelec
 
 
 // }
-</script>{% endblock %}
+	</script>
+{% endblock %}

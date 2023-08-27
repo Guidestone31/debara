@@ -21,13 +21,16 @@ use Symfony\Component\Validator\Constraints\All;
 use Symfony\Component\Form\Extension\Core\Type\MoneyType;
 use Symfony\Component\Validator\Constraints\Image;
 use Symfony\Component\Validator\Constraints\Positive;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class AddAnnoucementType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('Nom')
+            ->add('Nom', TextType::class, [
+                'label' => 'Nom de l\'annonce'
+            ])
             ->add('price', MoneyType::class, options: [
                 'label' => 'Prix',
                 'divisor' => 100,
@@ -37,44 +40,9 @@ class AddAnnoucementType extends AbstractType
                     )
                 ]
             ])
-            ->add('Description')
-            /*->add('Image', FileType::class, [
-
-                'label' => false,
-                // unmapped means that this field is not associated to any entity property
-                'mapped' => false,
-                'multiple' => true,
-                // make it optional so you don't have to re-upload the PDF file
-                // every time you edit the Product details
-                'required' => false,
-                'constraints' => [
-                    new File([
-                        'maxSize' => '2M',
-                        'mimeTypes' => [
-                            'image/png',
-                            'image/jpeg',
-                            'image/gif',
-                        ],
-                        'mimeTypesMessage' => 'Veuillez utiliser un format valide !',
-                    ])
-                ]
-            ])*/
-            /* ->add('lat', EntityType::class, [
-                'mapped' => false,
-                'class' => VillesFrance::class,
-                'choice_label' => 'lat',
-                'placeholder' => 'Longitude',
-                'label' => 'Longitude',
-                'required' => false
+            ->add('Description', TextType::class, [
+                'label' => 'Description de l\'annonce'
             ])
-            ->add('lng', EntityType::class, [
-                'mapped' => false,
-                'class' => VillesFrance::class,
-                'choice_label' => 'lng',
-                'placeholder' => 'Longitude',
-                'label' => 'Longitude',
-                'required' => false
-            ])*/
             ->add('Image', FileType::class, [
                 'label' => false,
                 'multiple' => true,
@@ -83,7 +51,7 @@ class AddAnnoucementType extends AbstractType
                 'constraints' => [
                     new All(
                         new Image([
-                            'maxWidth' => 1280,
+                            'maxWidth' => 2280,
                             'maxWidthMessage' => 'L\'image doit faire {{ max_width }} pixels de large au maximum'
                         ])
                     )
@@ -192,7 +160,7 @@ class AddAnnoucementType extends AbstractType
         $form->add('villesfrance_id', EntityType::class, [
             'class'           => VillesFrance::class,
             'auto_initialize' => false,
-            'label'           => 'Villes',
+            'label'           => 'Villes du lieu de récupération',
             'placeholder'     => $departement ? 'Sélectionnez votre ville' : 'Sélectionnez votre département',
             'choices'         => $departement ? $departement->getVillesFrance() : []
         ]);
