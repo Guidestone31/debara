@@ -16,30 +16,30 @@
 			padding: 2px 6px;
 		}
 	</style>
+	<div class="container">
+		<h1 class="text-center mt-3">
+			{{ controlle_name }}</h1><br><br>
+		<div
+			class="row">
+			{#{{form(form)}}#}
+			{% for user in users %}
+				<div
+					class="col-md-3 col-sm-6">
+					<!-- Adjust column sizes for responsiveness -->
+					<div class="card">
+						<img src="{{ user.Picture }}" class="card-img-top">
+						<div class="card-body">
+							<h5 class="card-title">{{  user.username }}</h5>
+							<a href="{{ path('app_DelProfile', {id: user.id}) }}" class="card-link">
+								<i class="fas fa-user-times"></i>
+							</a>
+							<a href="{{'/profile/'}}" class="card-link">
+								<i class="fas fa-info-circle"></i>
+							</a>
 
-	<div class="example-wrapper">
-		<h1>
-			{{ controlle_name }}</h1>
-		{% for user in users %}
-
-
-			<div class="col-3">
-				<div class="card" style="width: 18rem;">
-					<div class="card-body">
-						{{  user.Picture }}
-						<h6 class="card-subtitle mb-2 text-muted">
-							{{  user.username }}</h6>
-						{% for role in user.roles%}
-							{% if role == "ROLE_USER" or role == "ROLE_ADMIN" %}
-								<a href="{{ path('app_DelProfile', {id: user.id}) }}" class="card-link">Suprimer</a>
-								<a href="{{'/profile/'}}" class="card-link">Détail</a>
-							{% endif %}
-						{% endfor %}
-						<h6 class="card-subtitle mb-2 text-muted">
-							{{  user.LastName }}</h6>
+						</div>
 					</div>
 				</div>
-			</div>
-		{% endfor %}
-	</div>
-{% endblock %}
+			{% endfor %}
+		</div>
+	{% endblock %}

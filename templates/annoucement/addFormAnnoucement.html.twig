@@ -4,7 +4,7 @@
 {% endblock %}
 
 {% block body %}
-	<h1>Dépot d'une annonce :</h1><br><br>
+	<h1>Une nouvelle annonce :</h1><br><br>
 	<style>
 		.example-wrapper {
 			margin: 1em auto;
@@ -17,8 +17,8 @@
 			padding: 2px 6px;
 		}
 		#map {
-			height: 50em;
-			width: 50em;
+			height: 40em;
+			width: 40em;
 		}
 	</style>
 
@@ -29,25 +29,25 @@
 		{{ form_row(form.departement_id, {id: 'add_annoucement_departement_id'}) }}
 		{{ form_row(form.villesfrance_id, {id: 'add_annoucement_villesfrance_id'}) }}
 		{#{{ form_row(form.lat, {id: 'add_annoucement_villesfrance_id'}) }}
-																																																																																																																																								{{ form_row(form.lng, {id: 'add_annoucement_villesfrance_id'}) }}#}
+																																																																																																																																																								{{ form_row(form.lng, {id: 'add_annoucement_villesfrance_id'}) }}#}
 		{{ form_widget(form) }}
 		{#{{ form_widget(form.user.username) }}#}
 		{#{% endfor %}#}
 		{#{% for annoucement in annoucements %}																																																																																																																																																																																																																																	{{ form_row(annoucement.fourht) }}
-																																																																																																																																																																																																																																																																																																																																																																																																	{#{{ form_row(form.Image) }}#}
+																																																																																																																																																																																																																																																																																																																																																																																																																	{#{{ form_row(form.Image) }}#}
 		<input type="submit" value="Déposer" class="btn btn-primary btn-lg active"/> {{ form_end(form) }}
-		<div class="col-3">
-			<div class="card" style="width: 18rem;"></div>
-		</div>
+
 	</div>
+	<h3>Vous êtes situé ici :
+	</h3>
 	<input type="HIDDEN" id="location">
 	<input type="HIDDEN" placeholder="Latitude" id="latC">
 	<input
 	type="HIDDEN" placeholder="Longitude" id="longC">
 	{#<bouton onclick="getPreciseLocation()">
-																																																																																								Emplacement précis
-																																																																																							</bouton>
-																																																																																							<p id="emplacement"></p>#}
+																																																																																																Emplacement précis
+																																																																																															</bouton>
+																																																																																															<p id="emplacement"></p>#}
 	<div id="map">
 		<input type="HIDDEN" id="location">
 		<input type="HIDDEN" placeholder="Latitude" id="lat">
@@ -76,13 +76,11 @@ jQuery("#longC").val(place.geometry.location.lng());
 	<script type="text/javascript">
 
 		function Geo(position) {
-console.log(position);
 var latC = position.coords.latitude;
 var longC = position.coords.longitude;
 document.getElementById("latC").innerHTML = latC;
 document.getElementById("longC").innerHTML = longC;
 loadMap(latC, longC);
-console.log(latC);
 // google.maps.event.addDomListener('window', 'load', loadMap(latC, longC))
 }
 window.addEventListener('load', function () {
@@ -91,11 +89,9 @@ loadMap("", "");
 
 function loadMap(latC, longC) {
 
-console.log(latC, "Coucouc");
 if (! latC || ! longC) {
 return;
 }
-console.log(latC, longC);
 var options = {
 zoom: 8,
 center: {
@@ -118,7 +114,6 @@ lng: longC
 });
 }
 function erreurGeo(erreur) {
-console.log(erreur);
 var msg;
 switch (erreur.code) {
 case error.TIMEOUT: msg = "Le temps de la requete à expiré !";
