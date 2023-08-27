@@ -88,7 +88,6 @@ class EditUserType extends AbstractType
             ])
             ->add('picture')
             ->add('phone')
-            ->add('roles')
             ->add('email', EmailType::class, [
                 'constraints' => [
                     new NotBlank([
@@ -97,15 +96,6 @@ class EditUserType extends AbstractType
                 ],
                 'required' => true,
                 'attr' => ['class' => 'form-control'],
-            ])
-            ->add('roles', ChoiceType::class, [
-                'choices' => [
-                    'Utilisateur' => 'ROLE_USER',
-                    'Administrateur' => 'ROLE_ADMIN'
-                ],
-                'expanded' => true,
-                'multiple' => true,
-                'label' => 'Rôles'
             ])
             ->add('valider', SubmitType::class);
     }
