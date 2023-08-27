@@ -55,6 +55,21 @@ class AnnoucementRepository extends ServiceEntityRepository
 
         return $result;
     }
+    public function search($mots = null, $categorie = null)
+    {
+        $query = $this->createQueryBuilder('a');
+        //$query->where('a.active = 1');
+        if ($mots != null) {
+            $query->andWhere('MATCH_AGAINST(a.Nom, a.Description) AGAINST (:mots boolean)>0')
+                ->setParameter('mots', $mots);
+        }
+        if ($categorie != null) {
+            $query->leftJoin('a.categories', 'c');
+            $query->andWhere('c.id = :id')
+                ->setParameter('id', $categorie);
+        }
+        return $query->getQuery()->getResult();
+    }
 
 
     public function save(Annoucement $entity, bool $flush = false): void

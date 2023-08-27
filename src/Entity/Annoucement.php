@@ -11,6 +11,7 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: AnnoucementRepository::class)]
+#[ORM\Index(name: 'annoucement', columns: ['Nom', 'Description'], flags: ['fulltext'])]
 class Annoucement
 {
     use SlugTrait;
