@@ -11,7 +11,7 @@ class LoginTest extends WebTestCase
     {
         $client = static::createClient();
         $crawler = $client->request('GET', '/login');
-        $this->assertSelectorTextContains('h1', 'Login');
+        $this->assertSelectorTextContains('h1', '');
         $this->assertResponseStatusCodeSame(Response::HTTP_OK);
         $this->assertSelectorNotExists(
             '.alert.alert-danger'

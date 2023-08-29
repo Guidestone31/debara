@@ -19,7 +19,7 @@ class HomePageTest extends WebTestCase
         $button = $crawler->filter('.btn.btn-primary.btn-lg.active');
         $this->assertEquals(1, count($button));
 
-        $this->assertSelectorTextContains('h1', 'Acceuil');
+        $this->assertSelectorTextContains('h1', 'Accueilm');
     }
     public function testloginUser(): void
     {
@@ -32,6 +32,6 @@ class HomePageTest extends WebTestCase
         $button = $crawler->filter('.btn.btn-primary.btn-lg.active');
         $this->assertEquals(1, count($button));
 
-        $this->assertSelectorTextContains('h1', 'Acceuil');
+        $this->assertSelectorTextContains('h1', 'AccueilM');
     }
 }
