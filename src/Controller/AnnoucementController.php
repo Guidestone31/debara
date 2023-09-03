@@ -114,7 +114,6 @@ class AnnoucementController extends AbstractController
     #[Route('/formAddAnnoucement/{id}', name: 'app_AddAnnoucement')]
     public function addAnnoucement(Request $request, EntityManagerInterface $em, SluggerInterface $slugger, FileUploader $pictureService): Response
     {
-
         //$User->setRoles(['ROLE_USER']);
         $this->denyAccessUnlessGranted("ROLE_USER");
         /*if (!$this->denyAccessUnlessGranted('ROLE_USER')) {
