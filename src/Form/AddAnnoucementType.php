@@ -162,7 +162,7 @@ class AddAnnoucementType extends AbstractType
             'auto_initialize' => false,
             'required'        => false,
             'label'           => 'Villes du lieu de récupération',
-            'placeholder'     => $departement ? 'Sélectionnez votre ville' : 'Sélectionnez votre ville',
+            'placeholder'     => $departement ? 'Sélectionnez votre ville' : 'Sélectionnez votre département',
             'choices'         => $departement ? $departement->getVillesFrance() : []
         ]);
     }
