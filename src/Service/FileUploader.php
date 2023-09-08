@@ -34,9 +34,9 @@ class FileUploader
             case 'image/png':
                 $picture_source = imagecreatefrompng($picture);
                 break;
-                /*case 'image/jpeg':
+            case 'image/jpeg':
                 $picture_source = imagecreatefromjpeg($picture);
-                break;*/
+                break;
             case 'image/gif':
                 $picture_source = imagecreatefromgif($picture);
                 break;
